@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+	<meta charset="utf-8">
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg header" th:fragment="header">
+		<div class="container-fluid" style="padding: 5px 20px">
+			<a class="navbar-brand" href="#"><img th:src="@{/images/logo.png}" style="width: 100px;" alt=""
+					srcset=""></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon "></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link" href="#">Trang chủ</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#">Trở thành chủ xe</a>
+					</li>
+
+					<li class="nav-item"><a class="nav-link" href="#">Thuê xe</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#">Blogs</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Liên hệ</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#">Đăng
+							nhập</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Đăng kí</a>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+	</nav>
+	
+</div>
+<style>
+	
+</style>
+</body>
+
+
+</html>

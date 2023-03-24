@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head >
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div th:fragment="search-car" class="search-car" >
+        <h2>Mioto - đồng hành cùng chuyến đi </h2>
+        <form action="" method="post" id="form-search-car" class="col-md-6">
+            <h4 style="text-align: center;"> Tìm kiếm xe</h4>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputAddress">Nhập địa chỉ</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="Nhập địa chỉ .....">
+                </div>
+                <div class="form-group col-md-12 d-flex">
+                    <div>
+                        <label for="inputDateStart">Ngày nhận xe</label>
+                        <input type="datetime-local" class="form-control" id="inputDateStart" value="2023-03-13T18:22">
+                    </div>
+                    <div style="margin-left: 60px;">
+                        <label for="inputDateEnd">Ngày trả xe</label>
+                        <input type="datetime-local" class="form-control" id="inputDateEnd" value="2023-03-14T18:22">
+                    </div>
+
+                </div>
+                <div class="form-group col-md-12 d-flex">
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="gridCheck" checked="checked" name="driver"><label> Tự lái</label>
+                    </div>
+                    <div class="form-check" style="margin-left: 20px;">
+                        <input class="form-check-input" type="radio" id="gridCheck" name="driver"><label> Có Tài xế</label>
+                    </div>
+                </div>                
+            </div>
+            <input type="submit" class="btn btn-primary btn-search-car" value="Tìm kiếm xe ngay"></input>
+        </form>
+    </div>
+</body>
+
+</html>

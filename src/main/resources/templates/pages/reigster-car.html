@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+    <!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" th:href="@{/images/logo.png}" type="images/x-icon">
+
+    <title>Web thuê xe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <nav th:replace="~{pages/layout/header :: header}"></nav>
+
+    <div class="register-car">
+        <form action="" method="post" class="form-register-car">
+            <h4> Biển số xe</h4>
+            <p>Lưu ý: Sau khi đăng kí khó thay đổi thông tin</p>
+            <div class="form-inline">
+
+                <input type="text" name="license-plates" placeholder="37A-67896">
+            </div>
+            <h4>Thông tin cơ bản</h4>
+            <p>Lưu ý: Sau khi đăng kí khó thay đổi thông tin</p>
+            <div class="group-form">
+                <label for="">Hãng xe</label>
+                <select name="brand-car" id="">
+                    <option value="0"> Chọn hãng xe</option>
+                    <option value="">BMV</option>
+                    <option value="">BMV</option>
+                </select>
+                <label for="">Số ghế</label>
+                <input type="number" name="number-seating" placeholder="4">
+                <label for="">Truyền động</label>
+                <select name="trans" id="">
+                    <option value="0">Số sàn</option>
+                    <option value="1">Số tự động</option>
+                </select>
+            </div>
+            <div class="group-form">
+                <label for="">Mẫu xe</label>
+                <select name="name-car" id="">
+                    <option value="0"> Chọn mẫu xe</option>
+                    <option value="">BMV 1</option>
+                    <option value="">BMV 2</option>
+                </select>
+                <label for="">Năm sản xuất</label>
+                <input type="number" name="year" placeholder="2022">
+                <label for="">Loại nhiên liệu</label>
+                <select name="fult" id="">
+                    <option value="0">Xăng</option>
+                    <option value="1">Dâu desen</option>
+                </select>
+            </div>
+            <h4>Mức tiêu thụ nhiên liệu</h4>
+            <h6> Số lít dùng cho quãng đường 100km</h6>
+            <div class="group-form">
+                <input type="number" name="number-waste" placeholder="10">
+            </div>
+            <h4>Mô tả</h4>
+            <div class="form-inline">
+                <textarea name="describe" id="" cols="130" rows="10"></textarea>
+            </div>
+            <h4>Tính năng</h4>
+            <div class="form-inline">
+                <div class="list-feature">
+                    <div class="squaredThree">
+                        <input id="map" type="checkbox" name="filter-car-feature">
+                        <label for="map">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/map.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Bản đồ</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="bt" type="checkbox" name="filter-car-feature">
+                        <label for="bt">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/bluetooth.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Bluetooth</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="c360" type="checkbox" name="filter-car-feature">
+                        <label for="c360">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/360_camera.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Camera 360</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="ccle" type="checkbox" name="filter-car-feature">
+                        <label for="ccle">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/parking_camera.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Camera cập lề</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="cht" type="checkbox" name="filter-car-feature">
+                        <label for="cht">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/dash_camera.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Camera hành trình</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="cre" type="checkbox" name="filter-car-feature">
+                        <label for="cre">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/reverse_camera.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Camera lùi</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="tpms" type="checkbox" name="filter-car-feature">
+                        <label for="tpms">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/tpms.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Cảm biến áp suất lốp</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="impact_sensor" type="checkbox" name="filter-car-feature">
+                        <label for="impact_sensor">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/impact_sensor.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Cảm biến va chạm</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="head_up" type="checkbox" name="filter-car-feature">
+                        <label for="head_up">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/head_up.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Cảnh báo tốc độ</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="sunroof" type="checkbox" name="filter-car-feature">
+                        <label for="sunroof">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/sunroof.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Cửa sổ trời</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="gps" type="checkbox" name="filter-car-feature">
+                        <label for="gps">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/gps.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Định vị GPS</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="babyseat" type="checkbox" name="filter-car-feature">
+                        <label for="babyseat">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/babyseat.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Ghế trẻ em</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="usb" type="checkbox" name="filter-car-feature">
+                        <label for="usb">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/usb.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> USB</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="spare_tire" type="checkbox" name="filter-car-feature">
+                        <label for="spare_tire">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/spare_tire.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Lốp dự phòng</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="dvd" type="checkbox" name="filter-car-feature">
+                        <label for="dvd">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/dvd.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Màn hình dvd</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="bonnet" type="checkbox" name="filter-car-feature">
+                        <label for="bonnet">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/bonnet.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Nắp thùng xe bán tải</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="etc" type="checkbox" name="filter-car-feature">
+                        <label for="etc">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/etc.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img">Thu phí không dừng</span>
+                    </div>
+                    <div class="squaredThree">
+                        <input id="airbags" type="checkbox" name="filter-car-feature">
+                        <label for="airbags">
+                            <div class="thumbnail">
+                                <img class="img-fluid" th:src="@{/images/airbags.png}" alt="">
+                            </div>
+                        </label>
+                        <span class="description-img"> Túi khí an toàn</span>
+                    </div>
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+<style>
+    input[type=checkbox]:checked ~ .description-img{
+        color: blue;
+        font-weight: 700;
+    }
+    
+    .list-feature .squaredThree .thumbnail .img-fluid {
+        width: 30px;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .list-feature .squaredThree .thumbnail {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #e8eaef;
+        box-sizing: border-box;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .list-feature .squaredThree input[type="checkbox"] {
+       position: absolute;
+        visibility: hidden; 
+    }
+    .list-feature .squaredThree {
+        width: calc(90%/3);
+        margin:10px;
+        padding: 5px 15px;
+        border: 1px solid gray;
+        border-radius: 5px;
+        
+    }
+
+
+    .list-feature {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .form-inline {
+        width: 100%;
+        margin: 10px 25px;
+    }
+
+    .form-register-car p {
+        color: red;
+        font-size: 15px;
+    }
+
+    .form-inline input {
+        width: 50%;
+
+    }
+
+    .group-form {
+        width: calc(90%/2);
+        margin: 10px 25px;
+        background-color: rgb(255, 255, 255);
+    }
+
+    .group-form input {
+        width: 100%;
+        padding: 5px 10px;
+    }
+
+    .group-form select {
+        width: 100%;
+        padding: 5px 15px;
+        margin: 10px 0px;
+    }
+
+    .form-register-car h4,
+    p,
+    h6 {
+        margin: 5px 25px;
+        width: 100%;
+    }
+
+    .form-register-car {
+        margin-top: 15px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .register-car {
+        margin: 0;
+        padding: 0;
+        width: 80%;
+        margin-left: 10%;
+        border: 4px solid rgb(73, 73, 116);
+        border-radius: 12px;
+
+    }
+</style>
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+<script th:src="@{/js/main.js}"></script>
+<script type="text/javascript">
+</script>
+
+</html>
