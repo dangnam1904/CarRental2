@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,9 +34,26 @@ public class District {
 	private Date createDate;
 	private Date updateDate;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_province")
+	private Province province;
+	
+	
+	@OneToMany(mappedBy = "district" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@JoinColumn(name= "idDistrict", referencedColumnName = "idDistrict")
-	private List<Wards> wards;
+	private List<Ward> wards;
+
+
+	public District(int idDistrict, String nameDistrict) {
+		super();
+		this.idDistrict = idDistrict;
+		this.nameDistrict = nameDistrict;
+		
+	}
+	
+	public String convertJson() {
+		String result= "{\"idDistrict\":\""+idDistrict+"\",\"nameDistric\": \""+nameDistrict+"\"}";
+		return result;
+	}
 }

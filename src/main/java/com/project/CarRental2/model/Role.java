@@ -10,7 +10,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -19,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name="roles")
+@Entity(name = "roles")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,17 +32,14 @@ public class Role {
 	private String nameRole;
 	private Date createDate;
 	private Date updateDate;
-	
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	// mapped by is mapping name class
+	@OneToMany(mappedBy = "role" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@JoinColumn(name= "idRole", referencedColumnName = "idRole")
 	private List<User> users;
-	public static void main(String[] args) {
-		Role r= new Role();
-		r.setCreateDate(new Date());
-		System.out.println(r);
+
+	public Role(int idRole) {
+		this.idRole = idRole;
 	}
 
 }

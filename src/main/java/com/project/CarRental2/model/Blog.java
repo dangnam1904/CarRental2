@@ -22,10 +22,16 @@ public class Blog {
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY )
 	private int idBlog;
+	
 	@Column(columnDefinition = "nvarchar(400) not null")
 	private String titleBlog;
+	
+	@Column(columnDefinition = "nvarchar(1000) not null")
+	private String describeBlog;
+	
 	@Column(columnDefinition = "nvarchar(100)")
-	private String image;
+	private String imageBlog;
+	
 	@Column( columnDefinition = "ntext")
 	private String contentBlog;
 	private Date createDate;

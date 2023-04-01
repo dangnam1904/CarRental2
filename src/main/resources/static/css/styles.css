@@ -4,7 +4,8 @@
 }
 
 .navbar-collapse {
-    margin-left: 300px;
+    margin-left: 380px;
+    font-weight: 500;
 }
 
 ul {
@@ -20,8 +21,8 @@ li {
 .navbar-nav a {
     color: white;
     font-size: 22px;
-    font-weight: 400;
-    padding: 10px 7px;
+    font-weight: 500;
+    padding: 10px 15px;
 
 }
 
