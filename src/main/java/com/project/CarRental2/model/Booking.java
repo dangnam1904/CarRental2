@@ -1,9 +1,7 @@
 package com.project.CarRental2.model;
 
 import java.util.Date;
-import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,10 +9,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -32,12 +29,21 @@ public class Booking {
 	private String phone;
 	@Column(columnDefinition = "nvarchar(300)")
 	private String address;
+	
+	private int statusBill;
+	private Date dateStart;
+	private Date dateEnd;
+	private int billTotal;
+	
 	private Date createDate;
 	private Date updateDate;
+
+	// mapped by is mapping name class
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_car")
+	private Car car;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JoinColumn(name= "idBooking", referencedColumnName = "idBooking")
-	private List<DetailBooking> detailBookings;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_user")
+	private User user;
 }

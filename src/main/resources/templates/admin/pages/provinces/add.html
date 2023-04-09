@@ -57,7 +57,7 @@
 								<strong>Thêm</strong>
 							</div>
 							<div class="card-body card-block">
-								<form th:action="@{/admin/provinces/add}" method="post"
+								<form th:action="@{/admin/provinces/add}" method="post"  enctype="multipart/form-data"
 									id="form-action" class="form-horizontal" th:object=${province}>
 									<div class="row">
 										<div class="col-md-6">
@@ -73,6 +73,14 @@
 												<label class="form-control-label">Mã code zip</label> <input
 													type="number" placeholder="Nhập mã code zip" th:field="*{zipCode}"
 													class="form-control" name="zipcode" id="zipcode"> <small></small>
+											</div>
+										</div>
+										
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-control-label">Chọn ảnh</label> <input
+													type="file" name="image" accept="image/png, image/gif, image/jpeg"
+													class="form-control">
 											</div>
 										</div>
 									

@@ -30,6 +30,7 @@ public class Province {
 	@Column(columnDefinition = "nvarchar(70) not null")
 	private String nameProvince;
 	private int zipCode;
+	private String imgProvince;
 	private Date createDate;
 	private Date updateDate;
 	

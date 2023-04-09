@@ -23,79 +23,29 @@
 	<div class="container" style="padding: 0px;">
        
 		<div class="row">
-		<h4 class="title-content">XE GIẢM GIÁ TẠI _____</h4>
+		<h4 class="title-content" th:text="'XE GIẢM GIÁ TẠI ' + ${address}"></h4>
 		<div id="carouselCarNotDriver" class="carousel" data-bs-ride="carousel">
 			<div class="carousel-inner carousel-inner-no-driver">
-				<div class="carousel-item-no-driver active">
+				<div class="carousel-item-no-driver" th:each="c: ${carPromotinalPrice}">
 					<div class="card">
 						<div class="card-body-car">
-							<a href="">
-								<img th:src="@{/images/0x0.jpg}" alt="...">
+							<a th:href="@{'/car-detail/'+ ${c.idCar}+'/'+${c.nameCar}}">
+								<img th:src="@{'/uploads/'+${c.avatarCar}}" alt="...">
 								<div class="price">
-									<h6>400 K</h6>
+									<h6 th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
+								</div>
+								<div class="promotional_price">
+									<span th:text="'Giảm'+ ${c.promotionalPrice} +'%'"></span>
 								</div>
 								<div class="info-car">
-									<h4> Tên xe</h4>
+									<h4 th:text="${c.nameCar}"> </h4>
 									<p>SỐ chuyến</p>
-									<p> Quận 2, Hồ Chí Minh</p>
+									<p th:text=${c.addressCar}></p>
 								</div>
 							</a>
 						</div>
 					</div>
 				</div>
-				<div class="carousel-item-no-driver ">
-					<div class="card">
-						<div class="card-body-car">
-							<a href="">
-								<img th:src="@{/images/0x0.jpg}" alt="...">
-								<div class="price">
-									<h6>400 K</h6>
-								</div>
-								<div class="info-car">
-									<h4> Tên xe</h4>
-									<p>SỐ chuyến</p>
-									<p> Quận 2, Hồ Chí Minh</p>
-								</div>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item-no-driver ">
-					<div class="card">
-						<div class="card-body-car">
-							<a href="">
-								<img th:src="@{/images/0x0.jpg}" alt="...">
-								<div class="price">
-									<h6>400 K</h6>
-								</div>
-								<div class="info-car">
-									<h4> Tên xe</h4>
-									<p>SỐ chuyến</p>
-									<p> Quận 2, Hồ Chí Minh</p>
-								</div>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item-no-driver">
-					<div class="card">
-						<div class="card-body-car">
-							<a href="">
-								<img th:src="@{/images/0x0.jpg}" alt="...">
-								<div class="price">
-									<h6>400 K</h6>
-								</div>
-								<div class="info-car">
-									<h4> Tên xe</h4>
-									<p>SỐ chuyến</p>
-									<p> Quận 2, Hồ Chí Minh</p>
-								</div>
-							</a>
-						</div>
-					</div>
-				</div>
-				
-
 			</div>
 			<button class="carousel-control-prev" id="carousel-control-prev-no-driver" type="button"
 				data-bs-target="#carouselCarNotDriver" data-bs-slide="prev">
@@ -109,79 +59,26 @@
 			</button>
 		</div>
 
-		<h4 class="title-content">XE NỔI BẬT TẠI ---</h4>
+		<h4 class="title-content" th:text="'XE NỔI BẬT' + ${address}"></h4>
 		<div id="carouselCarDriver" class="carousel" data-bs-ride="carousel">
 			<div class="carousel-inner carousel-inner-driver">
-				<div class="carousel-item-driver active">
+				<div class="carousel-item-driver" th:each="c: ${listCar}">
 					<div class="card">
 						<div class="card-body-car">
-							<a href="">
-								<img th:src="@{/images/0x0.jpg}" alt="...">
+							<a th:href="@{'/car-detail/'+ ${c.idCar}+'/'+${c.nameCar}}">
+								<img th:src="@{'/uploads/'+${c.avatarCar}}" alt="...">
 								<div class="price">
-									<h6>400 K</h6>
+										<h6 th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
 								</div>
 								<div class="info-car">
-									<h4> Tên xe</h4>
+									<h4 th:text="${c.nameCar}"> </h4>
 									<p>SỐ chuyến</p>
-									<p> Quận 2, Hồ Chí Minh</p>
+									<p th:text=${c.addressCar}></p>
 								</div>
 							</a>
 						</div>
 					</div>
 				</div>
-				<div class="carousel-item-driver ">
-					<div class="card">
-						<div class="card-body-car">
-							<a href="">
-								<img th:src="@{/images/0x0.jpg}" alt="...">
-								<div class="price">
-									<h6>400 K</h6>
-								</div>
-								<div class="info-car">
-									<h4> Tên xe</h4>
-									<p>SỐ chuyến</p>
-									<p> Quận 2, Hồ Chí Minh</p>
-								</div>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item-driver ">
-					<div class="card">
-						<div class="card-body-car">
-							<a href="">
-								<img th:src="@{/images/0x0.jpg}" alt="...">
-								<div class="price">
-									<h6>400 K</h6>
-								</div>
-								<div class="info-car">
-									<h4> Tên xe</h4>
-									<p>SỐ chuyến</p>
-									<p> Quận 2, Hồ Chí Minh</p>
-								</div>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item-driver">
-					<div class="card">
-						<div class="card-body-car">
-							<a href="">
-								<img th:src="@{/images/0x0.jpg}" alt="...">
-								<div class="price">
-									<h6>400 K</h6>
-								</div>
-								<div class="info-car">
-									<h4> Tên xe</h4>
-									<p>SỐ chuyến</p>
-									<p> Quận 2, Hồ Chí Minh</p>
-								</div>
-							</a>
-						</div>
-					</div>
-				</div>
-				
-
 			</div>
 			<button class="carousel-control-prev" id="carousel-control-prev-driver" type="button"
 				data-bs-target="#carouselCarDriver" data-bs-slide="prev">
@@ -194,7 +91,7 @@
 				<span class="visually-hidden">Next</span>
 			</button>
 		</div>
-        <h3 class="title-content">Những nhận xét tại -----</h3>
+        <h3 class="title-content" th:text="'Những nhận xét tại ' + ${address}"> </h3>
         <div class="col-md-12 comments d-flex">
             <div class="col-md-6 block-comment">
                 <div class="comment-content d-sm-flex">
@@ -236,12 +133,8 @@
         </div>
         <h3 class="title-content"> Địa điểm liên quan</h3>
         <div class="col-md-12 address-susgest">
-           <ul>
-            <li><a href="">Quận 1</a></li>
-            <li><a href="">Quận 1</a></li>
-            <li><a href="">Quận 1</a></li>
-            <li><a href="">Quận 1</a></li>
-            <li><a href="">Quận 1</a></li>
+           <ul style="margin-left: 10%;">
+            <li th:each ="d: ${distric}" ><a href="" th:text="${d.nameDistrict}"></a></li>
            </ul>
         </div>
 	</div>

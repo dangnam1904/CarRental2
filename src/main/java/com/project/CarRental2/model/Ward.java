@@ -31,6 +31,11 @@ public class Ward {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_district")
 	private District district;
+	public Ward(int idWard, String nameWard) {
+		
+		this.idWard = idWard;
+		this.nameWard = nameWard;
+	}
 	
 
 }

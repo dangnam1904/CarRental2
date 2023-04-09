@@ -9,5 +9,7 @@ public interface UserService {
 	void saveUser( User u);
 	List<User> getAllUser();
 	List<User> getAllUserOrderByUsername();
+	void deleteUser(int id);
+	User getAUser(int id_user);
 	
 }

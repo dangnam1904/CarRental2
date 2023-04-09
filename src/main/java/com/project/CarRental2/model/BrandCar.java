@@ -10,7 +10,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -34,11 +33,11 @@ public class BrandCar {
 	private Date createDate;
 	private Date updateDate;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JoinColumn(name= "idBrand", referencedColumnName = "idBrand")
-	private List<Car> cars;
-	
-
+	// mapped by is mapping name class
+		@OneToMany(mappedBy = "brandCar" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
+		@EqualsAndHashCode.Exclude
+		@ToString.Exclude
+		private List<Car> cars;
+		// mapping by will map variable in class car, 
+		
 }

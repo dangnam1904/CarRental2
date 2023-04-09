@@ -81,6 +81,7 @@
 											<th style="display: none;">Id tỉnh</th>
 											<th>Tên tinh</th>
 											<th>Zip code</th>
+											<th>Ảnh</th>
 											<th>Ngày tạo</th>
 											<th>Ngày sửa</th>
 											<th>Thao tác</th>
@@ -93,6 +94,7 @@
 											<td th:text="${provice.idProvince}" style="display: none;"></td>
 											<td th:text="${provice.nameProvince}"></td>
 											<td th:text="${provice.zipCode}"></td>
+											<td style="width: 100px"><img alt="" th:src="@{${'/uploads/'+provice.imgProvince}}"> </td>
 											<td th:text="${provice.createDate}"></td>
 											<td th:text="${provice.updateDate}"></td>
 											<td>

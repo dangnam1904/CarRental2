@@ -18,4 +18,6 @@ public interface WardRepository  extends JpaRepository<Ward, Integer>{
 	@Query(value = "select id_ward, w.id_district, w.name_ward, w.create_date, w.update_date, d.name_district, p.id_province, p.name_province\n"
 			+ "from ward w join district d on d.id_district= w.id_district join province  p on p.id_province= d.id_province",nativeQuery = true)
 	public List<Ward> getAllWardWithDistrictWithProvinces();
+	
+	public List<Ward> findWardByDistrictIdDistrict(int idDistrict);
 }

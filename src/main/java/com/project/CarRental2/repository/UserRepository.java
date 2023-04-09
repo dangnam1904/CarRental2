@@ -12,5 +12,6 @@ import com.project.CarRental2.model.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query(value =  "select * from users order by username asc", nativeQuery = true)
 	List<User> findAllUserOrderbyUsername();
+	
 
 }

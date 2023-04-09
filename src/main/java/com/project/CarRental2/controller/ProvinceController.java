@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.CarRental2.model.Province;
 import com.project.CarRental2.service.ProvinceService;
+import com.project.CarRental2.service.UploadFile;
 
 @Controller
 @RequestMapping("/admin")
@@ -22,6 +25,8 @@ public class ProvinceController {
 
 	@Autowired
 	private ProvinceService provinceService;
+	@Autowired 
+	private UploadFile uploadFile;
 
 	@GetMapping("/provinces")
 	public String getAllProvinceOrderByName(Model model) {
@@ -38,7 +43,7 @@ public class ProvinceController {
 	}
 
 	@PostMapping("/provinces/add")
-	public String AddProvince(@ModelAttribute("province") Province province, RedirectAttributes redirectAttributes) {
+	public String AddProvince(@ModelAttribute("province") Province province,@RequestParam(name="image", required = false) MultipartFile img  , RedirectAttributes redirectAttributes) {
 		province.setCreateDate(new Date());
 		province.setUpdateDate(new Date());
 		String url = "";
@@ -49,14 +54,14 @@ public class ProvinceController {
 		} else {
 			for (Province province2 : list) {
 				if (province.getNameProvince().equals(province2.getNameProvince())) {
-					url = "redirect:/admin/provinces/add";
+					
 					redirectAttributes.addFlashAttribute("mes", "Tỉnh này đã tồn tại");
-					break;
-				} else {
-					provinceService.saveProvices(province);
-					url = "redirect:/admin/provinces";
+					return "redirect:/admin/provinces/add";
 				}
 			}
+			province.setImgProvince(uploadFile.uploadSingleFile(img));
+			provinceService.saveProvices(province);
+			url = "redirect:/admin/provinces";
 		}
 
 		return url;
@@ -69,25 +74,31 @@ public class ProvinceController {
 	}
 
 	@PostMapping("/provinces/edit")
-	public String EditProvince(@ModelAttribute("province") Province province, RedirectAttributes redirectAttributes) {
-
+	public String EditProvince(@ModelAttribute("province") Province province,  @RequestParam(name="image", required = false) MultipartFile img,
+			RedirectAttributes redirectAttributes) {
 		Province oldProvince = provinceService.getProvince(province.getIdProvince());
 		province.setUpdateDate(new Date());
 		province.setCreateDate(oldProvince.getCreateDate());
 		int id = province.getIdProvince();
-		System.out.println(province.toString());
+	
 		String url = "";
 		List<Province> list = provinceService.getAllProvinceOrderByName();
 		for (Province province2 : list) {
 			if (province.getNameProvince().equals(province2.getNameProvince())) {
-				url = "redirect:/admin/provinces/edit/" + id;
 				redirectAttributes.addFlashAttribute("mes", "Tỉnh này đã tồn tại");
-				break;
-			} else {
-				provinceService.saveProvices(province);
-				url = "redirect:/admin/provinces";
+				return "redirect:/admin/provinces/edit/" + id;
 			}
 		}
+		
+		if(img.getOriginalFilename()=="") {
+			province.setImgProvince(oldProvince.getImgProvince());
+		}else {
+			province.setImgProvince(uploadFile.uploadSingleFile(img));
+			uploadFile.removeFile(oldProvince.getImgProvince());
+		}
+		
+		provinceService.saveProvices(province);
+		url = "redirect:/admin/provinces";
 		return url;
 	}
 

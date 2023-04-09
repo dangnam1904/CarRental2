@@ -1,5 +1,6 @@
 package com.project.CarRental2.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,16 +11,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.CarRental2.model.Blog;
+import com.project.CarRental2.service.BlogService;
 import com.project.CarRental2.service.UploadFileImpl;
 
 @Controller
 @RequestMapping("/admin")
 public class BlogController {
+	@Autowired
+	private BlogService blogService;
 	
 	@GetMapping("/blog/add")
 	public String getForm( Model model) {
 		model.addAttribute("blog", new Blog());
 		return "admin/pages/blogs/add";
+	}
+	
+	@GetMapping("/blog")
+	public String getAll( Model model) {
+		model.addAttribute("blog", blogService.getAllBlog());
+		return "admin/pages/blogs/list";
 	}
 	
 	@PostMapping("/blog/add")
@@ -28,6 +38,7 @@ public class BlogController {
 		UploadFileImpl upload= new UploadFileImpl();
 		blog.setImageBlog( upload.uploadSingleFile(img));
 		System.err.println(blog.toString());
-		return "redirect:/admin/blog/add";
+		blogService.saveBlog(blog);
+		return "redirect:/admin/blog";
 	}
 }

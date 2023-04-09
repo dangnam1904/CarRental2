@@ -1,6 +1,7 @@
 package com.project.CarRental2.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,22 @@ public class UserServiceImpl implements UserService {
 	public List<User> getAllUserOrderByUsername() {
 		
 		return repo.findAllUserOrderbyUsername();
+	}
+
+	@Override
+	public void deleteUser(int id) {
+		repo.deleteById(id);
+		
+	}
+
+	@Override
+	public User getAUser(int id_user) {
+		Optional<User> optional= repo.findById(id_user);
+		User user= null;
+		if(optional.isPresent()) {
+			user= optional.get();
+		}
+		return user;
 	}
 
 }

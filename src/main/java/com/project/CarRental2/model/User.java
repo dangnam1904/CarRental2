@@ -1,6 +1,5 @@
 package com.project.CarRental2.model;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -54,19 +53,18 @@ public class User {
 	// query
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	private Collection<Notification> notifications;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Notification> notifications;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@JoinColumn(name = "idUser", referencedColumnName = "idUser")
+	private List<Booking> booking;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	private List<Car> cars;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JoinColumn(name = "idUser", referencedColumnName = "idUser")
-	private List<Booking> Bookings;
+	
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_role")
