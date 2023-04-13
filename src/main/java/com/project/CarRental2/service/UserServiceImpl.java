@@ -48,4 +48,10 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public boolean updateTotalMoney(int totalMoney, int idUser) {
+	
+		return repo.updateTotalMoney(totalMoney, idUser);
+	}
+
 }

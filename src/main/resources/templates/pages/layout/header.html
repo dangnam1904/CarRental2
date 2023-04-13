@@ -30,23 +30,23 @@
 					<li class="nav-item"><a class="nav-link" th:href="@{/blogs}">Blogs</a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/lien-he}">Liên
 							hệ</a></li>
-					<th:block th:unless="${session.sessionUser}">
+					<th:block th:unless="${session.user}">
 						<li class="nav-item"><a class="nav-link" th:href="@{/login}">Đăng
 								nhập</a></li>
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{/sign-up}">Đăng kí</a></li>
 					</th:block>
-					<th:block th:if="${session.sessionUser}">
+					<th:block th:if="${session.user}">
 
 						<li class="nav-item dropdown"><a
 							class="nav-link dropdown-toggle" href="#"
 							id="navbarDarkDropdownMenuLink" role="button"
-							data-bs-toggle="dropdown" aria-expanded="false"> Xin chào, <span th:text="${session.sessionUser.nameDisplay}"></span> </a>
+							data-bs-toggle="dropdown" aria-expanded="false"> Xin chào, <span th:text="${session.user.nameDisplay}"></span> </a>
 							<ul class="dropdown-menu dropdown-menu-dark"
 								aria-labelledby="navbarDarkDropdownMenuLink">
-								<li><a class="dropdown-item" href="#">Tài Khoản</a></li>
+								<li><a class="dropdown-item" th:href="@{/edit-profile}">Tài Khoản</a></li>
 								<li><a class="dropdown-item" href="#">Xe yêu thích</a></li>
-								<li><a class="dropdown-item" href="#">Xe của tôi</a></li>
+								<li><a class="dropdown-item" th:href="@{/my-car}">Xe của tôi</a></li>
 								<li><a class="dropdown-item" href="#">Chuyên đi</a></li>
 								<li><a class="dropdown-item" href="#">Đổi mật khẩu</a></li>
 								<li><a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a></li>

@@ -52,7 +52,7 @@ public class CarController implements FiledName {
 	public String registerFormCar(Model model, HttpServletRequest request, RedirectAttributes ra) {
 		HttpSession session = request.getSession();
 
-		if (session.getAttribute("sessionUser") == null) {
+		if (session.getAttribute("user") == null) {
 			ra.addFlashAttribute("mes_login", "Cần phải đăng nhập");
 			return "redirect:/";
 		}

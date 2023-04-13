@@ -334,7 +334,7 @@
 								style="margin-left: 10px"></div>
 						</div>
 						<input type="hidden" id="input_total_bill" name="input_total_bill">
-						<button onclick="openPopup()" class="btn-sucs">Đặt xe</button>
+						<a onclick="openPopup()" class="btn-sucs">Đặt xe</a>
 
 						<div class="popup" id="popup">
 							<h4>Thông tin</h4>
@@ -483,6 +483,8 @@
 }
 
 .btn-sucs {
+	display: inherit;
+	text-align:center;
 	width: 100%;
 	padding: 10px 25px;
 	border-radius: 7px;
@@ -491,6 +493,7 @@
 	font-size: 19px;
 	background-color: #41cd5f;
 	padding: 10px 25px;
+	cursor: pointer;
 }
 
 .popup .group-action .btn-cancel {

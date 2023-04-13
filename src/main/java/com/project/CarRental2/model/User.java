@@ -45,8 +45,17 @@ public class User {
 	private String email;
 	@Column(columnDefinition = "nvarchar(500)")
 	private String address;
+	@Column(columnDefinition = "nvarchar(12)")
+	private String dateOfBrith;
+	@Column(columnDefinition = "nvarchar(20)")
+	private String drivingLicense;
+	@Column(columnDefinition = "nvarchar(100)")
+	private String ImgDrivingLicense; 
+	private boolean sex;
 	private Date createDate;
-	private Date updateDate;
+	private Date updateDate; 
+	@Column(columnDefinition = "integer default 0")
+	private int totalMoney;
 
 	@ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
 	// LAZY để tránh việc truy xuất dữ liệu không cần thiết. Lúc nào cần thì mới
@@ -54,7 +63,7 @@ public class User {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	private List<Notification> notifications;
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
@@ -64,7 +73,6 @@ public class User {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	private List<Car> cars;
-	
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_role")

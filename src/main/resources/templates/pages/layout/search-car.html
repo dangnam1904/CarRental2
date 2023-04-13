@@ -8,8 +8,10 @@
 </head>
 
 <body>
-    <div th:fragment="search-car" class="search-car" >
-        <h2>Mioto - đồng hành cùng chuyến đi </h2>
+    <div th:fragment="search-car" class="search-car" th:style="'background-image: url('+ @{/images/bg-main.1e128ccf.jpg}+');
+	background-repeat: no-repeat, repeat; height: 550px;
+	background-size: cover;'" >
+        <h2 style="text-transform: uppercase;">Mioto - đồng hành cùng chuyến đi </h2>
         <form action="" method="post" id="form-search-car" class="col-md-6">
             <h4 style="text-align: center;"> Tìm kiếm xe</h4>
             <div class="form-row">
@@ -42,5 +44,10 @@
         </form>
     </div>
 </body>
-
+<style th:inline="text">
+.search-car {
+	
+	background-color: red;
+}
+</style>
 </html>

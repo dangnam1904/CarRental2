@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import com.project.CarRental2.model.Province;
 import com.project.CarRental2.model.Role;
 import com.project.CarRental2.model.User;
 import com.project.CarRental2.model.Ward;
+import com.project.CarRental2.service.BookingService;
 import com.project.CarRental2.service.CarService;
 import com.project.CarRental2.service.DistrictService;
 import com.project.CarRental2.service.EncryptionPassword;
@@ -48,6 +50,11 @@ public class HomePageController  implements FiledName{
 	
 	@Autowired
 	private DistrictService districtService;
+	
+	@Autowired
+	private BookingService bookingService;
+	
+	private int idUserOwnerCar=0;
 	
 
 	@GetMapping("/")
@@ -98,19 +105,16 @@ public class HomePageController  implements FiledName{
 			 @RequestParam(name="idCar") int id_car, @RequestParam(name="input_total_bill") int totalBill,  
 			 @RequestParam(name="phone") String phone, @RequestParam(name="province") Province province, 
 			 @RequestParam(name="district") District district, @RequestParam(name="ward") Ward ward, 
-			 @RequestParam(name="address-detail") String addressDetail, HttpServletRequest request) {
-		System.out.println(id_car);
-		System.out.println(dateStart);
-		System.out.println(dateEnd);
-		System.out.println(totalBill);
-		System.out.println(phone);
-		System.out.println(province.toString());
-		System.out.println(district.toString());
-		System.out.println(ward.toString());
-		System.out.println(addressDetail);
+			 @RequestParam(name="address-detail") String addressDetail, HttpServletRequest request, RedirectAttributes ra) {
 		
+		HttpSession session= request.getSession();
+		User user =(User) session.getAttribute("user");
+		if( user==null) {
+			ra.addFlashAttribute("messege_error", "Chưa đăng nhập");
+			return "redirect:/login";
+		}
 		Booking booking= new Booking();
-	
+		booking.setUser(user);
 		 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		 Date datestart= null;
 		 Date dateend= null;
@@ -124,7 +128,6 @@ public class HomePageController  implements FiledName{
 		booking.setDateEnd(dateend);
 		Car car= new Car(id_car);
 		booking.setCar(car);
-		System.err.println(booking.toString());
 		booking.setCreateDate(new Date());
 		booking.setUpdateDate(new Date());
 		booking.setBillTotal(totalBill);
@@ -132,7 +135,8 @@ public class HomePageController  implements FiledName{
 		booking.setPhone(phone);
 		booking.setAddress(addressDetail+","+ ward.getNameWard()+","+ district.getNameDistrict()+","+ province.getNameProvince());
 		System.err.println(booking.toString());
-		return "u";
+		bookingService.saveBooking(booking);
+		return "pages/layout/header";
 	}
 	
 	@GetMapping("/{id}/{address}/no-driver")
@@ -190,8 +194,8 @@ public class HomePageController  implements FiledName{
 		List<User> list = userService.getAllUserOrderByUsername();
 		for (User user2 : list) {
 			if (user.getUsername().equals(user2.getUsername()) && user.getPassword().equals(user2.getPassword())) {
-				sessionUser.setAttribute("sessionUser", user2);
-				System.out.println(sessionUser.getAttribute("sessionUser"));
+				sessionUser.setAttribute("user", user2);
+				System.out.println(sessionUser.getAttribute("user"));
 				if(user2.getRole().getIdRole()==ROLE_USER) {
 					return "redirect:/";
 				}else if(user2.getRole().getIdRole()==ROLE_ADMIN){
@@ -249,6 +253,98 @@ public class HomePageController  implements FiledName{
 		return "pages/layout/header";
 	}
 
+	@GetMapping("/edit-profile")
+	public String editProfile(Model model,HttpServletRequest request) {
+		HttpSession session= request.getSession();
+		User user= (User) session.getAttribute("user");
+		model.addAttribute("user", user);
+		model.addAttribute("province", provinceService.getAllProvinceOrderByName());
+		return "pages/edit-profile";
+	}
 	
+	@GetMapping("/my-car")
+	public String myCar(Model model,HttpServletRequest request) {
+		HttpSession session= request.getSession();
+		User user= (User) session.getAttribute("user");
+		model.addAttribute("user", user);
+		model.addAttribute("listCar", carService.getAllCarByIdUser(user.getIdUser()));
+		return "pages/my-car";
+	}
+	
+	@GetMapping("/my-bill")
+	public String myBill(Model model,HttpServletRequest request) {
+		HttpSession session= request.getSession();
+		User user= (User) session.getAttribute("user");
+		model.addAttribute("user", user);
+		List<Booking> list= bookingService.getAllBookingWithCarOwner(user.getIdUser());
+			idUserOwnerCar= list.get(0).getCar().getUser().getIdUser();
+		model.addAttribute("listBooking", bookingService.getAllBookingWithCarOwner(user.getIdUser()));
+		return "pages/my-bill";
+	}
+	
+	@GetMapping("/my-trip")
+	public String myTrip(Model model,HttpServletRequest request) {
+		HttpSession session= request.getSession();
+		User user= (User) session.getAttribute("user");
+		model.addAttribute("user", user);
+		List<Booking> list= bookingService.getAllBookingWithIdUser(user.getIdUser());
+		try {
+			idUserOwnerCar= list.get(0).getCar().getUser().getIdUser();
+		}catch (IndexOutOfBoundsException e) {
+			
+		}
+	
+		model.addAttribute("listBooking", list);
+		return "pages/my-trip";
+	}
+	
+	@GetMapping("/approved-bill/{id}")
+	public String changStatusApprovedBill(@PathVariable(name = "id") int id) {
+		try {
+			bookingService.changeStatusBill(STATUS_APPROVED, id);
+		} catch (JpaSystemException e) {
+			System.err.println("ex");
+		}
+
+		return "redirect:/my-bill";
+	}
+	
+	@GetMapping("/cancel-bill/{id}")
+	public String changStatusCancelBill(@PathVariable(name = "id") int id) {
+		try {
+			bookingService.changeStatusBill(STATUS_CANCAL, id);
+		} catch (JpaSystemException e) {
+			System.err.println("ex");
+		}
+
+		return "redirect:/my-bill";
+	}
+	
+	@GetMapping("/restore-bill/{id}")
+	public String changStatusRestoreBill(@PathVariable(name = "id") int id) {
+		try {
+			bookingService.changeStatusBill(STATUS_PENDING, id);
+		} catch (JpaSystemException e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/my-bill";
+	}
+	@GetMapping("/payment-bill/{id}")
+	public String changStatusPaymentBill(@PathVariable(name = "id") int id) {
+		try {
+			Booking booking= bookingService.getABooking(id);
+			User u= userService.getAUser(idUserOwnerCar);
+			u.setTotalMoney(u.getTotalMoney()+ booking.getBillTotal());
+			bookingService.changeStatusBill(STATUS_PAYMENT, id);
+			try {
+				userService.updateTotalMoney(u.getTotalMoney(), u.getIdUser());
+			}catch (JpaSystemException e) {
+			}
+		} catch (JpaSystemException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/my-trip";
+	}
 
 }
