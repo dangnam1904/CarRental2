@@ -1,5 +1,6 @@
 package com.project.CarRental2.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.project.CarRental2.model.Booking;
@@ -12,4 +13,6 @@ public interface BookingService {
 	void  changeStatusBill(int satatuBill, int idBooking);
 	List<Booking> getAllBookingWithIdUser(int idBooking);
 	List<Booking> getAllBookingWithCarOwner(int idUser);
+	List<Booking> checkItemInTime(int idCar, Date dateStart, Date dateEnd);
+	List<Booking> checkBillExistOnTime(int idCar, String dateStart, String dateEnd);
 }

@@ -284,19 +284,27 @@ $(document).ready(function() {
 	document.getElementById("price-total-per-day").innerText = sumfeed + "K/Ngày";
 	document.getElementById("total_bill").innerText = new Intl.NumberFormat().format(sumfeed * 1000) + "đ";
 	document.getElementById("input_total_bill").value = sumfeed * 1000;
-
+	
+	var start = document.getElementById("inputDateStart");
+	var end = document.getElementById("inputDateEnd");
+	var idCar= document.getElementById("idCar");
+	let dateStart = splitData("T", start.value)
+	let dateEnd = splitData("T", end.value)
+	checkBillonTime(idCar.value, dateStart[0], dateEnd[0]);
 
 });
 function changeData() {
 	var start = document.getElementById("inputDateStart");
 	var end = document.getElementById("inputDateEnd");
-
+	var idCar= document.getElementById("idCar");
 	let dateStart = splitData("T", start.value)
 	let dateS = splitData("-", dateStart[0]);
 	let dateEnd = splitData("T", end.value)
 	let dateE = splitData("-", dateEnd[0]);
 	sumDate(dateS, dateE);
-
+	
+	checkBillonTime(idCar.value, dateStart[0], dateEnd[0]);
+	
 	var pricebooking = document.getElementById("price-booking").innerText;
 	var pricedv = document.getElementById("price-dv").innerText;
 	var pricebh = document.getElementById("pirce-bh").innerText;
@@ -313,6 +321,29 @@ function changeData() {
 
 function splitData(regex, value) {
 	return value.split(regex);
+}
+
+function checkBillonTime(idCar, dateStart, dateEnd){
+
+	$.ajax({
+		url: "/check-date",
+		data: {
+			idCar:idCar,
+			dateStart:dateStart,
+			dateEnd: dateEnd
+		},
+		type: "GET",
+		responseType: "application/json"
+	}).done(function(ketqua) {
+		console.log(ketqua);
+		if(ketqua==true){
+			document.getElementById('noti-error').innerText= "Xe bận trong thời gian này";
+			document.getElementById('btn-booking').classList.add("disabled")
+		}else{
+			document.getElementById('noti-error').innerText= "";
+			document.getElementById('btn-booking').classList.remove("disabled")
+		}
+	})
 }
 
 function sumDate(dateStart, dateEnd) {

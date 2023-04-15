@@ -265,23 +265,23 @@
 			</div>
 			<div class="col-md-4 contain-car ">
 				<div class="contain-car-price">
-					<form action="/booking-car" method="post" id="booking" >
+					<form action="/booking-car" method="post" id="booking">
 						<div class="price-car">
 							<h4
 								th:text="${car.price}-${car.price}*${car.promotionalPrice}/100 +' K/Ngày'"></h4>
 						</div>
 						<div class="select-date">
-							<input th:field="*{car.idCar}" type="hidden"> 
-							<input
+							<input th:field="*{car.idCar}" type="hidden"> <input
 								type="hidden" name="price_car"
 								th:value="${car.price}-${car.price}*${car.promotionalPrice}/100">
-							<label for="inputDateStart">Ngày nhận</label> <input id="inputDateStart" name="dateStart"
-								type="datetime-local" class="form-control" 
-								 value="2023-03-14T18:22"
+							<label for="inputDateStart">Ngày nhận</label> <input
+								id="inputDateStart" name="dateStart" type="datetime-local"
+								class="form-control" value="2023-03-14T18:22"
 								th:onchange="changeData()"> <label for="inputDateEnd">Ngày
 								trả</label> <input type="datetime-local" class="form-control"
 								id="inputDateEnd" th:onchange="changeData()" name="dateEnd"
-								value="2023-03-14T18:22">
+								value="2023-03-14T18:22"> <small id="noti-error"
+								style="color: red; font-size: 15px"></small>
 						</div>
 						<div class="address-car">
 							<h5>Địa chỉ giao nhận xe</h5>
@@ -334,7 +334,7 @@
 								style="margin-left: 10px"></div>
 						</div>
 						<input type="hidden" id="input_total_bill" name="input_total_bill">
-						<a onclick="openPopup()" class="btn-sucs">Đặt xe</a>
+						<a onclick="openPopup()" class="btn-sucs" id="btn-booking">Đặt xe</a>
 
 						<div class="popup" id="popup">
 							<h4>Thông tin</h4>
@@ -365,12 +365,11 @@
 							</div>
 							<h6>Địa chỉ cụ thể</h6>
 							<div class="form-inline-address">
-								<input type="text" placeholder=" Số nhà 12, ngõ 7, đường, khối" name="address-detail"
-									id="address-detail"> <small></small>
+								<input type="text" placeholder=" Số nhà 12, ngõ 7, đường, khối"
+									name="address-detail" id="address-detail"> <small></small>
 							</div>
 							<div class="group-action">
-								<a class="btn-cancel" onclick="closePopup()">Hủy
-									bỏ</a>
+								<a class="btn-cancel" onclick="closePopup()">Hủy bỏ</a>
 								<button class="btn-success" type="submit">Xác nhận</button>
 							</div>
 						</div>
@@ -418,6 +417,12 @@
 		</div>
 	</div>
 	<style>
+.disabled {
+	pointer-events: none;
+	cursor: default;
+	background: #c5c7c2 !important;
+}
+
 .popup {
 	width: 600px;
 	background-image: linear-gradient(#747374, #9b9b9b);
@@ -466,7 +471,7 @@
 	margin-bottom: 20px;
 }
 
-.popup .group-action button,a {
+.popup .group-action button, a {
 	border: 0;
 	outline: none;
 	padding: 10px 25px;
@@ -484,7 +489,7 @@
 
 .btn-sucs {
 	display: inherit;
-	text-align:center;
+	text-align: center;
 	width: 100%;
 	padding: 10px 25px;
 	border-radius: 7px;

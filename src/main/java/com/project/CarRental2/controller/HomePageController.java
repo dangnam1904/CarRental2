@@ -106,7 +106,7 @@ public class HomePageController  implements FiledName{
 			 @RequestParam(name="phone") String phone, @RequestParam(name="province") Province province, 
 			 @RequestParam(name="district") District district, @RequestParam(name="ward") Ward ward, 
 			 @RequestParam(name="address-detail") String addressDetail, HttpServletRequest request, RedirectAttributes ra) {
-		
+		System.err.println("Ngay "+ dateStart);
 		HttpSession session= request.getSession();
 		User user =(User) session.getAttribute("user");
 		if( user==null) {
@@ -135,7 +135,7 @@ public class HomePageController  implements FiledName{
 		booking.setPhone(phone);
 		booking.setAddress(addressDetail+","+ ward.getNameWard()+","+ district.getNameDistrict()+","+ province.getNameProvince());
 		System.err.println(booking.toString());
-		bookingService.saveBooking(booking);
+		//bookingService.saveBooking(booking);
 		return "pages/layout/header";
 	}
 	

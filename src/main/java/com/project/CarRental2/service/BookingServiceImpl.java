@@ -1,5 +1,6 @@
 package com.project.CarRental2.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +55,18 @@ public class BookingServiceImpl implements BookingService {
 	public List<Booking> getAllBookingWithCarOwner(int idUser) {
 		
 		return repo.getAllBookingWithCarOwner(idUser);
+	}
+
+	@Override
+	public List<Booking> checkItemInTime(int idCar, Date dateStart, Date dateEnd) {
+		
+		return repo.findBookingByCarIdCarAndDateStartGreaterThanEqualAndDateEndLessThanEqual(idCar, dateStart, dateEnd);
+	}
+
+	@Override
+	public List<Booking> checkBillExistOnTime(int idCar, String dateStart, String dateEnd) {
+		
+		return repo.checkBillExistOnTime(idCar, dateStart, dateEnd);
 	}
 
 }

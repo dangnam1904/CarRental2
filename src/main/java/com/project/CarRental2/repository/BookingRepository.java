@@ -1,5 +1,6 @@
 package com.project.CarRental2.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,4 +28,9 @@ public interface BookingRepository  extends JpaRepository<Booking, Integer>{
 	
 	@Query(value = ""+sql+ " where c.id_user=:idUser", nativeQuery = true)
 	List<Booking> getAllBookingWithCarOwner(@Param("idUser") int idUser);
+	
+	List<Booking> findBookingByCarIdCarAndDateStartGreaterThanEqualAndDateEndLessThanEqual(@Param("idCar") int idCar,@Param("dateStart") Date dateStart, @Param("dateEnd") Date dateEnd);
+	
+	@Query(value = "select *from booking  where id_car=:idCar and CONVERT(nvarchar(10),date_start,127)>=:dateStart and CONVERT(nvarchar(10),date_end,127)<=:dateEnd", nativeQuery = true)
+	List<Booking> checkBillExistOnTime(@Param("idCar") int idCar,@Param("dateStart") String dateStart, @Param("dateEnd") String dateEnd);
 }
