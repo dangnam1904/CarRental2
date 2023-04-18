@@ -33,4 +33,10 @@ public interface BookingRepository  extends JpaRepository<Booking, Integer>{
 	
 	@Query(value = "select *from booking  where id_car=:idCar and CONVERT(nvarchar(10),date_start,127)>=:dateStart and CONVERT(nvarchar(10),date_end,127)<=:dateEnd", nativeQuery = true)
 	List<Booking> checkBillExistOnTime(@Param("idCar") int idCar,@Param("dateStart") String dateStart, @Param("dateEnd") String dateEnd);
+	
+	
+	@Query(value = "select *from booking  where  CONVERT(nvarchar(10),date_start,127)>=:dateStart and CONVERT(nvarchar(10),date_end,127)<=:dateEnd", nativeQuery = true)
+	List<Booking> getAllBookingOnTime(@Param("dateStart") String dateStart, @Param("dateEnd") String dateEnd);
+	
+	int countByCarIdCar(int idCar);
 }

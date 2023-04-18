@@ -39,7 +39,8 @@
 								</div>
 								<div class="info-car">
 									<h4 th:text="${c.nameCar}"> </h4>
-									<p>SỐ chuyến</p>
+									<input type="hidden" th:value="${c.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p>
 									<p th:text=${c.addressCar}></p>
 								</div>
 							</a>
@@ -72,7 +73,8 @@
 								</div>
 								<div class="info-car">
 									<h4 th:text="${c.nameCar}"> </h4>
-									<p>SỐ chuyến</p>
+									<input type="hidden" th:value="${c.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p>
 									<p th:text=${c.addressCar}></p>
 								</div>
 							</a>

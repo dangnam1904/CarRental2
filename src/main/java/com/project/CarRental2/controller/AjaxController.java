@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.CarRental2.constants.FiledName;
 import com.project.CarRental2.model.Booking;
+import com.project.CarRental2.model.Car;
 import com.project.CarRental2.model.District;
 import com.project.CarRental2.model.Ward;
 import com.project.CarRental2.service.BookingService;
 import com.project.CarRental2.service.CarService;
 import com.project.CarRental2.service.DistrictService;
 import com.project.CarRental2.service.WardService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class AjaxController implements FiledName {
@@ -86,5 +89,29 @@ public class AjaxController implements FiledName {
 			exsit = true;
 		}
 		return exsit;
+	}
+	@GetMapping("/sum-delivery-in-car{idCar}")
+	public int sumDeliveryByCar(int idCar) {
+		return bookingService.countDeliveryByIdCar(idCar);
+	}
+	
+	@GetMapping("/filter-car")
+	public List<Car> filterCar( @RequestParam(name = "address") String address,
+			@RequestParam(name = "dateStart") String dateStart, @RequestParam("dateEnd") String dateEnd,
+			HttpServletRequest request, @RequestParam(name = "driver") boolean driver) {
+		List<Car> listCarWithNewAddress = new ArrayList<Car>();
+		
+		String[] arrdateStart = dateStart.split("T");
+		String[] arrdateEnd = dateEnd.split("T");
+		List<Car> listCar= new ArrayList<>();
+		if(driver==true) {
+			listCar= carService.findCarOnTimeByDriverAndAddress(HAS_DRIVERS, address, arrdateStart[0], arrdateEnd[0]);
+		}else {
+			listCar= carService.findCarOnTimeByDriverAndAddress(NO_DRIVERS, address, arrdateStart[0], arrdateEnd[0]);
+		}
+		listCarWithNewAddress = HomePageController.setListNewAddress(listCar);
+		System.err.println(listCarWithNewAddress);
+		
+		return listCarWithNewAddress;
 	}
 }

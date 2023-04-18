@@ -259,6 +259,26 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 
+	var arrIdCar = document.getElementsByClassName("id-car")
+	var arrSumDelivery = document.getElementsByClassName("sum-delivery")
+	for (let i = 0; i < arrIdCar.length; i++) {
+
+		$.ajax({
+			url: "/sum-delivery-in-car",
+			data: {
+				idCar: arrIdCar[i].value
+			},
+			type: "GET",
+			responseType: "application/json"
+		}).done(function(ketqua) {
+			arrSumDelivery[i].innerHTML ="Số chuyến: "+ ketqua ;
+		})
+	}
+
+});
+
+$(document).ready(function() {
+
 	var nowdate = new Date();
 	const now = new Date();
 	const year = now.getFullYear();

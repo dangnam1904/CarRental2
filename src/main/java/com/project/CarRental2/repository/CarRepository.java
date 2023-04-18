@@ -35,7 +35,9 @@ public interface CarRepository  extends JpaRepository<Car, Integer>{
 	@Query(value = ""+sql_query+" where  c.driver=:driver and c.address_car like %:address% and c.promotional_price >0 order by name_car asc  ", nativeQuery = true)
 	List<Car> getAllCarByDriverInAddressAndPromotionalPriceOderByName(@Param("driver") boolean driver, @Param("address") String address);
 	List<Car> findCarByUserIdUserOrderByNameCarAsc(int id_user);
-	
+	@Query(value = "select * from car where driver=:driver and address_car like %:address%  and id_car not in "
+			+ "(select id_car from booking  where  CONVERT(nvarchar(10),date_start,127)>=:dateStart and CONVERT(nvarchar(10),date_end,127)<=:dateEnd) order by name_car asc", nativeQuery = true)
+	List<Car> findCarOnTimeByDriverAndAddress(@Param("driver") boolean driver, @Param("address") String address, @Param("dateStart") String dateStart, @Param("dateEnd") String dateEnd);
 	int countByAddressCarContaining(String address);
 
 	int countByAddressCarContainingAndDriver(String address, boolean driver);

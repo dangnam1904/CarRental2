@@ -3,6 +3,8 @@ package com.project.CarRental2.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,6 +39,7 @@ public class BrandCar {
 		@OneToMany(mappedBy = "brandCar" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
 		@EqualsAndHashCode.Exclude
 		@ToString.Exclude
+		@JsonIgnore
 		private List<Car> cars;
 		// mapping by will map variable in class car, 
 		

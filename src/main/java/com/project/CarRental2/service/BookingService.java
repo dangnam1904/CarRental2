@@ -15,4 +15,6 @@ public interface BookingService {
 	List<Booking> getAllBookingWithCarOwner(int idUser);
 	List<Booking> checkItemInTime(int idCar, Date dateStart, Date dateEnd);
 	List<Booking> checkBillExistOnTime(int idCar, String dateStart, String dateEnd);
+	List<Booking> getAllBookingOnTime(String dateStart, String dateEnd);
+	int countDeliveryByIdCar(int idCar);
 }

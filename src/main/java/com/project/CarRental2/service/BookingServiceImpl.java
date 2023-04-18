@@ -69,4 +69,16 @@ public class BookingServiceImpl implements BookingService {
 		return repo.checkBillExistOnTime(idCar, dateStart, dateEnd);
 	}
 
+	@Override
+	public int countDeliveryByIdCar(int idCar) {
+		
+		return repo.countByCarIdCar(idCar);
+	}
+
+	@Override
+	public List<Booking> getAllBookingOnTime(String dateStart, String dateEnd) {
+		
+		return repo.getAllBookingOnTime(dateStart, dateEnd);
+	}
+
 }

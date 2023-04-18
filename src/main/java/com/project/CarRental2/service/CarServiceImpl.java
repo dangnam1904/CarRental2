@@ -78,5 +78,10 @@ public class CarServiceImpl implements CarService {
 		
 		return repository.getAllCarByDriverInAddressAndPromotionalPriceOderByName(driver, address);
 	}
+	@Override
+	public List<Car> findCarOnTimeByDriverAndAddress(boolean driver, String address, String dateStart, String dateEnd) {
+		
+		return repository.findCarOnTimeByDriverAndAddress(driver, address, dateStart, dateEnd);
+	}
 
 }

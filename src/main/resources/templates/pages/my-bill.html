@@ -50,6 +50,7 @@
 							<th>Địa chỉ</th>
 							<th>Ngày bắt đầu</th>
 							<th>Ngày kết thúc</th>
+							<th>Tự lái</th>
 							<th>Tổng tiền</th>
 							<th>Trạng thái</th>
 							<th>Thao tác</th>
@@ -70,6 +71,7 @@
 							<td th:text="${b.getUser().address}"></td>
 							<td th:text="${b.dateStart}"></td>
 							<td th:text="${b.dateEnd}"></td>
+							<td th:text="${b.getCar().driver} ? 'Có tài xế': 'Tự lái'"></td>
 							<td th:text="${b.billTotal}+ 'đ'"></td>
 							<th:block th:switch="${b.statusBill}">
 								<td th:case="'0'">Chờ duyệt</td>

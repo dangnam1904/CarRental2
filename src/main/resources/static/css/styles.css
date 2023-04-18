@@ -20,7 +20,7 @@ li {
 
 .navbar-nav a {
 	color: white;
-	font-size: 19px;
+	font-size: 18px;
 	font-weight: 500;
 	padding: 10px 15px;
 }
@@ -835,20 +835,19 @@ input[type="date-time"] {
 }
 
 .car-text .price-car {
-	margin-right: 15px;
 }
 
 .car-text .price-car .price-km p {
 	color: red;
-	font-weight: 800;
-	font-size: 24px;
+	font-weight: 600;
+	font-size: 20px;
 	margin-right: 10px;
 }
 
 .car-text .price-car .price p {
 	color: rgb(15, 15, 15);
-	font-weight: 800;
-	font-size: 20px;
+	font-weight: 400;
+	font-size: 17px;
 	text-decoration: line-through;
 	margin-right: 10px;
 }

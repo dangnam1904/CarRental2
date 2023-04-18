@@ -52,7 +52,8 @@
 				style="background-color: rgb(247, 247, 247);">
 				<div class="contain-car-title">
 					<h2 th:text="${car.nameCar}"></h2>
-					<p>Số chuyến 5</p>
+					<input type="hidden" th:value="${car.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p>
 				</div>
 				<div class="group">
 					<span> Đặc điểm </span>
@@ -198,7 +199,8 @@
 						</div>
 						<div class="info">
 							<a href="">
-								<h6 th:text="${user.nameDisplay}"></h6> <span>6 chuyến</span> <span
+								<h6 th:text="${user.nameDisplay}"></h6> <input type="hidden" th:value="${car.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p> <span
 								th:text="'Số điện thoại: '+${user.phone}"> </span>
 							</a>
 						</div>
@@ -392,7 +394,8 @@
 									</div>
 									<div class="info-car">
 										<h4 th:text="${c.nameCar}"></h4>
-										<p>SỐ chuyến</p>
+										<input type="hidden" th:value="${c.idCar}" class="id-car">
+										<p class="sum-delivery">Số chuyến</p>
 										<p th:text=${c.addressCar}></p>
 									</div>
 								</a>

@@ -2,6 +2,8 @@ package com.project.CarRental2.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,9 +43,11 @@ public class Booking {
 	// mapped by is mapping name class
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_car")
+	@JsonIgnore
 	private Car car;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_user")
+	@JsonIgnore
 	private User user;
 }

@@ -3,6 +3,8 @@ package com.project.CarRental2.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -120,15 +122,18 @@ public class Car {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_brand")
+	@JsonIgnore
 	private BrandCar brandCar;
 	
 	@OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
+	@JsonIgnore
 	private List<Booking> booking;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_user")
+	@JsonIgnore
 	private User user;
 
 

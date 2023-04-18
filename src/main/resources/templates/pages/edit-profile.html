@@ -20,8 +20,10 @@
 				<div class="avatar">
 					<img alt="" th:src="@{'/uploads/'+${user.image}}"
 						class="avatar-img">
-					<form action="/upload-avater" enctype="multipart/form-data">
-						<input type="file" accept=".png, .jpg, .jpeg, .git">
+					<form action="/upload-avatar" enctype="multipart/form-data"
+						method="post">
+						<input type="file" accept=".png, .jpg, .jpeg, .git"
+							name="avatar-user">
 						<button>Lưu</button>
 					</form>
 				</div>
@@ -35,7 +37,8 @@
 					<p th:text="${user.address}"></p>
 				</div>
 				<div class="popup" id="popup">
-					<form action="post" id="" name="edit-infomation">
+					<form action="/update-info-user" method="post"
+						name="edit-infomation">
 
 						<h4>Thông tin</h4>
 						<h6>Tên hiển thị</h6>
@@ -93,7 +96,7 @@
 							th:text="${user.phone}"> </span>
 					</span>
 						<div class="popup" id="popup-phone">
-							<form action="post" id="" name="edit-phone">
+							<form action="/updatePhone" id="" method="post" name="edit-phone">
 
 								<h4>Thông tin</h4>
 								<h6>Số điện thoại</h6>
@@ -108,17 +111,20 @@
 					<li><span class="title-text">Giấy phép lái xe</span> <span
 						class="content-text"> <a onclick="openPopupGPLX()"> <i
 								class="fa-solid fa-pen-to-square "></i></a> <span
-							th:text="${user.phone}"> </span>
+							th:text="${user.drivingLicense}"> </span> <img alt=""
+							th:src="'/uploads/'+${user.ImgDrivingLicense}"
+							style="width: 133px; height: auto; top: 30p; position: absolute; top: 36px; left: 10px;">
 					</span>
 						<div class="popup" id="popup-gplx">
-							<form action="" method="get" id="" name="edit-gplx">
+							<form action="/upload-gplx" method="post" id=""
+								enctype="multipart/form-data" name="edit-gplx">
 
 								<h4>Thông tin</h4>
 								<h6>Số giấy phép lái xe</h6>
 								<input type="text" placeholder="Số nằm mắt trước của GPLX"
 									name="gplx" id="phone"> <small></small>
 								<h6>Tải ảnh</h6>
-								<input type="file"  name="image-gplx" accept=".jpg, .png, .git"
+								<input type="file" name="image-gplx" accept=".jpg, .png, .git"
 									id="dateOfBrith"> <small></small>
 								<div class="group-action">
 									<a class="btn-cancel" onclick="closePopupGPLX()">Hủy bỏ</a>
@@ -132,7 +138,7 @@
 							th:text="${user.email}"> </span>
 					</span>
 						<div class="popup" id="popup-email">
-							<form action="" method="get" id="" name="edit-email">
+							<form action="/updateEmail" method="post" id="" name="edit-email">
 
 								<h4>Thông tin</h4>
 								<h6>Email</h6>
@@ -248,6 +254,7 @@
 	width: 100%;
 	font-size: 22px;
 	font-weight: bold;
+	
 }
 
 .information-acc .content-text {
@@ -274,6 +281,7 @@
 	margin-top: 15px;
 	background-color: white;
 	margin-bottom: 15px;
+	height: 180px;
 }
 
 .information-acc ul {
@@ -366,41 +374,41 @@
 
 <script th:src="@{/js/main.js}"></script>
 <script>
-var popup = document.getElementById('popup');
-function openPopup(){
-	popup.classList.add("open-popup");
-}
+	var popup = document.getElementById('popup');
+	function openPopup() {
+		popup.classList.add("open-popup");
+	}
 
-function closePopup(){
-	popup.classList.remove("open-popup");
-}
+	function closePopup() {
+		popup.classList.remove("open-popup");
+	}
 
-var popup_phone = document.getElementById('popup-phone');
-function openPopupPhone(){
-	popup_phone.classList.add("open-popup");
-}
+	var popup_phone = document.getElementById('popup-phone');
+	function openPopupPhone() {
+		popup_phone.classList.add("open-popup");
+	}
 
-function closePopupPhone(){
-	popup_phone.classList.remove("open-popup");
-}
+	function closePopupPhone() {
+		popup_phone.classList.remove("open-popup");
+	}
 
-var popup_email = document.getElementById('popup-email');
-function openPopupEmail(){
-	popup_email.classList.add("open-popup");
-}
+	var popup_email = document.getElementById('popup-email');
+	function openPopupEmail() {
+		popup_email.classList.add("open-popup");
+	}
 
-function closePopupEmail(){
-	popup_email.classList.remove("open-popup");
-}
+	function closePopupEmail() {
+		popup_email.classList.remove("open-popup");
+	}
 
-var popup_gplx = document.getElementById('popup-gplx');
-function openPopupGPLX(){
-	popup_gplx.classList.add("open-popup");
-}
+	var popup_gplx = document.getElementById('popup-gplx');
+	function openPopupGPLX() {
+		popup_gplx.classList.add("open-popup");
+	}
 
-function closePopupGPLX(){
-	popup_gplx.classList.remove("open-popup");
-}
+	function closePopupGPLX() {
+		popup_gplx.classList.remove("open-popup");
+	}
 </script>
 
 </html>
