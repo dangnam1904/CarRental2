@@ -81,4 +81,16 @@ public class BookingServiceImpl implements BookingService {
 		return repo.getAllBookingOnTime(dateStart, dateEnd);
 	}
 
+	@Override
+	public int countBill() {
+		
+		return (int) repo.count();
+	}
+
+	@Override
+	public List<Booking> getAllBookingByStatusBill(int statusBill) {
+		
+		return repo.findBookingByStatusBill(statusBill);
+	}
+
 }

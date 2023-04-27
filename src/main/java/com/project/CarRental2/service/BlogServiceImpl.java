@@ -42,4 +42,10 @@ public class BlogServiceImpl implements BlogService {
 		repo.deleteById(id);
 	}
 
+	@Override
+	public int countBlog() {
+		
+		return (int) repo.count();
+	}
+
 }

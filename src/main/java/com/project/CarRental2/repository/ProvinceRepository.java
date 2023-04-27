@@ -13,4 +13,5 @@ public interface ProvinceRepository extends JpaRepository<Province, Integer> {
 	@Query(value =  "select * from Province order by name_Province asc", nativeQuery = true)
 	List<Province> findAllProvinceOrderbyName();
 
+	long count();
 }

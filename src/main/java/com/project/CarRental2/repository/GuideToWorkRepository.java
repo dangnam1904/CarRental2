@@ -8,4 +8,5 @@ import com.project.CarRental2.model.GuideToWork;
 @Repository
 public interface GuideToWorkRepository  extends JpaRepository<GuideToWork, Integer>{
 
+	long count();
 }

@@ -12,4 +12,5 @@ public interface BlogService {
 	void saveBlog(Blog blog);
 
 	void deleteBlog(int id);
+	int countBlog();
 }

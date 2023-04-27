@@ -12,5 +12,5 @@ public interface UserService {
 	void deleteUser(int id);
 	User getAUser(int id_user);
 	boolean updateTotalMoney(int totalMoney, int idUser);
-	
+	int countUser();
 }

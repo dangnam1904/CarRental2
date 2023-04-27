@@ -27,7 +27,7 @@
 							chủ</a></li>
 					<li class="nav-item"><a class="nav-link"
 						th:href="@{/register-car}">Trở thành chủ xe</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/blogs}">Blogs</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/blog}">Blogs</a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/lien-he}">Liên
 							hệ</a></li>
 					<th:block th:unless="${session.user}">
@@ -47,7 +47,7 @@
 								<li><a class="dropdown-item" th:href="@{/edit-profile}">Tài Khoản</a></li>
 								<li><a class="dropdown-item" href="#">Xe yêu thích</a></li>
 								<li><a class="dropdown-item" th:href="@{/my-car}">Xe của tôi</a></li>
-								<li><a class="dropdown-item" href="#">Chuyên đi</a></li>
+								<li><a class="dropdown-item" th:href="@{/my-trip}">Chuyến đi</a></li>
 								<li><a class="dropdown-item" href="#">Đổi mật khẩu</a></li>
 								<li><a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a></li>
 							</ul></li>

@@ -7,4 +7,5 @@ import com.project.CarRental2.model.Insurance;
 @Repository
 public interface InsuranceRepository extends JpaRepository<Insurance, Integer> {
 
+	long count();
 }

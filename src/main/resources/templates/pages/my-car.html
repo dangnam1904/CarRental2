@@ -17,7 +17,7 @@
 		<div class="menu-option">
 			<ul>
 				<li><a th:href="@{/my-car}"> Danh sách xe</a></li>
-				<li><a th:href="@{/my-car}"> Hợp đồng mẫu</a></li>
+				<li><a th:href="@{/my-contract}"> Hợp đồng mẫu</a></li>
 				<li><a th:href="@{/my-bill}"> Đơn hàng</a></li>
 				<li><a th:href="@{/my-trip}"> Chuyến đi</a></li>
 				<li style="border-right: none"><a th:href="@{/my-car}" th:text="'Số dư: '+ ${#numbers.formatInteger(user.totalMoney,3,'POINT')}+ 'đ'">  </a></li>

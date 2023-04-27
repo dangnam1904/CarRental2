@@ -295,11 +295,15 @@ $(document).ready(function() {
 	document.getElementById("inputDateEnd").value = datetimeStringEnd;
 
 	var pricebooking = document.getElementById("price-booking").innerText;
-	var pricedv = document.getElementById("price-dv").innerText;
+	
 	var pricebh = document.getElementById("pirce-bh").innerText;
 	var arrpricebooking = splitData("K", pricebooking);
+	var price_dv_by_price =(Number(arrpricebooking[0]*1000)*5/100+ 1000);
+	document.getElementById("price-dv").innerText= price_dv_by_price.toString().substring(0,price_dv_by_price.toString().length-3)+"K/ngày";
+	var pricedv = document.getElementById("price-dv").innerText;
 	var arrpricedv = splitData("K", pricedv);
 	var arrpricrbh = splitData("K", pricebh);
+	
 	var sumfeed = (Number(arrpricebooking[0]) + Number(arrpricedv[0]) + Number(arrpricrbh[0]));
 	document.getElementById("price-total-per-day").innerText = sumfeed + "K/Ngày";
 	document.getElementById("total_bill").innerText = new Intl.NumberFormat().format(sumfeed * 1000) + "đ";

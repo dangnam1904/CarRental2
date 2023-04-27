@@ -20,4 +20,5 @@ public interface WardRepository  extends JpaRepository<Ward, Integer>{
 	public List<Ward> getAllWardWithDistrictWithProvinces();
 	
 	public List<Ward> findWardByDistrictIdDistrict(int idDistrict);
+	long count();
 }

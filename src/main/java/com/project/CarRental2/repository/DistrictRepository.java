@@ -14,4 +14,5 @@ public interface DistrictRepository extends JpaRepository<District, Integer> {
 			+ " from district d join province p on p.id_province= d.id_province", nativeQuery = true)
 	List<District> getAllDistrictWithProvince();
 	List<District> findByProvinceIdProvince(int idProvince);
+	long count();
 }

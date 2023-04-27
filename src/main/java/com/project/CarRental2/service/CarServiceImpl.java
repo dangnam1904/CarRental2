@@ -84,4 +84,10 @@ public class CarServiceImpl implements CarService {
 		return repository.findCarOnTimeByDriverAndAddress(driver, address, dateStart, dateEnd);
 	}
 
+	@Override
+	public int countCar() {
+		
+		return (int) repository.count();
+	}
+
 }

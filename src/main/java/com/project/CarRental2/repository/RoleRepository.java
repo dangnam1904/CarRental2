@@ -8,4 +8,5 @@ import com.project.CarRental2.model.Role;
 @Repository
 public interface RoleRepository  extends JpaRepository<Role, Integer>{
 
+	long count();
 }

@@ -17,4 +17,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query(value = "update users set total_money=:totalMoney where id_user=:idUser", nativeQuery = true)
 	boolean updateTotalMoney(@Param("totalMoney") int totalMoney,@Param("idUser") int idUser );
 
+	long count();
 }

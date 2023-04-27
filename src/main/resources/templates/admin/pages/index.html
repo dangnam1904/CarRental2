@@ -48,7 +48,7 @@
 							<div class="card-left pt-1 float-left">
 								<h3 class="mb-0 fw-r">
 									<span class="currency float-left mr-1"></span> <span
-										class="count"></span>
+										class="count" th:text="${countBill}"></span>
 								</h3>
 								<p class="text-light mt-1 m-0">
 									<a href="#" style="color: white">Tổng đơn hàng</a>
@@ -72,7 +72,7 @@
 							<div class="card-left pt-1 float-left">
 								<h3 class="mb-0 fw-r">
 									<span class="currency float-left mr-1"></span> <span
-										class="count"></span>
+										class="count"  th:text="${countUser}"></span>
 								</h3>
 								<p class="text-light mt-1 m-0">Tổng user</p>
 							</div>
@@ -93,7 +93,7 @@
 						<div class="card-body">
 							<div class="card-left pt-1 float-left">
 								<h3 class="mb-0 fw-r">
-									<span class="count">6</span>
+									<span class="count"  th:text="${countCar}"></span>
 								</h3>
 								<p class="text-light mt-1 m-0">Tổng xe </p>
 							</div>
@@ -114,7 +114,7 @@
 						<div class="card-body">
 							<div class="card-left pt-1 float-left">
 								<h3 class="mb-0 fw-r">
-									<span class="count"></span>
+									<span class="count"  th:text="${countBlog}"></span>
 								</h3>
 								<p class="text-light mt-1 m-0">Tổng bài viết</p>
 							</div>
@@ -162,7 +162,7 @@
 	<footer th:replace="~{admin/layout/footer :: footer}"></footer>
 </body>
 <script type="text/javascript">
-		/* $(document).ready(function($) {
+		 $(document).ready(function($) {
 			var valueNgay = $('#valueNgay').val();
 			valueNgay = valueNgay.replace(/'/g, '"');
 			valueNgay = JSON.parse(valueNgay);
@@ -205,6 +205,6 @@
 				data : data,
 				options : option
 			});
-		}); */
+		}); 
 	</script>
 </html>

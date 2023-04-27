@@ -54,4 +54,10 @@ public class UserServiceImpl implements UserService {
 		return repo.updateTotalMoney(totalMoney, idUser);
 	}
 
+	@Override
+	public int countUser() {
+		
+		return (int) repo.count();
+	}
+
 }

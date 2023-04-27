@@ -39,4 +39,6 @@ public interface BookingRepository  extends JpaRepository<Booking, Integer>{
 	List<Booking> getAllBookingOnTime(@Param("dateStart") String dateStart, @Param("dateEnd") String dateEnd);
 	
 	int countByCarIdCar(int idCar);
+	long count();
+	List<Booking> findBookingByStatusBill(int statusBill);
 }

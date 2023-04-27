@@ -8,4 +8,5 @@ import com.project.CarRental2.model.Blog;
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, Integer> {
 
+	long count();
 }

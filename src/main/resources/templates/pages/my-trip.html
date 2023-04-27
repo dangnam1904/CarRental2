@@ -17,8 +17,8 @@
 		<div class="menu-option">
 			<ul>
 				<li><a th:href="@{/my-car}"> Danh sách xe</a></li>
-				<li><a th:href="@{/my-car}"> Hợp đồng mẫu</a></li>
-				<li><a th:href="@{/my-car}"> Đơn hàng</a></li>
+				<li><a th:href="@{/my-contract}"> Hợp đồng mẫu</a></li>
+				<li><a th:href="@{/my-bill}"> Đơn hàng</a></li>
 				<li><a th:href="@{/my-trip}"> Chuyến đi</a></li>
 				<li style="border-right: none"><a th:href="@{/my-car}" th:text="'Số dư: '+ ${#numbers.formatInteger(user.totalMoney,3,'POINT')}+ 'đ'">  </a></li>
 			</ul>
@@ -75,6 +75,7 @@
 								<td th:case="'0'">Chờ duyệt</td>
 								<td th:case="'1'">Đã duyệt</td>
 								<td th:case="'2'">Đã thanh toán</td>
+								<td th:case="'3'">Đã hủy</td>
 							</th:block>
 							<td style="min-width: 150px"><th:block th:if="${b.statusBill==0}">
 									<button class="btn-action"
@@ -202,6 +203,10 @@
 <script>
 function paymentBill(id){
 	 window.location.href = "/payment-bill/" + id;
+}
+
+function cancelBill(id){
+	 window.location.href = "/cancel-bill-trip/" + id;
 }
 </script>
 </html>

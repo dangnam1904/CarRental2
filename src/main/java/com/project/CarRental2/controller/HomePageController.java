@@ -27,6 +27,7 @@ import com.project.CarRental2.model.Province;
 import com.project.CarRental2.model.Role;
 import com.project.CarRental2.model.User;
 import com.project.CarRental2.model.Ward;
+import com.project.CarRental2.service.BlogService;
 import com.project.CarRental2.service.BookingService;
 import com.project.CarRental2.service.CarService;
 import com.project.CarRental2.service.DistrictService;
@@ -54,6 +55,9 @@ public class HomePageController implements FiledName {
 
 	@Autowired
 	private BookingService bookingService;
+	
+	@Autowired
+	private BlogService blogService;
 
 	private int idUserOwnerCar = 0;
 
@@ -298,7 +302,6 @@ public class HomePageController implements FiledName {
 		User user = (User) session.getAttribute("user");
 		model.addAttribute("user", user);
 		List<Booking> list = bookingService.getAllBookingWithCarOwner(user.getIdUser());
-		idUserOwnerCar = list.get(0).getCar().getUser().getIdUser();
 		model.addAttribute("listBooking", bookingService.getAllBookingWithCarOwner(user.getIdUser()));
 		return "pages/my-bill";
 	}
@@ -340,6 +343,17 @@ public class HomePageController implements FiledName {
 
 		return "redirect:/my-bill";
 	}
+	
+	@GetMapping("/cancel-bill-trip/{id}")
+	public String changStatusCancelBillUser(@PathVariable(name = "id") int id) {
+		try {
+			bookingService.changeStatusBill(STATUS_CANCAL, id);
+		} catch (JpaSystemException e) {
+			System.err.println("ex");
+		}
+
+		return "redirect:/my-trip";
+	}
 
 	@GetMapping("/restore-bill/{id}")
 	public String changStatusRestoreBill(@PathVariable(name = "id") int id) {
@@ -358,15 +372,28 @@ public class HomePageController implements FiledName {
 			Booking booking = bookingService.getABooking(id);
 			User u = userService.getAUser(idUserOwnerCar);
 			u.setTotalMoney(u.getTotalMoney() + booking.getBillTotal());
-			bookingService.changeStatusBill(STATUS_PAYMENT, id);
 			try {
 				userService.updateTotalMoney(u.getTotalMoney(), u.getIdUser());
 			} catch (JpaSystemException e) {
 			}
+			bookingService.changeStatusBill(STATUS_PAYMENT, id);
+			
 		} catch (JpaSystemException e) {
 			e.printStackTrace();
 		}
 		return "redirect:/my-trip";
 	}
+	
+	@GetMapping("/blog")
+	public String getAll( Model model) {
+		model.addAttribute("blogs", blogService.getAllBlog());
+		return "pages/blog";
+	}
 
+	@GetMapping("/blog/{id}/{title-blog}")
+	public String getdetailBlog( Model model, @PathVariable(name = "id") int id) {
+		model.addAttribute("blog", blogService.getBlogById(id));
+		model.addAttribute("blogs", blogService.getAllBlog());
+		return "pages/detail-blog";
+	}
 }

@@ -7,5 +7,5 @@ import com.project.CarRental2.model.Notification;
 
 @Repository
 public interface NotificationRepository  extends JpaRepository<Notification, Integer>{
-
+ long count();
 }

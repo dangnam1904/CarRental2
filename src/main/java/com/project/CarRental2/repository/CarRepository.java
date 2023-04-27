@@ -41,5 +41,5 @@ public interface CarRepository  extends JpaRepository<Car, Integer>{
 	int countByAddressCarContaining(String address);
 
 	int countByAddressCarContainingAndDriver(String address, boolean driver);
-	
+	 long count();
 }
