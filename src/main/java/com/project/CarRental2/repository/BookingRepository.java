@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,7 @@ public interface BookingRepository  extends JpaRepository<Booking, Integer>{
 	
 	String sql="select b.id_booking,b.id_car, b.id_user, b.phone,\n"
 			+ "b.address,b.bill_total,b.create_date,b.date_end,b.date_start,b.id_user as id_usebooking,b.status_bill, b.update_date from booking b join car c on c.id_car= b.id_car join users u on u.id_user=c.id_user";
+	@Modifying
 	@Query(value = "update booking set status_bill=:statusBill where id_booking =:idBooking", nativeQuery = true)
 	void changeStatusBill(@Param("statusBill") int statusBill, @Param("idBooking") int idBooking );
 	
@@ -41,4 +43,14 @@ public interface BookingRepository  extends JpaRepository<Booking, Integer>{
 	int countByCarIdCar(int idCar);
 	long count();
 	List<Booking> findBookingByStatusBill(int statusBill);
+	
+	@Modifying
+	@Query(value = "select CONVERT(nvarchar(10),date_start,127)  as ngaydat, sum(bill_total) as tongtien from booking where "
+			+ "CONVERT(nvarchar(10),date_start,127)>=:dateStart and CONVERT(nvarchar(10),date_end,127)<=:dateEnd and status_bill=:statusBill group by CONVERT(nvarchar(10),date_start,127)", nativeQuery = true)
+	String[] sumRevenueOnTime(@Param("dateStart") String dateStart, @Param("dateEnd") String dateEnd, @Param("statusBill") int statusBill);
+	
+	@Modifying
+	@Query(value = "select * from booking where CONVERT(nvarchar(10),date_start,127)>=:dateStart"
+			+ " and CONVERT(nvarchar(10),date_end,127)<=:dateEnd and status_bill=:statusBill ", nativeQuery = true)
+	List<Booking> getBookingOnTimeByStatusBill(@Param("dateStart") String dateStart, @Param("dateEnd") String dateEnd, @Param("statusBill") int statusBill);
 }

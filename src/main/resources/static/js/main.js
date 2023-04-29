@@ -327,6 +327,7 @@ function changeData() {
 	let dateE = splitData("-", dateEnd[0]);
 	sumDate(dateS, dateE);
 	
+	
 	checkBillonTime(idCar.value, dateStart[0], dateEnd[0]);
 	
 	var pricebooking = document.getElementById("price-booking").innerText;

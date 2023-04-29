@@ -93,4 +93,16 @@ public class BookingServiceImpl implements BookingService {
 		return repo.findBookingByStatusBill(statusBill);
 	}
 
+	@Override
+	public String[] sumRevenueOnTime(String dateStart, String dateEnd, int statusBill) {
+		
+		return repo.sumRevenueOnTime(dateStart, dateEnd, statusBill );
+	}
+	
+	@Override
+	public List<Booking> getBookingOnTimeByStatusBill(String dateStart, String dateEnd, int statusBill) {
+		
+		return repo.getBookingOnTimeByStatusBill(dateStart, dateEnd, statusBill);
+	}
+
 }

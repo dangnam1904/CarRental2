@@ -23,6 +23,7 @@ import com.project.CarRental2.constants.FiledName;
 import com.project.CarRental2.model.Booking;
 import com.project.CarRental2.model.Car;
 import com.project.CarRental2.model.District;
+import com.project.CarRental2.model.Insurance;
 import com.project.CarRental2.model.Province;
 import com.project.CarRental2.model.Role;
 import com.project.CarRental2.model.User;
@@ -32,6 +33,7 @@ import com.project.CarRental2.service.BookingService;
 import com.project.CarRental2.service.CarService;
 import com.project.CarRental2.service.DistrictService;
 import com.project.CarRental2.service.EncryptionPassword;
+import com.project.CarRental2.service.InsuranceService;
 import com.project.CarRental2.service.ProvinceService;
 import com.project.CarRental2.service.UserService;
 
@@ -58,6 +60,9 @@ public class HomePageController implements FiledName {
 	
 	@Autowired
 	private BlogService blogService;
+	
+	@Autowired
+	private InsuranceService  insuranceService;
 
 	private int idUserOwnerCar = 0;
 
@@ -68,6 +73,9 @@ public class HomePageController implements FiledName {
 		List<Car> listCarHasDriverNewAddress = HomePageController.setListNewAddress(listCarHasDiver);
 		List<Car> listCarNoDiver = carService.getAllCarByDriverOderByName(NO_DRIVERS);
 		List<Car> listCarNoDriverNewAddress = HomePageController.setListNewAddress(listCarNoDiver);
+		List<Insurance> listInsurances = insuranceService.getAllInsurance();
+		model.addAttribute("contentInsurances", listInsurances.get(0).getContentInsurance());
+		model.addAttribute("listInsurances",listInsurances);
 		model.addAttribute("carHasDriver", listCarHasDriverNewAddress);
 		model.addAttribute("carNoDriver", listCarNoDriverNewAddress);
 		return "index";
@@ -89,6 +97,11 @@ public class HomePageController implements FiledName {
 	@GetMapping("/car-address")
 	public String carAddress() {
 		return "pages/address-car";
+	}
+
+	@GetMapping("/help")
+	public String getHelp() {
+		return "pages/help";
 	}
 
 	@GetMapping("/{id}/{address}/has-driver")
@@ -249,6 +262,7 @@ public class HomePageController implements FiledName {
 	@PostMapping("/sign-up")
 	public String register_User(@ModelAttribute("user") User user, RedirectAttributes rAttributes) throws SQLException {
 		user.setPassword(EncryptionPassword.encryption(user.getPassword()));
+		
 		String url = "";
 		System.out.println(user.getPassword());
 		user.setCreateDate(new Date());
@@ -396,4 +410,5 @@ public class HomePageController implements FiledName {
 		model.addAttribute("blogs", blogService.getAllBlog());
 		return "pages/detail-blog";
 	}
+	
 }

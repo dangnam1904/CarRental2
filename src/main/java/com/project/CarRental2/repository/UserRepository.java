@@ -1,6 +1,7 @@
 package com.project.CarRental2.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	boolean updateTotalMoney(@Param("totalMoney") int totalMoney,@Param("idUser") int idUser );
 
 	long count();
+	
+	Optional<User> findUserByUsername(String username);
 }

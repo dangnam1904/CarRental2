@@ -21,9 +21,15 @@ public class Insurance {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int idInsurance;
+	@Column(columnDefinition = "nvarchar(50)")
+	private String nameInsurance;
+	
+	@Column(columnDefinition = "nvarchar(150)")
+	private String imageInsurance;
+	
 	@Column(columnDefinition = "ntext")
-	private String content;
+	private String contentInsurance;
 	private Date createDate;
 	private Date updateDate;
 }

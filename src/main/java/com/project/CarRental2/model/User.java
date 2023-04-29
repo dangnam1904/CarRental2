@@ -81,4 +81,5 @@ public class User {
 	@JoinColumn(name = "id_role")
 	@JsonIgnore
 	private Role role;
+
 }

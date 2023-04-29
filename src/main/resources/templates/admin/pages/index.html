@@ -150,9 +150,9 @@
 				</div>
 
 				<form>
-					<input type="hidden" value="" id="ValueNgay">
+					<input type="hidden" th:value="${valueDate}" id="valueNgay">
 					<input type="hidden"
-						value="" id="valueTongTien">
+						th:value="${totalMoney}" id="valueTongTien">
 				</form>
 			</div>
 		</div>
@@ -163,12 +163,11 @@
 </body>
 <script type="text/javascript">
 		 $(document).ready(function($) {
-			var valueNgay = $('#valueNgay').val();
-			valueNgay = valueNgay.replace(/'/g, '"');
+			var valueNgay = $('#valueNgay').val();	
 			valueNgay = JSON.parse(valueNgay);
 			var valueTongTien = $('#valueTongTien').val();
 			valueTongTien = JSON.parse(valueTongTien);
-
+			console.log(valueTongTien)
 			var canvas = document.getElementById('myChart');
 			canvas.height = 110;
 			var data = {

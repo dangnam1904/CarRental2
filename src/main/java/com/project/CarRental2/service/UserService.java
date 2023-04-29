@@ -1,6 +1,7 @@
 package com.project.CarRental2.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.project.CarRental2.model.User;
 
@@ -13,4 +14,5 @@ public interface UserService {
 	User getAUser(int id_user);
 	boolean updateTotalMoney(int totalMoney, int idUser);
 	int countUser();
+	Optional<User> findUserByUserName(String username);
 }

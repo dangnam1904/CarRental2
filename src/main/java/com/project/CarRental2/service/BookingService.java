@@ -19,4 +19,6 @@ public interface BookingService {
 	int countDeliveryByIdCar(int idCar);
 	int countBill();
 	List<Booking> getAllBookingByStatusBill(int statusBill);
+	String[] sumRevenueOnTime(String dateStart, String dateEnd, int statusBill);
+	List<Booking> getBookingOnTimeByStatusBill(String dateStart, String dateEnd, int statusBill);
 }
