@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Trang chủ</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
 
 <head th:replace="~{pages/layout/header-css-js :: header-css-js}">
 <!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" th:href="@{/images/logo.png}" type="images/x-icon">
-
-<title>Web thuê xe</title>
 
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
@@ -143,7 +142,7 @@
 				style="position: static; margin-top: 150px; padding-bottom: 20px;">
 
 				<h3>Hướng dẫn thuê xe</h3>
-				<a href="" class="d-md-flex a-help">
+				<a th:href="@{/help}" class="d-md-flex a-help">
 					<div class="fix-img">
 						<div>
 							<img th:src="@{/images/step-1.c204d3e1.svg}" alt="" srcset="">

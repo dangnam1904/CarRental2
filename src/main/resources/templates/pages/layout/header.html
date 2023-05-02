@@ -42,7 +42,7 @@
 							class="nav-link dropdown-toggle" href="#"
 							id="navbarDarkDropdownMenuLink" role="button"
 							data-bs-toggle="dropdown" aria-expanded="false"> Xin chào, <span th:text="${session.user.nameDisplay}"></span> </a>
-							<ul class="dropdown-menu dropdown-menu-dark"
+							<ul class="dropdown-menu dropdown-menu-acc dropdown-menu-dark"
 								aria-labelledby="navbarDarkDropdownMenuLink">
 								<li><a class="dropdown-item" th:href="@{/edit-profile}">Tài Khoản</a></li>
 								<li><a class="dropdown-item" href="#">Xe yêu thích</a></li>
@@ -57,7 +57,6 @@
 			</div>
 		</div>
 	</nav>
-
 </body>
 
 

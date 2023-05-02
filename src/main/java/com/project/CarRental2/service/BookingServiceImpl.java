@@ -104,5 +104,23 @@ public class BookingServiceImpl implements BookingService {
 		
 		return repo.getBookingOnTimeByStatusBill(dateStart, dateEnd, statusBill);
 	}
+	
+	@Override
+	public List<Booking> getAllBookingWithCarOwnerAndStatusBill(int id_user, int statusBill) {
+		
+		return repo.getAllBookingWithCarOwnerAndStatusBill(id_user, statusBill);
+	}
+	@Override
+	public List<Booking> getAllBookingOnTimeByIdUserHaveCar(String dateStart, String dateEnd, int statusBill,
+			int idUser) {
+		
+		return repo.getAllBookingOnTimeByIdUserHaveCar(dateStart, dateEnd, statusBill, idUser);
+	}
+	
+	@Override
+	public String[] sumRevenueOnTimeByIdUser(String dateStart, String dateEnd, int statusBill, int idUser) {
+		
+		return repo.sumRevenueOnTimeByIdUser(dateStart, dateEnd, statusBill, idUser);
+	}
 
 }

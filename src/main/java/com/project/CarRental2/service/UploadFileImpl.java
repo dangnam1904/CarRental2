@@ -97,4 +97,22 @@ public class UploadFileImpl implements UploadFile {
 		return imgName;
 	}
 
+	@Override
+	public String uploadFileDocument(MultipartFile file) {
+		String fileName="";
+		Path path= Paths.get("uploads/");
+		try {
+			InputStream inputStream= file.getInputStream();
+			
+			fileName= file.getOriginalFilename().trim();
+			    System.err.println(fileName);
+			Files.copy(inputStream, path.resolve(fileName),
+					StandardCopyOption.REPLACE_EXISTING);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fileName;
+	}
+
 }

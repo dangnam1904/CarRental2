@@ -72,11 +72,12 @@
 								</div>
 		<div class="col-md-3 filter-status">
 		<h6 style="margin-bottom: 10px">Trạng thái</h6>
-				<select name="status_bill" onchange="filterCar(this.value)">
-					<option value="3">Tất cả</option>
+				<select id="fiter-bill-status" onchange="filterBillByStatus()">
+				<option value="5">--Chọn trạng thái--</option>
+					<option value="5">Tất cả</option>
 					<option value="0">Chờ duyệt</option>
-					<option value="1">Đã thanh toán</option>
-					<option value="2">Đã hoàn tất</option>
+					<option value="1">Đã duyệt</option>
+					<option value="2">Đã thanh toán</option>
 					<option value="3">Đã hủy</option>
 				</select>
 		</div>
@@ -191,8 +192,9 @@
 	function cancelBill(id){
 		 window.location.href = "/admin/booking/cancel-bill/" + id;
 	}
-	function filterCar(statusbill){
-		 window.location.href = "/admin/booking/statusbill/" + statusbill;
+	function filterBillByStatus(){
+		var statusbill= document.getElementById("fiter-bill-status");
+		 window.location.href = "/admin/booking/get-bill-status/" + statusbill.value;
 	}
 	</script>
 	<script
@@ -204,8 +206,11 @@
 	</th:block>
 
 	<style>
-	
+	.btn-action i{
+	margin-right: 5px;
+	}
 	.btn-action {
+	width: 100%;
 	color:black;
 	cursor: pointer;
 	display: flex;

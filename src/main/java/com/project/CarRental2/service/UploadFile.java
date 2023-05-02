@@ -8,4 +8,6 @@ public interface UploadFile {
 	
 	String uploadMultiFile(MultipartFile[] file);
 	void removeFile(String nameFile);
+	
+	String uploadFileDocument( MultipartFile file);
 }

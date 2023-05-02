@@ -109,6 +109,12 @@ li {
 	flex: 1 1;
 	max-width: 170px
 }
+.dropdown-menu-acc li{
+ width: 90%;
+}
+.menu-option i{
+margin-right: 12px;
+ }
 
 .img-fluid {
 	max-width: 100%;
@@ -913,4 +919,100 @@ input[type="date-time"] {
 	-ms-transform: rotate(329deg);
 	-moz-transform: rotate(329deg);
 	transform: rotate(329deg);
+}
+
+/** - danh mục cá nhân **/
+.div_action a,button{
+ 	text-align: justify;
+}
+span i{
+ margin-right: 10px;
+}
+.my-car {
+	overflow-x: auto;
+}
+
+.table-car .img-car {
+	max-width: 150px;
+	height: auto;
+}
+
+.menu-option a:hover {
+	color: #1f13d5;
+}
+
+.table-car {
+	width: 100%;
+	margin: 10px 20px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	border: 3px solid #ddd;
+}
+
+.table-car th {
+	background-color: white;
+}
+
+.table-car th, td {
+	text-align: center;
+	padding: 8px;
+}
+
+.table-car tr:nth-child(even) {
+	background-color: #f2f2f2
+}
+
+.filter-status select {
+	padding: 5px 20px;
+	border-radius: 4px;
+}
+
+.filter-status {
+	padding: 20px 15px;
+	display: block;
+	margin: 10px;
+}
+
+.content-car {
+	background-color: #d1d1d1;
+}
+
+.menu-option {
+	border: 1px #d1d1d1 solid;
+}
+
+.menu-option ul {
+	margin: 0px;
+}
+
+.menu-option li {
+	width: calc(100%/ 5 - 40px);
+	display: inline-block;
+	margin: 10px 10px;
+	background-color: white;
+	text-align: center;
+	font-size: 18px;
+	font-weight: 700;
+	text-align: center;
+	border-right: 4px solid #d1d1d1;
+}
+
+.title-page{
+height: 100px;
+background: #8fa58f;
+text-align: center;
+ }
+.title-page h2{
+ text-transform: uppercase;
+padding:  25px ;
+}
+
+.content-car {
+	margin-bottom: 50px;
+}
+
+.menu-option a {
+	text-decoration: none;
+	color: black;
 }

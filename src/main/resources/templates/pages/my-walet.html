@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Đơn hàng</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluid" style="padding: 0">
+		<div th:replace="~{pages/layout/menu-account :: menu-acc}"></div>
+
+		<div class="content-car">
+			<div class="title-page">
+				<h2>Thống kê doanh thu</h2>
+			</div>
+			<div class="content-walet">
+				<div class="form-anlysist">
+					<form action="/analysis" method="post">
+
+						<div class="row">
+
+							<div class="col-md-4 col-sm-4">
+								<div class="form-group">
+									<label class="form-control-label">Ngày bắt đầu</label> <input
+										type="date" name="dateStart" class="form-control"> <small></small>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4">
+								<div class="form-group">
+									<label class="form-control-label">Ngày kết thúc</label> <input
+										type="date" name="dateEnd" class="form-control"> <small></small>
+								</div>
+							</div>
+							<div class="col-md-2 col-sm-2">
+								<div class="form-group">
+									<button class="btn-analystic">Thống kê</button>
+								</div>
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="withdraw">
+					<button>Gửi yêu cầu rút tiền</button>
+				</div>
+				<div class="my-car">
+					<table class="table-car">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th style="display: none">ID</th>
+								<th>Biển số xe</th>
+								<th>Tên xe</th>
+								<th>Ảnh xe</th>
+								<th>Giá xe</th>
+								<th>Người đặt</th>
+								<th>Số điện thoại</th>
+								<th>Địa chỉ</th>
+								<th>Ngày bắt đầu</th>
+								<th>Ngày kết thúc</th>
+								<th style="min-width: 150px">Tổng tiền</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<th:block th:if="${#lists.isEmpty(listBooking)}">
+								<tr>
+									<td style="text-align: center;">Không có dữ liệu</td>
+								</tr>
+							</th:block>
+							<th:block th:unless="${#lists.isEmpty(listBooking)}">
+								<tr th:each="b, index: ${listBooking}">
+									<td th:text="${index.count}"></td>
+									<td style="display: none" th:text="${b.idBooking}"></td>
+									<td style="min-width: 100px"
+										th:text="${b.getCar().getLicensePlates()}"></td>
+									<td th:text="${b.getCar().getNameCar()}"></td>
+									<td><img class="img-car" alt=""
+										th:src="'/uploads/'+${b.getCar().getAvatarCar()}" /></td>
+									<td style="min-width: 75px"
+										th:text="${b.getCar().price}-${b.getCar().price}*${b.getCar().promotionalPrice}/100 +' K'"></td>
+									<td th:text="${b.getUser().nameDisplay}"></td>
+									<td th:text="${b.getUser().phone}"></td>
+									<td th:text="${b.getUser().address}"></td>
+									<td th:text="${b.dateStart}"></td>
+									<td th:text="${b.dateEnd}"></td>
+									<td style="min-width: 150px" th:text="${b.billTotal}+ 'đ'"></td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12 " style="padding-bottom: 25px">
+					<div class="card" style="margin-top: 25px; margin-bottom: 10px">
+
+						<h4 style="text-align: center; margin-bottom: 20px">Thống kê
+							thu nhập</h4>
+						<div class="row">
+							<div class="col-md-1"></div>
+							<div class="col-md-10">
+								<canvas id="myChart"></canvas>
+							</div>
+							<div class="col-md-1"></div>
+
+						</div>
+					</div>
+				</div>
+				<input type="hidden" th:value="${valueDate}" id="valueNgay">
+				<input type="hidden" th:value="${totalMoney}" id="valueTongTien">
+			</div>
+
+		</div>
+
+	</div>
+</body>
+<style>
+.withdraw {
+	margin-left: 20px;
+}
+
+.withdraw button {
+	border: none;
+	border-radius: 9px;
+	background: #33bb33;
+	padding: 7px 15px;
+	color: white;
+	font-size: 18px;
+	font-weight: 600px;
+}
+
+.withdraw button:hover {
+	background: #267426;
+}
+
+.btn-analystic {
+	border: none;
+	background: #33bb33;
+	border-radius: 10px;
+	margin-top: 20px;
+	padding: 7px 10px;
+}
+
+.btn-analystic:hover {
+	background: #267426;
+}
+
+.form-anlysist {
+	margin: auto 100px;
+	padding: 30px;
+}
+
+.contract a {
+	text-decoration: none;
+	color: black;
+}
+
+.contract {
+	display: inline-block;
+	margin: 40px 20px 20px 20px;
+}
+
+.content-walet h4 {
+	align-items: center;
+	padding-top: 25px;
+}
+
+.content-walet {
+	background: #e8eaef;
+	margin: 0px auto;
+	padding: 0 15px;
+}
+</style>
+
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+
+<script th:src="@{/js/main.js}"></script>
+<script type="text/javascript">
+	$(document).ready(function($) {
+		var valueNgay = $('#valueNgay').val();
+		valueNgay = JSON.parse(valueNgay);
+		var valueTongTien = $('#valueTongTien').val();
+		valueTongTien = JSON.parse(valueTongTien);
+		console.log(valueTongTien)
+		var canvas = document.getElementById('myChart');
+		canvas.height = 110;
+		var data = {
+			labels : valueNgay,
+			datasets : [ {
+				label : "Tổng tiền",
+				backgroundColor : "rgba(255,99,132,0.2)",
+				borderColor : "rgba(255,99,132,1)",
+				borderWidth : 2,
+				hoverBackgroundColor : "rgba(255,99,132,0.4)",
+				hoverBorderColor : "rgba(255,99,132,1)",
+				data : valueTongTien
+			} ]
+		};
+		var option = {
+			scales : {
+				yAxes : [ {
+					stacked : true,
+					gridLines : {
+						display : true,
+						color : "rgba(255,99,132,0.2)"
+					}
+				} ],
+				xAxes : [ {
+					gridLines : {
+						display : false
+					}
+				} ]
+			}
+		};
+
+		var myBarChart = new Chart(canvas, {
+			type : 'bar',
+			data : data,
+			options : option
+		});
+	});
+</script>
+
+</html>

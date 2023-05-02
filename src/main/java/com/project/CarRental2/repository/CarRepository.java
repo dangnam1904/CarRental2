@@ -3,11 +3,14 @@ package com.project.CarRental2.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.project.CarRental2.model.Car;
+
+import jakarta.transaction.Transactional;
 @Repository
 public interface CarRepository  extends JpaRepository<Car, Integer>{
 
@@ -19,7 +22,8 @@ public interface CarRepository  extends JpaRepository<Car, Integer>{
 			+ "from car c join brand_car b on c.id_brand=b.id_brand join users u on u.id_user=c.id_user";
 	@Query(value = "select * from car order by name_car asc", nativeQuery = true)
 	List<Car> getAllCarOrderByNameCarAsc();
-	
+	@Modifying
+	@Transactional
 	@Query(value = "update car set status=:status where id_car=:id_car", nativeQuery = true)
 	void changeStatusCar(@Param("status") int status, @Param("id_car") int id_car);
 	
@@ -29,15 +33,23 @@ public interface CarRepository  extends JpaRepository<Car, Integer>{
 	@Query(value = ""+sql_query+" where c.driver=:driver order by name_car asc  ", nativeQuery = true)
 	List<Car> getAllCarByDriverOderByName(@Param("driver") boolean driver);
 	
+	@Query(value = ""+sql_query+" where c.driver=:driver and status=:status  order by name_car asc  ", nativeQuery = true)
+	List<Car> getAllCarByDriverAndStatusCarOderByName(@Param("driver") boolean driver, @Param("status") int status);
+	
 	@Query(value = ""+sql_query+" where  c.driver=:driver and c.address_car like %:address% order by name_car asc  ", nativeQuery = true)
 	List<Car> getAllCarByDriverInAddressOderByName(@Param("driver") boolean driver, @Param("address") String address);
 	
 	@Query(value = ""+sql_query+" where  c.driver=:driver and c.address_car like %:address% and c.promotional_price >0 order by name_car asc  ", nativeQuery = true)
 	List<Car> getAllCarByDriverInAddressAndPromotionalPriceOderByName(@Param("driver") boolean driver, @Param("address") String address);
+	
 	List<Car> findCarByUserIdUserOrderByNameCarAsc(int id_user);
+	
+	List<Car> findCarByUserIdUserAndStatusOrderByNameCar(int id_user, int status);
+	
 	@Query(value = "select * from car where driver=:driver and address_car like %:address%  and id_car not in "
 			+ "(select id_car from booking  where  CONVERT(nvarchar(10),date_start,127)>=:dateStart and CONVERT(nvarchar(10),date_end,127)<=:dateEnd) order by name_car asc", nativeQuery = true)
 	List<Car> findCarOnTimeByDriverAndAddress(@Param("driver") boolean driver, @Param("address") String address, @Param("dateStart") String dateStart, @Param("dateEnd") String dateEnd);
+	
 	int countByAddressCarContaining(String address);
 
 	int countByAddressCarContainingAndDriver(String address, boolean driver);

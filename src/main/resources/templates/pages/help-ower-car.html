@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Trợ giúp</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluit">
+		<div style="height: 150px; background: #69af61">
+			<h5
+				style="text-align: center; padding-top: 20px; text-transform: uppercase; color: white; font-weight: bolder;">Hướng
+				dẫn</h5>
+			<div class="menu-help d-flex"
+				style="justify-content: center; align-items: center; margin-top: 50px">
+				<ul>
+					<li><a th:href="@{/help}">Khách thuê</a></li>
+					<li><a th:href="@{/help-Ower-Car}">Chủ xe</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="content-help">
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-login.png}">
+				<div style="margin-left: 20px">
+					<h4>Đăng nhập</h4>
+					<p>Đăng nhập website bằng tài khoản của bạn đã đăng ký trên hệ
+						thống</p>
+				</div>
+				<span>1</span>
+			</div>
+
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-register-car.png}">
+				<div style="margin-left: 20px">
+					<h4>Đăng kí xe</h4>
+					<p>Bạn chỉ cần đưa thông tin, mô tả, hình ảnh xe của bạn lên hệ
+						thống. Cập nhật thời gian, mức giá mong muốn và các yêu cầu khác
+						của bạn đối với khách thuê</p>
+				</div>
+				<span>2</span>
+			</div>
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-appro-car.png}">
+				<div style="margin-left: 20px">
+					<h4>Duyệt xe</h4>
+					<p>Bạn chỉ cần chờ trong vài phút, hệ thống sẽ kiểm duyệt xe
+						của bạn có đáp ứng đủ hay không yêu cầu cho thuê. Mioto sẽ chủ
+						động liện hệ với bạn trong trường hợp có vấn đề phát sinh.</p>
+				</div>
+				<span>3</span>
+			</div>
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-feeback.png}">
+				<div style="margin-left: 20px">
+					<h4>Nhận và Phản hồi</h4>
+					<p>Khi có khách gửi yêu cầu thuê xe, bạn sẽ nhận được thông báo
+						từ Mioto. Kiểm tra thông tin cá nhân của khách và xác nhận cho
+						thuê sớm nhất có thể. Khi có sự đồng ý cho thuê từ bạn, khách thuê
+						sẽ chuyển tiền đặt cọc để hoàn tất việc đặt xe.</p>
+				</div>
+				<span>4</span>
+			</div>
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-trade.png}">
+				<div style="margin-left: 20px">
+					<h4>Bàn giao xe</h4>
+					<p>Bạn và khách thuê liên hệ gặp nhau để bàn giao xe. Kiểm tra
+						giấy phép lái xe, các giấy tờ liên quan và tài sản đặt cọc của
+						khách. Kiểm tra xe, kí xác nhận biên bản bàn giao và gửi chìa khóa
+						xe của bạn cho vị khách đáng tin cậy.</p>
+				</div>
+				<span>5</span>
+			</div>
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-rate.png}">
+				<div style="margin-left: 20px">
+					<h4>Nhận xe</h4>
+					<p>Sau khi hết thời gian khách thuê, gặp khách thuê, kiểm tra
+						xe, kí biên bản bàn giao và nhận lại xe của bạn như thỏa thuận ban
+						đầu. Đừng quên cho điểm rating khách thuê và gợi ý họ cho điểm bạn
+						trên ứng dụng Mioto. Điều này sẽ tăng uy tín của bạn trong cộng
+						đồng thuê xe tự lái Mioto.</p>
+				</div>
+				<span>6</span>
+			</div>
+		</div>
+	</div>
+</body>
+<style>
+.step span {
+	position: absolute;
+	font-size: 60px;
+	font-weight: 700;
+	color: #00a550;
+	top: -50px;
+	right: 20px;
+}
+
+.step {
+	position: relative;
+	max-width: 800px;
+	margin: 50px auto 20px;
+	box-shadow: 5px 5px 1px #00a550;
+	border: 1px solid rgba(87, 221, 152, .37);
+	padding: 14px;
+}
+
+.content-help {
+	max-width: 1000px;
+	margin: 10px auto;
+}
+
+.menu-help a {
+	color: white;
+	font-size: 21px;
+	font-weight: bolder;
+	text-decoration: none;
+}
+</style>
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<script th:src="@{/js/main.js}"></script>
+
+</html>

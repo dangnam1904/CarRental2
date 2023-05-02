@@ -89,5 +89,15 @@ public class CarServiceImpl implements CarService {
 		
 		return (int) repository.count();
 	}
+	@Override
+	public List<Car> getAllCarByDriverAndStatusCarOderByName(boolean driver, int status) {
+		return repository.getAllCarByDriverAndStatusCarOderByName(driver, status);
+	}
+	@Override
+	public List<Car> findCarByUserIdUserAndStatusOrderByNameCar(int id_user, int status) {
+	
+		return repository.findCarByUserIdUserAndStatusOrderByNameCar(id_user, status);
+	}
+	
 
 }

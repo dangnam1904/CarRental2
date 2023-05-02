@@ -31,6 +31,7 @@ import com.project.CarRental2.model.Ward;
 import com.project.CarRental2.service.BlogService;
 import com.project.CarRental2.service.BookingService;
 import com.project.CarRental2.service.CarService;
+import com.project.CarRental2.service.ContractService;
 import com.project.CarRental2.service.DistrictService;
 import com.project.CarRental2.service.EncryptionPassword;
 import com.project.CarRental2.service.InsuranceService;
@@ -63,15 +64,18 @@ public class HomePageController implements FiledName {
 	
 	@Autowired
 	private InsuranceService  insuranceService;
+	
+	@Autowired
+	private ContractService contractService;
 
 	private int idUserOwnerCar = 0;
 
 	@GetMapping("/")
 	public String HomePage(Model model) {
 		model.addAttribute("provinces", provinceService.getAllProvinceOrderByName());
-		List<Car> listCarHasDiver = carService.getAllCarByDriverOderByName(HAS_DRIVERS);
+		List<Car> listCarHasDiver = carService.getAllCarByDriverAndStatusCarOderByName(HAS_DRIVERS, STATUS_APPROVED);
 		List<Car> listCarHasDriverNewAddress = HomePageController.setListNewAddress(listCarHasDiver);
-		List<Car> listCarNoDiver = carService.getAllCarByDriverOderByName(NO_DRIVERS);
+		List<Car> listCarNoDiver = carService.getAllCarByDriverAndStatusCarOderByName(NO_DRIVERS, STATUS_APPROVED);
 		List<Car> listCarNoDriverNewAddress = HomePageController.setListNewAddress(listCarNoDiver);
 		List<Insurance> listInsurances = insuranceService.getAllInsurance();
 		model.addAttribute("contentInsurances", listInsurances.get(0).getContentInsurance());
@@ -102,6 +106,16 @@ public class HomePageController implements FiledName {
 	@GetMapping("/help")
 	public String getHelp() {
 		return "pages/help";
+	}
+	
+	@GetMapping("/help-Ower-Car")
+	public String getHelpOwerCar() {
+		return "pages/help-ower-car";
+	}
+	
+	@GetMapping(path = {"/contact","/lien-he"})
+	public String getContact() {
+		return "pages/contact";
 	}
 
 	@GetMapping("/{id}/{address}/has-driver")
@@ -156,7 +170,7 @@ public class HomePageController implements FiledName {
 				+ province.getNameProvince());
 		System.err.println(booking.toString());
 		bookingService.saveBooking(booking);
-		return "pages/layout/header";
+		return "redirect:/my-trip";
 	}
 
 	@GetMapping("/{id}/{address}/no-driver")
@@ -315,7 +329,6 @@ public class HomePageController implements FiledName {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		model.addAttribute("user", user);
-		List<Booking> list = bookingService.getAllBookingWithCarOwner(user.getIdUser());
 		model.addAttribute("listBooking", bookingService.getAllBookingWithCarOwner(user.getIdUser()));
 		return "pages/my-bill";
 	}
@@ -411,4 +424,59 @@ public class HomePageController implements FiledName {
 		return "pages/detail-blog";
 	}
 	
+	@GetMapping("/my-contract")
+	public String getContract(Model model, HttpServletRequest request) {
+		HttpSession session= request.getSession();
+		User user = (User) session.getAttribute("user");
+		if(user==null) {
+			return "redirect:/login";
+		}
+		model.addAttribute("user", user);
+		model.addAttribute("listContract", contractService.getAllContract());
+		return "pages/my-contract";
+	}
+	
+	@GetMapping({"/my-walet", "/analysis"})
+	public String geMytWalet(Model model, HttpServletRequest request) {
+		HttpSession session= request.getSession();
+		User user = (User) session.getAttribute("user");
+		if(user==null) {
+			return "redirect:/login";
+		}
+		model.addAttribute("user", user);
+		return "pages/my-walet";
+	}
+	
+	@PostMapping("/analysis")
+	public String getAnalystic(Model model, HttpServletRequest request, @RequestParam("dateStart") String dateStart,
+			@RequestParam("dateEnd") String dateEnd) {
+		HttpSession session= request.getSession();
+		User user = (User) session.getAttribute("user");
+		if(user==null) {
+			return "redirect:/login";
+		}
+		model.addAttribute("user", user);
+		List<Booking> list= bookingService.getAllBookingOnTimeByIdUserHaveCar(dateStart, dateEnd, STATUS_PAYMENT, user.getIdUser());
+		System.err.println(list.toString());
+		model.addAttribute("listBooking", 
+				bookingService.getAllBookingOnTimeByIdUserHaveCar(dateStart, dateEnd, STATUS_PAYMENT, user.getIdUser()));
+		String[] array= bookingService.sumRevenueOnTimeByIdUser(dateStart, dateEnd, STATUS_PAYMENT, user.getIdUser());
+		String valueNgay = "";
+		valueNgay += "[";
+		String valueTongTien = "";
+		valueTongTien += "[";	
+		for( int i=0; i<array.length;i++) {
+			System.err.println(array[i]);
+			String[] arra= array[i].split(",");
+			valueNgay=valueNgay+ "\""+arra[0]+"\""+"," ;
+			valueTongTien=valueTongTien+ arra[1]+",";
+		}
+		valueNgay=valueNgay.substring(0, valueNgay.length()-1);
+		valueTongTien=valueTongTien.substring(0,valueTongTien.length()-1);
+		valueNgay=valueNgay+"]";
+		valueTongTien=valueTongTien+"]";
+		model.addAttribute("valueDate", valueNgay);
+		model.addAttribute("totalMoney", valueTongTien);
+		return "pages/my-walet";
+	}
 }

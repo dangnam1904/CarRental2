@@ -20,4 +20,6 @@ public interface CarService {
 	List<Car> getAllCarByDriverInAddressAndPromotionalPriceOderByName(boolean driver,String address);
 	List<Car> findCarOnTimeByDriverAndAddress(boolean driver, String address, String dateStart, String dateEnd);
 	int countCar();
+	List<Car> getAllCarByDriverAndStatusCarOderByName(boolean driver, int status);
+	List<Car> findCarByUserIdUserAndStatusOrderByNameCar(int id_user, int status);
 }
