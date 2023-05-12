@@ -27,86 +27,173 @@ public class BookingController implements FiledName {
 	private UserService userService;
 
 	@GetMapping("/admin/booking")
-	public String getAllBooking(Model model) {
-		model.addAttribute("listBooking", bookingService.getAllBooking());
-		return "admin/pages/booking/list";
+	public String getAllBooking(Model model,  HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				model.addAttribute("listBooking", bookingService.getAllBooking());
+				return "admin/pages/booking/list";
+			}else {
+				return "redirect:/login";
+			}
+		}
+		 else {
+			 return "redirect:/login";
+		}
 	}
 
 	@GetMapping("/admin/booking/approved-bill/{id}")
-	public String changStatusApprovedBill(@PathVariable(name = "id") int id) {
-		try {
-			bookingService.changeStatusBill(STATUS_APPROVED, id);
-		} catch (JpaSystemException e) {
-			System.err.println("ex");
+	public String changStatusApprovedBill(@PathVariable(name = "id") int id,  HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				try {
+					bookingService.changeStatusBill(STATUS_APPROVED, id);
+				} catch (JpaSystemException e) {
+					System.err.println("ex");
+				}
+				return "redirect:/admin/booking";
+			}else {
+				return "redirect:/login";
+			}
 		}
-
-		return "redirect:/admin/booking";
+		 else {
+			 return "redirect:/login";
+		} 
+		
 	}
 
 	@GetMapping("/admin/booking/cancel-bill/{id}")
-	public String changStatusCancelBill(@PathVariable(name = "id") int id) {
-		try {
-			bookingService.changeStatusBill(STATUS_CANCAL, id);
-		} catch (JpaSystemException e) {
-			System.err.println("ex");
-		}
+	public String changStatusCancelBill(@PathVariable(name = "id") int id,
+			 HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				try {
+					bookingService.changeStatusBill(STATUS_CANCAL, id);
+				} catch (JpaSystemException e) {
+					System.err.println("ex");
+				}
 
-		return "redirect:/admin/booking";
+				return "redirect:/admin/booking";
+			}else {
+				return "redirect:/login";
+			}
+		}
+		 else {
+			 return "redirect:/login";
+		}
+		
 	}
 
 	@GetMapping("/admin/booking/cancel-bill-trip/{id}")
-	public String changStatusCancelBillUser(@PathVariable(name = "id") int id) {
-		try {
-			bookingService.changeStatusBill(STATUS_CANCAL, id);
-		} catch (JpaSystemException e) {
-			System.err.println("ex");
-		}
+	public String changStatusCancelBillUser(@PathVariable(name = "id") int id,
+			 HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				try {
+					bookingService.changeStatusBill(STATUS_CANCAL, id);
+				} catch (JpaSystemException e) {
+					System.err.println("ex");
+				}
 
-		return "redirect:/admin/booking";
+				return "redirect:/admin/booking";
+			}else {
+				return "redirect:/login";
+			}
+		}
+		 else {
+			 return "redirect:/login";
+		}
+		
 	}
 
 	@GetMapping("/admin/booking/restore-bill/{id}")
-	public String changStatusRestoreBill(@PathVariable(name = "id") int id) {
-		try {
-			bookingService.changeStatusBill(STATUS_PENDING, id);
-		} catch (JpaSystemException e) {
-			e.printStackTrace();
-		}
+	public String changStatusRestoreBill(@PathVariable(name = "id") int id,
+			 HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				try {
+					bookingService.changeStatusBill(STATUS_PENDING, id);
+				} catch (JpaSystemException e) {
+					e.printStackTrace();
+				}
 
-		return "redirect:/admin/booking";
+				return "redirect:/admin/booking";
+			}else {
+				return "redirect:/login";
+			}
+		}
+		 else {
+			 return "redirect:/login";
+		}
+		
 	}
 
 	@GetMapping("/admin/booking/payment-bill/{id}")
-	public String changStatusPaymentBill(@PathVariable(name = "id") int id) {
-		try {
-			Booking booking = bookingService.getABooking(id);
-			User u = userService.getAUser(booking.getCar().getUser().getIdUser());
-			System.err.println(u.toString());
-			u.setTotalMoney(u.getTotalMoney() + booking.getBillTotal());
-			System.err.println("Tông tiên: " + u.getTotalMoney());
-			try {
-				userService.updateTotalMoney(u.getTotalMoney(), u.getIdUser());
-			} catch (JpaSystemException e) {
-			}
-			bookingService.changeStatusBill(STATUS_PAYMENT, id);
+	public String changStatusPaymentBill(@PathVariable(name = "id") int id,
+			 HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				try {
+					Booking booking = bookingService.getABooking(id);
+					User u = userService.getAUser(booking.getCar().getUser().getIdUser());
+					System.err.println(u.toString());
+					u.setTotalMoney((int) ( u.getTotalMoney() + (booking.getBillTotal() - booking.getBillTotal()*SYSTEM_DISCOUNT)));
+					System.err.println("Tông tiên: " + u.getTotalMoney());
+					try {
+						userService.updateTotalMoney(u.getTotalMoney(), u.getIdUser());
+					} catch (JpaSystemException e) {
+					}
+					bookingService.changeStatusBill(STATUS_PAYMENT, id);
 
-		} catch (JpaSystemException e) {
-			e.printStackTrace();
+				} catch (JpaSystemException e) {
+					e.printStackTrace();
+				}
+				return "redirect:/admin/booking";
+			}else {
+				return "redirect:/login";
+			}
 		}
-		return "redirect:/admin/booking";
+		 else {
+			 return "redirect:/login";
+		}
+		
 	}
 
 	@GetMapping("/admin/booking/statusbill/{statusBill}")
-	public String getBillByStatusBill(Model model, @PathVariable(name = "statusBill") int statusBill) {
-		model.addAttribute("listBooking", bookingService.getAllBookingByStatusBill(statusBill));
-		return "redirect:/admin/booking";
+	public String getBillByStatusBill(Model model, @PathVariable(name = "statusBill") int statusBill,
+			 HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				model.addAttribute("listBooking", bookingService.getAllBookingByStatusBill(statusBill));
+				return "redirect:/admin/booking";
+			}else {
+				return "redirect:/login";
+			}
+		}
+		 else {
+			 return "redirect:/login";
+		}
+		
 	}
 
 	@GetMapping("/get-bill-status/{status-bill}")
 	public String filterBillByStatus(Model model, HttpServletRequest request,
 			@PathVariable(name = "status-bill") int statusBill) {
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("sesionUser");
 		if (user == null) {
 			return "redirect:/";
 		} else {
@@ -122,21 +209,48 @@ public class BookingController implements FiledName {
 		}
 	}
 	
+	
 	@GetMapping("/admin/booking/get-bill-status/{status-bill}")
-	public String filterBillByStatusAdmin(Model model, HttpServletRequest request,
+	public String filterBillByStatusAdmin(Model model,
+			@PathVariable(name = "status-bill") int statusBill,
+			 HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				model.addAttribute("user", sessionUser);
+				if (statusBill == ALL_STATUS) {
+					model.addAttribute("listBooking", bookingService.getAllBooking());
+				} else {
+					model.addAttribute("listBooking", bookingService.getAllBookingByStatusBill(statusBill));
+				}
+				return "admin/pages/booking/list";
+			}else {
+				return "redirect:/login";
+			}
+		}
+		 else {
+			 return "redirect:/login";
+		 }
+	}
+	
+	@GetMapping("/filter-bill/{status-bill}")
+	public String filterBillByStatusAndLessee(Model model, HttpServletRequest request,
 			@PathVariable(name = "status-bill") int statusBill) {
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("sesionUser");
 		if (user == null) {
-			return "redirect:/login";
+			return "redirect:/";
 		} else {
 			model.addAttribute("user", user);
 			if (statusBill == ALL_STATUS) {
-				model.addAttribute("listBooking", bookingService.getAllBooking());
+				model.addAttribute("listBooking", 
+						bookingService.getAllBookingWithIdUserLessee(user.getIdUser()));
 			} else {
-				model.addAttribute("listBooking", bookingService.getAllBookingByStatusBill(statusBill));
+				model.addAttribute("listBooking",
+						bookingService.getBookingByUserIdUserAndStatusBillOrderByDateStartDesc(user.getIdUser(),statusBill));
 			}
-			return "admin/pages/booking/list";
+			return "pages/my-trip";
 		}
 	}
 }

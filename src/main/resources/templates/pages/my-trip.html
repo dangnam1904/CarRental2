@@ -18,12 +18,14 @@
 		<div class="title-page"> <h2> Danh sách chuyến đi </h2></div>
 			<div class="filter-status">
 				<h6>Trạng thái</h6>
-				<select>
-					<option value="3">Tất cả</option>
+				<select onchange="fiterBill()" id="filter-bill">
+					<option value="5">--Chọn trạng thái--</option>
+					<option value="5">Tất cả</option>
 					<option value="0">Chờ duyệt</option>
-					<option value="1">Đã thanh toán</option>
-					<option value="2">Đã hoàn tất</option>
+					<option value="1">Đã duyệt</option>
+					<option value="2">Đã thanh toán</option>
 					<option value="3">Đã hủy</option>
+				</select>
 				</select>
 			</div>
 
@@ -55,7 +57,7 @@
 							<td th:text="${b.getCar().getNameCar()}"></td>
 							<td><img class="img-car" alt=""
 								th:src="'/uploads/'+${b.getCar().getAvatarCar()}" /></td>
-							<td
+							<td id="price-bill"
 								th:text="${b.getCar().price}-${b.getCar().price}*${b.getCar().promotionalPrice}/100 +' K'"></td>
 							<td th:text="${b.getCar().getUser().nameDisplay}"></td>
 							<td th:text="${b.getCar().getUser().phone}"></td>
@@ -77,7 +79,7 @@
 								</th:block>
 								<th:block th:if="${b.statusBill==1}">
 									<button class="btn-action"
-										th:onclick="paymentBill([[${b.idBooking}]])">
+										th:onclick="paymentBill([[${b.idBooking}]],[[${b.billTotal}]])">
 										<span><i class="fa fa-edit"></i></span> Thanh toán
 									</button>
 								</th:block>
@@ -102,12 +104,17 @@
 <script th:src="@{/js/main.js}"></script>
 
 <script>
-function paymentBill(id){
-	 window.location.href = "/payment-bill/" + id;
+function paymentBill(id,totalBill){
+	window.location.href = "/payment-bill/" + id+"/?amount="+totalBill;
 }
 
 function cancelBill(id){
 	 window.location.href = "/cancel-bill-trip/" + id;
+}
+
+function fiterBill(){
+	 var status= document.getElementById("filter-bill")
+	 window.location.href = "/filter-bill/" + status.value;
 }
 </script>
 </html>

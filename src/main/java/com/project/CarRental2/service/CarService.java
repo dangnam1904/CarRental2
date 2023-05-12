@@ -22,4 +22,7 @@ public interface CarService {
 	int countCar();
 	List<Car> getAllCarByDriverAndStatusCarOderByName(boolean driver, int status);
 	List<Car> findCarByUserIdUserAndStatusOrderByNameCar(int id_user, int status);
+	void updatePromotionalPriceCar( int promotionalPrice);
+	List<Car> findCarByNameCarContaining(String nameCar);
+	void resetPromotionalPriceCar(int oldPromotionalPrice, int idCar);
 }

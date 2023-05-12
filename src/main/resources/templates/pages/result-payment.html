@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Chuyến đi</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluid" style="padding: 0">
+
+		<div class="result-payment">
+			<div>
+				<h6 th:text="${resultPayment}"></h6>
+				<a href="/">Trở về trang chủ</a>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+<style>
+.result-payment {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 50px 0px;
+	padding-bottom: 200px;
+}
+</style>
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+
+<script th:src="@{/js/main.js}"></script>
+
+</html>

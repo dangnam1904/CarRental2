@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
 @Repository
 public interface CarRepository  extends JpaRepository<Car, Integer>{
 
-	public static final  String sql_query="select c.id_car, c.address_car, c.airbags, c.avatar_car,c.babyseat,c.bluetooth,c.bonnet,c.camera360,c.create_date,c.dash_camera,\n"
+	public static final  String sql_query="select c.id_car, c.old_promotional_price, c.address_car, c.airbags, c.avatar_car,c.babyseat,c.bluetooth,c.bonnet,c.camera360,c.create_date,c.dash_camera,\n"
 			+ "c.delivery_fee_for1km,c.driver,c.dvd_screen,c.etc,c.fuel,c.fuel_for100km,c.gps_locator,c.id_brand,c.id_user,c.image_car,c.impact_sensor,\n"
 			+ "c.license_plates,c.limit_crossingfee1km,c.manual_transmission_car,c.maps,c.maximum_delivery_distance,c.maximum_kilometersper_day,\n"
 			+ "c.model_year,c.name_car,c.number_of_seats,c.overview_car,c.parking_camera,c.poly_use_car,c.price, c.promotional_price,c.reverse_camera,\n"
@@ -22,6 +22,7 @@ public interface CarRepository  extends JpaRepository<Car, Integer>{
 			+ "from car c join brand_car b on c.id_brand=b.id_brand join users u on u.id_user=c.id_user";
 	@Query(value = "select * from car order by name_car asc", nativeQuery = true)
 	List<Car> getAllCarOrderByNameCarAsc();
+	
 	@Modifying
 	@Transactional
 	@Query(value = "update car set status=:status where id_car=:id_car", nativeQuery = true)
@@ -54,4 +55,16 @@ public interface CarRepository  extends JpaRepository<Car, Integer>{
 
 	int countByAddressCarContainingAndDriver(String address, boolean driver);
 	 long count();
+	 
+	 @Modifying
+	 @Transactional
+	 @Query( value = "update car set promotional_price=:promotionalPrice", nativeQuery = true)
+	 void updatePromotionalPriceCar(@Param("promotionalPrice") int promotionalPrice);
+	 
+	 @Modifying
+	 @Transactional
+	 @Query( value = "update car set promotional_price=:promotionalPrice where id_car=:idCar", nativeQuery = true)
+	 void resetPromotionalPriceCar(@Param("promotionalPrice") int promotionalPrice,@Param("idCar") int idCar ) ;
+	 
+	 List<Car> findCarByNameCarContaining(String nameCar);
 }

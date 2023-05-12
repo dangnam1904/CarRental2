@@ -12,7 +12,8 @@ public interface UserService {
 	List<User> getAllUserOrderByUsername();
 	void deleteUser(int id);
 	User getAUser(int id_user);
-	boolean updateTotalMoney(int totalMoney, int idUser);
+	void updateTotalMoney(int totalMoney, int idUser);
 	int countUser();
 	Optional<User> findUserByUserName(String username);
+	User getUserByIdCar(int idCar);
 }

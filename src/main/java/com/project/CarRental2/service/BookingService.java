@@ -11,7 +11,7 @@ public interface BookingService {
 	void deleteBooking(int idBooking);
 	List<Booking> getAllBooking();
 	void  changeStatusBill(int satatuBill, int idBooking);
-	List<Booking> getAllBookingWithIdUser(int idBooking);
+	List<Booking> getAllBookingWithIdUserLessee(int idBooking);
 	List<Booking> getAllBookingWithCarOwner(int idUser);
 	List<Booking> checkItemInTime(int idCar, Date dateStart, Date dateEnd);
 	List<Booking> checkBillExistOnTime(int idCar, String dateStart, String dateEnd);
@@ -24,4 +24,5 @@ public interface BookingService {
 	List<Booking> getBookingOnTimeByStatusBill(String dateStart, String dateEnd, int statusBill);
 	List<Booking> getAllBookingWithCarOwnerAndStatusBill(int id_user, int statusBill);
 	List<Booking> getAllBookingOnTimeByIdUserHaveCar(String dateStart, String dateEnd, int statusBill, int idUser);
+	List<Booking> getBookingByUserIdUserAndStatusBillOrderByDateStartDesc(int idUser, int statusBill);
 }

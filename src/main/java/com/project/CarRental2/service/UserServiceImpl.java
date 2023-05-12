@@ -56,9 +56,9 @@ public class UserServiceImpl implements UserService /*, UserDetailsService */ {
 	}
 
 	@Override
-	public boolean updateTotalMoney(int totalMoney, int idUser) {
+	public void updateTotalMoney(int totalMoney, int idUser) {
 
-		return repo.updateTotalMoney(totalMoney, idUser);
+		 repo.updateTotalMoney(totalMoney, idUser);
 	}
 
 	@Override
@@ -90,6 +90,11 @@ public class UserServiceImpl implements UserService /*, UserDetailsService */ {
 	public Optional<User> findUserByUserName(String username) {
 		
 		return repo.findUserByUsername(username);
+	}
+
+	@Override
+	public User getUserByIdCar(int idCar) {
+		return repo.getUserByIdCar(idCar);
 	}
 
 }

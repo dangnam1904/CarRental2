@@ -47,8 +47,8 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public List<Booking> getAllBookingWithIdUser(int idUser) {
-		return repo.findBookingByUserIdUserOrderByDateStart(idUser);
+	public List<Booking> getAllBookingWithIdUserLessee(int idUser) {
+		return repo.findBookingByUserIdUserOrderByDateStartDesc(idUser);
 	}
 
 	@Override
@@ -121,6 +121,12 @@ public class BookingServiceImpl implements BookingService {
 	public String[] sumRevenueOnTimeByIdUser(String dateStart, String dateEnd, int statusBill, int idUser) {
 		
 		return repo.sumRevenueOnTimeByIdUser(dateStart, dateEnd, statusBill, idUser);
+	}
+
+	@Override
+	public List<Booking> getBookingByUserIdUserAndStatusBillOrderByDateStartDesc(int idUser, int statusBill) {
+		
+		return repo.findBookingByUserIdUserAndStatusBillOrderByDateStartDesc(idUser, statusBill);
 	}
 
 }

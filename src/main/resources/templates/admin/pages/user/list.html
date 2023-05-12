@@ -55,7 +55,8 @@
 								<hr>
 								<div class="col-md-12 d-flex">
 									<div class="col-md-3">
-										<a class="btn btn-primary float-left" th:href="@{/admin/user/add}"><span><i
+										<a class="btn btn-primary float-left"
+											th:href="@{/admin/user/add}"><span><i
 												class="fa fa-plus-square"></i></span> Thêm</a>
 
 									</div>
@@ -78,31 +79,36 @@
 									<thead>
 										<tr>
 											<th>ID</th>
-											<th style="display: none"> Id user</th>
+											<th style="display: none">Id user</th>
 											<th>Username</th>
 											<th>Tên hiển thị</th>
 											<th>Ảnh</th>
 											<th>Số điện thoại</th>
 											<th>Email</th>
+											<th>Bằng lái</th>
+											<th>Ảnh BL</th>
 											<th>Thao tác</th>
 										</tr>
 									</thead>
 									<tbody>
-										
+
 										<tr th:each="u,index : ${listUser}">
 											<td th:text="${index.count}"></td>
-											 <td th:text="${u.idUser}" style="display: none;"></td>
+											<td th:text="${u.idUser}" style="display: none;"></td>
 											<td th:text="${u.username}"></td>
 											<td th:text="${u.nameDisplay}"></td>
-											 <td style="width: 100px"> <img id=" alt=" th:src="@{${'/uploads/'+u.image}}"/></td>
+											<td style="min-width: 100px"><img id=" alt="
+												th:src="@{${'/uploads/'+u.image}}" /></td>
 											<td th:text="${u.phone}"></td>
 											<td th:text="${u.email}"></td>
-											
+											<td th:text="${u.drivingLicense}"></td>
+											<td style="min-width: 100px"><img id=" alt="
+												th:src="@{${'/uploads/'+u.ImgDrivingLicense}}" /></td>
 											<td>
 												<div class="div_action">
 													<a class="btn btn-success"
-														th:href="@{'/admin/user/edit/'+${u.idUser}}"><span><i
-															class="fa fa-edit"></i></span> Sửa</a>
+														th:href="@{'/admin/user/resetPass/'+${u.idUser}}"><span><i
+															class="fa fa-edit"></i></span> Khôi phục mật khẩu</a>
 													<button class="btn btn-secondary"
 														th:onclick="Delete([[${u.idUser}]])">
 														<span><i class="fa fa-trash-o"></i></span> Xóa
@@ -122,7 +128,13 @@
 		<!-- .content -->
 		<div class="clearfix"></div>
 	</div>
-
+	<script
+		th:src="@{/lib/bower_components/sweetalert2/dist/sweetalert2.js}"></script>
+	<th:block th:if="${messResetPass=='Success'}">
+		<script>
+		swal('Khôi phục mật khẩu thành công');
+	</script>
+	</th:block>
 	<style>
 .div_action {
 	margin: 0px 1px;
@@ -160,13 +172,14 @@
   		  confirmButtonText: 'Yes'
   		}).then((result) => {
   		  if (result.value) {
-  			  window.location.href = "/admin/district/delete/" + id;
+  			  window.location.href = "/admin/user/delete/" + id;
   		  } else {
   			  swal("Dữ liệu của bạn không thay đổi!");
   		  }
   		});
     }
   </script>
-  <footer th:replace="~{admin/layout/footer :: footer}"></footer>
+  
+	<footer th:replace="~{admin/layout/footer :: footer}"></footer>
 </body>
 </html>

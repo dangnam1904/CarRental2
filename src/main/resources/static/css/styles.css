@@ -19,21 +19,22 @@ li {
 }
 
 .navbar-nav a {
-	color: white;
+	color: black;
 	font-size: 18px;
 	font-weight: 500;
 	padding: 10px 15px;
+	opacity: 0.5;
 }
 
 .navbar-nav a:hover {
-	border: 2px solid gold;
-	border-radius: 15px;
-	background-image: linear-gradient(rgb(40, 196, 149), rgb(117, 131, 126));
+	opacity: 0.9;
+	border-bottom: 2px solid green;
 }
 
 .header {
-	background-image: linear-gradient(rgb(124, 122, 212), rgb(192, 167, 171));
+	backgound-color: #ffff;
 	width: 100%;
+	border: bottom 3px green;
 	/* position: fixed;
     top: 0;
     overflow: hidden;
@@ -44,16 +45,19 @@ li {
 	background-image: linear-gradient(rgb(201, 204, 200), rgb(99, 97, 97));
 	padding-bottom: 60px;
 } */
-
 .search-car h2 {
 	padding-top: 40px;
 	text-align: center;
 }
 
+#search-car {
+	opacity: 0.5;
+}
+
 #form-search-car {
-	border: 2px solid blueviolet;
-	border-radius: 25px;
-	background-image: linear-gradient(blueviolet, rgb(180, 175, 185));
+	box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+	border-radius: 10px;
+	background: white;
 	margin: auto;
 	padding: 10px 20px 30px 20px;
 }
@@ -67,6 +71,8 @@ li {
 #form-search-car input[type=text] {
 	width: 100%;
 	border: none;
+	border-left: 3px solid green;
+	border-radius: 0;
 }
 
 #form-search-car .form-group {
@@ -76,6 +82,10 @@ li {
 #form-search-car input[type=datetime-local] {
 	width: 100%;
 	border: none;
+	border: none;
+	border-left: 3px solid green;
+	border-radius: 0;
+	opacity: .6;
 }
 
 .btn-search-car {
@@ -109,12 +119,14 @@ li {
 	flex: 1 1;
 	max-width: 170px
 }
-.dropdown-menu-acc li{
- width: 90%;
+
+.dropdown-menu-acc li {
+	width: 90%;
 }
-.menu-option i{
-margin-right: 12px;
- }
+
+.menu-option i {
+	margin-right: 12px;
+}
 
 .img-fluid {
 	max-width: 100%;
@@ -478,6 +490,7 @@ margin-right: 12px;
 
 .feedback button {
 	width: 50%;
+	text-align: center;
 	margin: 10px;
 	padding: 5px 50px;
 	border: 1px solid #00a550;
@@ -486,6 +499,67 @@ margin-right: 12px;
 
 .feedback .favourite {
 	background-color: #00a550;
+}
+
+.notification {
+	position: relative;
+}
+
+.content-noti {
+	position: absolute;
+	width: 350px;
+	right: 50px;
+	background: #bbbbbb;
+	border-radius: 5px;
+	max-height: 500px;
+	overflow: auto;
+}
+.content-noti p{
+	margin-bottom: 5px;
+}
+.content-noti  button{
+	background: green;
+	border: none;
+	padding: 5px 20px;
+	width: 100%;
+	text-align: center;
+	font-weight: 500;
+	color: white;
+	position: absolute;
+}
+
+
+.content-noti .title-noti a {
+	margin:  0px;
+	
+	display: flex;
+	background:white;
+	border-bottom: 1px solid black;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: lighter;
+	opacity: 1;
+}
+.content-noti .title-noti a:hover {
+	
+	opacity: .8;
+}
+
+.icon-noti {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: red;
+	position: absolute;
+	top: 10px;
+	right: 0px;
+}
+
+#content-noti img {
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+	padding-top: 5px;
 }
 
 .owner-response {
@@ -530,7 +604,6 @@ margin-right: 12px;
 }
 
 .profile-mini .info h6 {
-	margin-top: -30px;
 	font-size: 24px;
 }
 
@@ -841,6 +914,7 @@ input[type="date-time"] {
 }
 
 .car-text .price-car {
+	
 }
 
 .car-text .price-car .price-km p {
@@ -885,7 +959,7 @@ input[type="date-time"] {
 
 .car-item {
 	width: 410px;
-	height: 400px;
+	height: 430px;
 	background-color: rgb(187, 186, 186);
 	margin: 15px 20px 20px 10px;
 }
@@ -906,7 +980,7 @@ input[type="date-time"] {
 	top: 0px;
 	left: 0px;
 	border-right: 81px solid transparent;
-    border-top: 53px solid #f1793f;
+	border-top: 53px solid #f1793f;
 }
 
 .card-body-car .promotional_price  span {
@@ -914,7 +988,8 @@ input[type="date-time"] {
 	font-size: 14px;
 	top: -40px;
 	color: white;
-	left: 0px; transform : rotate( 329deg);
+	left: 0px;
+	transform: rotate(329deg);
 	-webkit-transform: rotate(329deg);
 	-ms-transform: rotate(329deg);
 	-moz-transform: rotate(329deg);
@@ -922,12 +997,14 @@ input[type="date-time"] {
 }
 
 /** - danh mục cá nhân **/
-.div_action a,button{
- 	text-align: justify;
+.div_action a, button {
+	text-align: justify;
 }
-span i{
- margin-right: 10px;
+
+span i {
+	margin-right: 4px;
 }
+
 .my-car {
 	overflow-x: auto;
 }
@@ -998,14 +1075,15 @@ span i{
 	border-right: 4px solid #d1d1d1;
 }
 
-.title-page{
-height: 100px;
-background: #8fa58f;
-text-align: center;
- }
-.title-page h2{
- text-transform: uppercase;
-padding:  25px ;
+.title-page {
+	height: 100px;
+	background: #8fa58f;
+	text-align: center;
+}
+
+.title-page h2 {
+	text-transform: uppercase;
+	padding: 25px;
 }
 
 .content-car {

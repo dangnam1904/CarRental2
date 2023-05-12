@@ -33,10 +33,10 @@
 									<h6 th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
 								</div>
 								<div class="promotional_price">
-									<span th:text="'Giảm'+ ${c.promotionalPrice} +'%'"></span>
+									<span th:utext="'Giảm'+ ${c.promotionalPrice} +'%'"></span>
 								</div>
 								<div class="info-car">
-									<h4 th:text="${c.nameCar}"> </h4>
+									<h5 th:text="${c.nameCar}"> </h5>
 									<input type="hidden" th:value="${c.idCar}" class="id-car">
 									<p class="sum-delivery">SỐ chuyến</p>
 									<p th:text=${c.addressCar}></p>
@@ -58,7 +58,7 @@
 			</button>
 		</div>
 
-		<h4 class="title-content" th:text="'XE NỔI BẬT' + ${address}"></h4>
+		<h4 class="title-content" th:text="'XE NỔI BẬT ' + ${address}"></h4>
 		<div id="carouselCarDriver" class="carousel" data-bs-ride="carousel">
 			<div class="carousel-inner carousel-inner-driver">
 				<div class="carousel-item-driver" th:each="c: ${listCar}">
@@ -70,7 +70,7 @@
 										<h6 th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
 								</div>
 								<div class="info-car">
-									<h4 th:text="${c.nameCar}"> </h4>
+									<h5 th:text="${c.nameCar}"> </h5>
 									<input type="hidden" th:value="${c.idCar}" class="id-car">
 									<p class="sum-delivery">SỐ chuyến</p>
 									<p th:text=${c.addressCar}></p>

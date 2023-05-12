@@ -52,7 +52,7 @@ public class CarController implements FiledName {
 	public String registerFormCar(Model model, HttpServletRequest request, RedirectAttributes ra) {
 		HttpSession session = request.getSession();
 
-		if (session.getAttribute("user") == null) {
+		if (session.getAttribute("sesionUser") == null) {
 			ra.addFlashAttribute("mes_login", "Cần phải đăng nhập");
 			return "redirect:/";
 		}
@@ -68,7 +68,7 @@ public class CarController implements FiledName {
 			@PathVariable(name = "idCar", required = false) String idCar) {
 		HttpSession session = request.getSession();
 
-		if (session.getAttribute("user") == null) {
+		if (session.getAttribute("sesionUser") == null) {
 			ra.addFlashAttribute("mes_login", "Cần phải đăng nhập");
 			return "redirect:/";
 		}
@@ -89,7 +89,7 @@ public class CarController implements FiledName {
 			@RequestParam(name = "img-sub", required = false) MultipartFile[] imgSub, HttpServletRequest request,
 			RedirectAttributes ra) {
 		HttpSession session = request.getSession();
-		User use = (User) session.getAttribute("user");
+		User use = (User) session.getAttribute("sesionUser");
 		if (car.getIdCar() == 0) {
 			List<Car> listCar = carService.getAllCarOrderByNameCarAsc();
 			for (Car c : listCar) {
@@ -101,6 +101,7 @@ public class CarController implements FiledName {
 			car.setAddressCar(car.getAddressCar() + "," + ward.getNameWard() + "," + district.getNameDistrict() + ","
 					+ province.getNameProvince());
 			car.setBrandCar(brandCar);
+			car.setOldPromotionalPrice(car.getPromotionalPrice());
 			car.setCreateDate(new Date());
 			car.setUpdateDate(new Date());
 			car.setAvatarCar(uploadFile.uploadSingleFile(avatarCar));
@@ -117,6 +118,7 @@ public class CarController implements FiledName {
 			car.setBrandCar(brandCar);
 			car.setCreateDate(oldCar.getCreateDate());
 			car.setUpdateDate(new Date());
+			car.setOldPromotionalPrice(car.getPromotionalPrice());
 			if (avatarCar.getOriginalFilename() == "") {
 				car.setAvatarCar(oldCar.getAvatarCar());
 			} else {
@@ -142,43 +144,98 @@ public class CarController implements FiledName {
 		return "redirect:/";
 	}
 
-	@GetMapping("/admin/car")
-	public String getListCar(Model model) {
-		model.addAttribute("listcar", carService.getAllCarWithUserAndBrandOrderByNameCarAsc());
-		return "admin/pages/car/list";
+	@GetMapping("/admin/car{search}")
+	public String getListCar(Model model, @RequestParam(name = "search", required = false) String nameCar, 
+			 HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				/* biến = Biểu thức logic ? Câu lệnh khi biểu thức trả về true : Câu lệnh khi biếu thức trả về false; */
+				List<Car> listCar= nameCar==null 
+						? carService.getAllCarWithUserAndBrandOrderByNameCarAsc()
+						:carService.findCarByNameCarContaining(nameCar);
+			
+				model.addAttribute("listcar", listCar);
+				System.err.println(nameCar);
+				return "admin/pages/car/list";
+			}else {
+				return "redirect:/login";
+			}
+		}
+		 else {
+			 return "redirect:/login";
+		}
+		
 	}
 
 	@GetMapping("/admin/car/status-pending/{id}")
-	public String changStatusPending(@PathVariable(name = "id") int id) {
-
-		try {
-			carService.changeStatusCar(STATUS_PENDING, id);
-		} catch (JpaSystemException e) {
-			System.err.println("ex");
+	public String changStatusPending(@PathVariable(name = "id") int id, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				try {
+					carService.changeStatusCar(STATUS_PENDING, id);
+				} catch (JpaSystemException e) {
+					System.err.println("ex");
+				}
+				return "redirect:/admin/car";
+			}else {
+				return "redirect:/login";
+			}
 		}
-		return "redirect:/admin/car";
+		 else {
+			 return "redirect:/login";
+		}
+
 	}
 
 	@GetMapping("/admin/car/status-approved/{id}")
-	public String changStatusApproved(@PathVariable(name = "id") int id) {
-		try {
-			carService.changeStatusCar(STATUS_APPROVED, id);
-		} catch (JpaSystemException e) {
-			System.err.println("ex");
-		}
+	public String changStatusApproved(@PathVariable(name = "id") int id, 
+			 HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				try {
+					carService.changeStatusCar(STATUS_APPROVED, id);
+				} catch (JpaSystemException e) {
+					System.err.println("ex");
+				}
 
-		return "redirect:/admin/car";
+				return "redirect:/admin/car";
+			}else {
+				return "redirect:/login";
+			}
+		}
+		 else {
+			 return "redirect:/login";
+		}
+		
 	}
 
 	@GetMapping("/admin/car/add")
-	public String getForm(Model model, HttpServletRequest request, RedirectAttributes ra) {
+	public String getForm(Model model, RedirectAttributes ra,
+			 HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				model.addAttribute("car", new Car());
+				model.addAttribute("province", provinceService.getAllProvinceOrderByName());
+				model.addAttribute("brandcar", brandCarService.getAllBrandCarOderByNameAsc());
+				model.addAttribute("user", userService.getAllUserOrderByUsername());
 
-		model.addAttribute("car", new Car());
-		model.addAttribute("province", provinceService.getAllProvinceOrderByName());
-		model.addAttribute("brandcar", brandCarService.getAllBrandCarOderByNameAsc());
-		model.addAttribute("user", userService.getAllUserOrderByUsername());
+				return "admin/pages/car/form-add";
+			}else {
+				return "redirect:/login";
+			}
+		}
+		 else {
+			 return "redirect:/login";
+		}
 
-		return "admin/pages/car/form-add";
 	}
 
 	@PostMapping("/admin/car/add")
@@ -186,41 +243,64 @@ public class CarController implements FiledName {
 			@RequestParam("user") User user, @RequestParam("province") Province province,
 			@RequestParam("district") District district, @RequestParam("ward") Ward ward,
 			@RequestParam(name = "img-main", required = false) MultipartFile avatarCar,
-			@RequestParam(name = "img-sub", required = false) MultipartFile[] imgSub, HttpServletRequest request,
-			RedirectAttributes ra) {
-
-		List<Car> listCar = carService.getAllCarOrderByNameCarAsc();
-		for (Car c : listCar) {
-			if (c.getLicensePlates().equals(car.getLicensePlates())) {
-				ra.addFlashAttribute("mes_faill", "Biển xe đã tồn tại");
-				return "redirect:/admin/car/add";
+			@RequestParam(name = "img-sub", required = false) MultipartFile[] imgSub,
+			RedirectAttributes ra,  HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				List<Car> listCar = carService.getAllCarOrderByNameCarAsc();
+				for (Car c : listCar) {
+					if (c.getLicensePlates().equals(car.getLicensePlates())) {
+						ra.addFlashAttribute("mes_faill", "Biển xe đã tồn tại");
+						return "redirect:/admin/car/add";
+					}
+				}
+				car.setAddressCar(car.getAddressCar() + "," + ward.getNameWard() + "," + district.getNameDistrict() + ","
+						+ province.getNameProvince());
+				car.setBrandCar(brandCar);
+				car.setCreateDate(new Date());
+				car.setUpdateDate(new Date());
+				car.setAvatarCar(uploadFile.uploadSingleFile(avatarCar));
+				car.setStatus(STATUS_PENDING);
+				car.setImageCar(uploadFile.uploadMultiFile(imgSub));
+				car.setOldPromotionalPrice(car.getPromotionalPrice());
+				car.getUser().setIdUser(user.getIdUser());
+				System.out.println(car.toString());
+				carService.saveCar(car);
+				ra.addFlashAttribute("mes_success", "Thêm thành công");
+				return "redirect:/admin/car";
+			}else {
+				return "redirect:/login";
 			}
 		}
-		car.setAddressCar(car.getAddressCar() + "," + ward.getNameWard() + "," + district.getNameDistrict() + ","
-				+ province.getNameProvince());
-		car.setBrandCar(brandCar);
-		car.setCreateDate(new Date());
-		car.setUpdateDate(new Date());
-		car.setAvatarCar(uploadFile.uploadSingleFile(avatarCar));
-		car.setStatus(STATUS_PENDING);
-		car.setImageCar(uploadFile.uploadMultiFile(imgSub));
-		car.getUser().setIdUser(user.getIdUser());
-		System.out.println(car.toString());
-		carService.saveCar(car);
-		ra.addFlashAttribute("mes_success", "Thêm thành công");
-		return "redirect:/admin/car";
+		 else {
+			 return "redirect:/login";
+		}
 	}
 
 	@GetMapping("/admin/car/edit/{id}")
-	public String editCar(Model model, @PathVariable(name = "id") int id_car) {
-		String[] arrayAddress = carService.getACarByIdCar(id_car).getAddressCar().split(",");
-		String province = arrayAddress[arrayAddress.length - 1];
-		model.addAttribute("provin", province);
-		model.addAttribute("car", carService.getACarByIdCar(id_car));
-		model.addAttribute("province", provinceService.getAllProvinceOrderByName());
-		model.addAttribute("brandcar", brandCarService.getAllBrandCarOderByNameAsc());
-		model.addAttribute("user", userService.getAllUserOrderByUsername());
-		return "admin/pages/car/form-edit";
+	public String editCar(Model model, @PathVariable(name = "id") int id_car, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+
+				String[] arrayAddress = carService.getACarByIdCar(id_car).getAddressCar().split(",");
+				String province = arrayAddress[arrayAddress.length - 1];
+				model.addAttribute("provin", province);
+				model.addAttribute("car", carService.getACarByIdCar(id_car));
+				model.addAttribute("province", provinceService.getAllProvinceOrderByName());
+				model.addAttribute("brandcar", brandCarService.getAllBrandCarOderByNameAsc());
+				model.addAttribute("user", userService.getAllUserOrderByUsername());
+				return "admin/pages/car/form-edit";
+			}else {
+				return "redirect:/login";
+			}
+		}
+		 else {
+			 return "redirect:/login";
+		}
 	}
 
 	@PostMapping("/admin/car/edit")
@@ -228,44 +308,56 @@ public class CarController implements FiledName {
 			@RequestParam("user") User user, @RequestParam("province") Province province,
 			@RequestParam("district") District district, @RequestParam("ward") Ward ward,
 			@RequestParam(name = "img-main", required = false) MultipartFile avatarCar,
-			@RequestParam(name = "img-sub", required = false) MultipartFile[] imgSub, HttpServletRequest request,
-			RedirectAttributes ra) {
-
-		Car oldCar = carService.getACarByIdCar(car.getIdCar());
-		car.setAddressCar(car.getAddressCar() + "," + ward.getNameWard() + "," + district.getNameDistrict() + ","
-				+ province.getNameProvince());
-		car.setBrandCar(brandCar);
-		car.setCreateDate(new Date());
-		car.setUpdateDate(new Date());
-		if (avatarCar.getOriginalFilename() == "") {
-			car.setAvatarCar(oldCar.getAvatarCar());
-		} else {
-			car.setAvatarCar(uploadFile.uploadSingleFile(avatarCar));
-			uploadFile.removeFile(oldCar.getAvatarCar());
-		}
-		if (imgSub.length <= 1) {
-			car.setImageCar(oldCar.getImageCar());
-		} else {
-			car.setImageCar(uploadFile.uploadMultiFile(imgSub));
-			String[] arrayImg = oldCar.getImageCar().split(";");
-			for (int i = 0; i < arrayImg.length; i++) {
-				uploadFile.removeFile(arrayImg[i]);
+			@RequestParam(name = "img-sub", required = false) MultipartFile[] imgSub, 
+			RedirectAttributes ra, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if(sessionUser!=null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				Car oldCar = carService.getACarByIdCar(car.getIdCar());
+				car.setAddressCar(car.getAddressCar() + "," + ward.getNameWard() + "," + district.getNameDistrict() + ","
+						+ province.getNameProvince());
+				car.setBrandCar(brandCar);
+				car.setCreateDate(new Date());
+				car.setUpdateDate(new Date());
+				car.setOldPromotionalPrice(car.getPromotionalPrice());
+				if (avatarCar.getOriginalFilename() == "") {
+					car.setAvatarCar(oldCar.getAvatarCar());
+				} else {
+					car.setAvatarCar(uploadFile.uploadSingleFile(avatarCar));
+					uploadFile.removeFile(oldCar.getAvatarCar());
+				}
+				if (imgSub.length <= 1) {
+					car.setImageCar(oldCar.getImageCar());
+				} else {
+					car.setImageCar(uploadFile.uploadMultiFile(imgSub));
+					String[] arrayImg = oldCar.getImageCar().split(";");
+					for (int i = 0; i < arrayImg.length; i++) {
+						uploadFile.removeFile(arrayImg[i]);
+					}
+				}
+				car.setStatus(STATUS_PENDING);
+				car.getUser().setIdUser(user.getIdUser());
+				System.out.println(car.toString());
+				carService.saveCar(car);
+				ra.addFlashAttribute("mes_success", "Sửa thành công");
+				return "redirect:/admin/car";
+			}else {
+				return "redirect:/login";
 			}
 		}
-		car.setStatus(STATUS_PENDING);
-		car.getUser().setIdUser(user.getIdUser());
-		System.out.println(car.toString());
-		carService.saveCar(car);
-		ra.addFlashAttribute("mes_success", "Sửa thành công");
-		return "redirect:/admin/car";
+		 else {
+			 return "redirect:/login";
+		}
+
 	}
 
 	@GetMapping("/stop-car/{id}")
 	public String stopCar(Model model, HttpServletRequest request, @PathVariable(name = "id") int idCar) {
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("sesionUser");
 		if (user == null) {
-			return "redirect:/";
+			return "redirect:/login";
 		} else {
 			carService.changeStatusCar(STATUS_STOP, idCar);
 		}
@@ -275,9 +367,9 @@ public class CarController implements FiledName {
 	@GetMapping("/active-car/{id}")
 	public String activeCar(Model model, HttpServletRequest request, @PathVariable(name = "id") int idCar) {
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("sesionUser");
 		if (user == null) {
-			return "redirect:/";
+			return "redirect:/login";
 		} else {
 			carService.changeStatusCar(STATUS_APPROVED, idCar);
 		}
@@ -288,9 +380,9 @@ public class CarController implements FiledName {
 	public String getCarByStatus(Model model, HttpServletRequest request,
 			@PathVariable(name = "status-car") int statusCar) {
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("sesionUser");
 		if (user == null) {
-			return "redirect:/";
+			return "redirect:/login";
 		} else {
 			model.addAttribute("user", user);
 			if (statusCar == ALL_STATUS) {

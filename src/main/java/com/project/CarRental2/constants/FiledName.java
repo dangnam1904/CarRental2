@@ -11,4 +11,7 @@ public interface FiledName {
 	public static final int STATUS_STOP = 4;
 	public static final boolean HAS_DRIVERS = true;
 	public static final boolean NO_DRIVERS = false;
+	public static final int NO_READING = 0;
+	public static final int READING=1;
+	public static final double SYSTEM_DISCOUNT=0.05;
 }

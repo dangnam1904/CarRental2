@@ -45,6 +45,9 @@ public class Car {
 
 	private int price;
 	private int promotionalPrice;
+	
+	@Column(columnDefinition = "int default 0")
+	private int oldPromotionalPrice;
 
 	@Column(columnDefinition = "nvarchar(20)", unique = true)
 	private String licensePlates;

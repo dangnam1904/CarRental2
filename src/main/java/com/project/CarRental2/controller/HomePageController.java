@@ -22,9 +22,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.CarRental2.constants.FiledName;
 import com.project.CarRental2.model.Booking;
 import com.project.CarRental2.model.Car;
+import com.project.CarRental2.model.DetailNotification;
 import com.project.CarRental2.model.District;
 import com.project.CarRental2.model.Insurance;
+import com.project.CarRental2.model.Notification;
 import com.project.CarRental2.model.Province;
+import com.project.CarRental2.model.RequestWithdrawal;
 import com.project.CarRental2.model.Role;
 import com.project.CarRental2.model.User;
 import com.project.CarRental2.model.Ward;
@@ -32,10 +35,13 @@ import com.project.CarRental2.service.BlogService;
 import com.project.CarRental2.service.BookingService;
 import com.project.CarRental2.service.CarService;
 import com.project.CarRental2.service.ContractService;
+import com.project.CarRental2.service.DetailNotificationService;
 import com.project.CarRental2.service.DistrictService;
 import com.project.CarRental2.service.EncryptionPassword;
 import com.project.CarRental2.service.InsuranceService;
+import com.project.CarRental2.service.NotificationService;
 import com.project.CarRental2.service.ProvinceService;
+import com.project.CarRental2.service.RequestWithdrawalService;
 import com.project.CarRental2.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,6 +49,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomePageController implements FiledName {
+	
 
 	@Autowired
 	private UserService userService;
@@ -58,20 +65,48 @@ public class HomePageController implements FiledName {
 
 	@Autowired
 	private BookingService bookingService;
-	
+
 	@Autowired
 	private BlogService blogService;
-	
+
 	@Autowired
-	private InsuranceService  insuranceService;
-	
+	private InsuranceService insuranceService;
+
 	@Autowired
 	private ContractService contractService;
 
+	@Autowired
+	private NotificationService notificationService;
+
+	@Autowired
+	private DetailNotificationService detailNotificationService;
+	
+	@Autowired
+	private RequestWithdrawalService requestWithdrawalService;
+
 	private int idUserOwnerCar = 0;
 
+	@GetMapping("/reading-notification")
+	public String readNotification(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User useSession = (User) session.getAttribute("sesionUser");
+
+		if (useSession == null) {
+			return "redirect:/login";
+		}
+		detailNotificationService.updateStatusAllByIDUserNotification(READING, useSession.getIdUser());
+		return "redirect:/";
+	}
+
 	@GetMapping("/")
-	public String HomePage(Model model) {
+	public String HomePage(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("sesionUser");
+		List<DetailNotification> listDetailNotification = new ArrayList<DetailNotification>();
+		if (user != null) {
+			listDetailNotification = detailNotificationService.getListDetailNotification(user.getIdUser());
+		}
+		model.addAttribute("listDetailNotification", listDetailNotification);
 		model.addAttribute("provinces", provinceService.getAllProvinceOrderByName());
 		List<Car> listCarHasDiver = carService.getAllCarByDriverAndStatusCarOderByName(HAS_DRIVERS, STATUS_APPROVED);
 		List<Car> listCarHasDriverNewAddress = HomePageController.setListNewAddress(listCarHasDiver);
@@ -79,7 +114,7 @@ public class HomePageController implements FiledName {
 		List<Car> listCarNoDriverNewAddress = HomePageController.setListNewAddress(listCarNoDiver);
 		List<Insurance> listInsurances = insuranceService.getAllInsurance();
 		model.addAttribute("contentInsurances", listInsurances.get(0).getContentInsurance());
-		model.addAttribute("listInsurances",listInsurances);
+		model.addAttribute("listInsurances", listInsurances);
 		model.addAttribute("carHasDriver", listCarHasDriverNewAddress);
 		model.addAttribute("carNoDriver", listCarNoDriverNewAddress);
 		return "index";
@@ -107,13 +142,13 @@ public class HomePageController implements FiledName {
 	public String getHelp() {
 		return "pages/help";
 	}
-	
+
 	@GetMapping("/help-Ower-Car")
 	public String getHelpOwerCar() {
 		return "pages/help-ower-car";
 	}
-	
-	@GetMapping(path = {"/contact","/lien-he"})
+
+	@GetMapping(path = { "/contact", "/lien-he" })
 	public String getContact() {
 		return "pages/contact";
 	}
@@ -141,10 +176,17 @@ public class HomePageController implements FiledName {
 			HttpServletRequest request, RedirectAttributes ra) {
 		System.err.println("Ngay " + dateStart);
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("sesionUser");
+		
+		User sessionUser= (User) session.getAttribute("sesionUser");
+		System.err.println(sessionUser);
 		if (user == null) {
 			ra.addFlashAttribute("messege_error", "Chưa đăng nhập");
 			return "redirect:/login";
+		}
+		if(sessionUser.getImgDrivingLicense()==null || sessionUser.getDrivingLicense()==null || sessionUser.getPhone()==null ) {
+			ra.addFlashAttribute("messege_error", "Bạn chưa cập nhật bằng lái xe");
+			return "redirect:/edit-profile";
 		}
 		Booking booking = new Booking();
 		booking.setUser(user);
@@ -159,7 +201,7 @@ public class HomePageController implements FiledName {
 		}
 		booking.setDateStart(datestart);
 		booking.setDateEnd(dateend);
-		Car car = new Car(id_car);
+		Car car = carService.getACarByIdCar(id_car);
 		booking.setCar(car);
 		booking.setCreateDate(new Date());
 		booking.setUpdateDate(new Date());
@@ -169,6 +211,15 @@ public class HomePageController implements FiledName {
 		booking.setAddress(addressDetail + "," + ward.getNameWard() + "," + district.getNameDistrict() + ","
 				+ province.getNameProvince());
 		System.err.println(booking.toString());
+		System.err.println("  trrt:" + booking.getCar().getAvatarCar());
+		Notification notification = new Notification(0, car.getAvatarCar(), "Bạn có đơn đặt xe mới",
+				"" + user.getNameDisplay() + " đã đặt xe của bạn, vui lòng xác nhận đơn hàng của bạn", new Date(),
+				new Date());
+		notificationService.saveNotification(notification);
+		Notification lasterNotification = notificationService.getNotificationLaster();
+		DetailNotification detailNotification = new DetailNotification(0, NO_READING, "/my-bill",
+				userService.getUserByIdCar(booking.getCar().getIdCar()), lasterNotification);
+		detailNotificationService.saveDetail(detailNotification);
 		bookingService.saveBooking(booking);
 		return "redirect:/my-trip";
 	}
@@ -217,11 +268,11 @@ public class HomePageController implements FiledName {
 		model.addAttribute("dateEnd", dateEnd);
 		String[] arrdateStart = dateStart.split("T");
 		String[] arrdateEnd = dateEnd.split("T");
-		List<Car> listCar= new ArrayList<>();
-		if(driver==true) {
-			listCar= carService.findCarOnTimeByDriverAndAddress(HAS_DRIVERS, address, arrdateStart[0], arrdateEnd[0]);
-		}else {
-			listCar= carService.findCarOnTimeByDriverAndAddress(NO_DRIVERS, address, arrdateStart[0], arrdateEnd[0]);
+		List<Car> listCar = new ArrayList<>();
+		if (driver == true) {
+			listCar = carService.findCarOnTimeByDriverAndAddress(HAS_DRIVERS, address, arrdateStart[0], arrdateEnd[0]);
+		} else {
+			listCar = carService.findCarOnTimeByDriverAndAddress(NO_DRIVERS, address, arrdateStart[0], arrdateEnd[0]);
 		}
 		List<Car> listCarWithNewAddress = HomePageController.setListNewAddress(listCar);
 		System.err.println(listCarWithNewAddress);
@@ -233,6 +284,7 @@ public class HomePageController implements FiledName {
 	@GetMapping("/login")
 	public String login(Model model) {
 		model.addAttribute("user", new User());
+		System.err.println( EncryptionPassword.encryption("admin"));
 		return "pages/login";
 	}
 
@@ -245,8 +297,8 @@ public class HomePageController implements FiledName {
 		List<User> list = userService.getAllUserOrderByUsername();
 		for (User user2 : list) {
 			if (user.getUsername().equals(user2.getUsername()) && user.getPassword().equals(user2.getPassword())) {
-				sessionUser.setAttribute("user", user2);
-				System.out.println(sessionUser.getAttribute("user"));
+				sessionUser.setAttribute("sesionUser", user2);
+				System.out.println(sessionUser.getAttribute("sesionUser"));
 				if (user2.getRole().getIdRole() == ROLE_USER) {
 					return "redirect:/";
 				} else if (user2.getRole().getIdRole() == ROLE_ADMIN) {
@@ -276,7 +328,7 @@ public class HomePageController implements FiledName {
 	@PostMapping("/sign-up")
 	public String register_User(@ModelAttribute("user") User user, RedirectAttributes rAttributes) throws SQLException {
 		user.setPassword(EncryptionPassword.encryption(user.getPassword()));
-		
+
 		String url = "";
 		System.out.println(user.getPassword());
 		user.setCreateDate(new Date());
@@ -309,8 +361,11 @@ public class HomePageController implements FiledName {
 	@GetMapping("/edit-profile")
 	public String editProfile(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
-		model.addAttribute("user", user);
+		User useSession = (User) session.getAttribute("sesionUser");
+		if (useSession == null) {
+			return "redirect:/login";
+		}
+		model.addAttribute("user", useSession);
 		model.addAttribute("province", provinceService.getAllProvinceOrderByName());
 		return "pages/edit-profile";
 	}
@@ -318,27 +373,36 @@ public class HomePageController implements FiledName {
 	@GetMapping("/my-car")
 	public String myCar(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
-		model.addAttribute("user", user);
-		model.addAttribute("listCar", carService.getAllCarByIdUser(user.getIdUser()));
+		User useSession = (User) session.getAttribute("sesionUser");
+		if (useSession == null) {
+			return "redirect:/login";
+		}
+		model.addAttribute("user", useSession);
+		model.addAttribute("listCar", carService.getAllCarByIdUser(useSession.getIdUser()));
 		return "pages/my-car";
 	}
 
 	@GetMapping("/my-bill")
 	public String myBill(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
-		model.addAttribute("user", user);
-		model.addAttribute("listBooking", bookingService.getAllBookingWithCarOwner(user.getIdUser()));
+		User useSession = (User) session.getAttribute("sesionUser");
+		if (useSession == null) {
+			return "redirect:/login";
+		}
+		model.addAttribute("user", useSession);
+		model.addAttribute("listBooking", bookingService.getAllBookingWithCarOwner(useSession.getIdUser()));
 		return "pages/my-bill";
 	}
 
 	@GetMapping("/my-trip")
 	public String myTrip(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
-		model.addAttribute("user", user);
-		List<Booking> list = bookingService.getAllBookingWithIdUser(user.getIdUser());
+		User useSession = (User) session.getAttribute("sesionUser");
+		if (useSession == null) {
+			return "redirect:/login";
+		}
+		model.addAttribute("user", useSession);
+		List<Booking> list = bookingService.getAllBookingWithIdUserLessee(useSession.getIdUser());
 		try {
 			idUserOwnerCar = list.get(0).getCar().getUser().getIdUser();
 		} catch (IndexOutOfBoundsException e) {
@@ -350,8 +414,22 @@ public class HomePageController implements FiledName {
 	}
 
 	@GetMapping("/approved-bill/{id}")
-	public String changStatusApprovedBill(@PathVariable(name = "id") int id) {
+	public String changStatusApprovedBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User useSession = (User) session.getAttribute("sesionUser");
+		if (useSession == null) {
+			return "redirect:/login";
+		}
 		try {
+			Booking booking = bookingService.getABooking(id);
+			DetailNotification detailNotification = new DetailNotification(0, NO_READING, "/my-trip", booking.getUser(),
+					new Notification(0, "logo1.png", "Đơn hàng của bạn đã được xác nhận",
+							"Đơn đặt xe " + booking.getCar().getNameCar() + " của bạn đã được xác nhận", new Date(),
+							new Date()));
+			System.err.println(detailNotification.toString());
+			notificationService.saveNotification(detailNotification.getNotification());
+			detailNotificationService.saveDetail(detailNotification);
+			;
 			bookingService.changeStatusBill(STATUS_APPROVED, id);
 		} catch (JpaSystemException e) {
 			System.err.println("ex");
@@ -361,8 +439,20 @@ public class HomePageController implements FiledName {
 	}
 
 	@GetMapping("/cancel-bill/{id}")
-	public String changStatusCancelBill(@PathVariable(name = "id") int id) {
+	public String changStatusCancelBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User useSession = (User) session.getAttribute("sesionUser");
+		if (useSession == null) {
+			return "redirect:/login";
+		}
 		try {
+			Booking booking = bookingService.getABooking(id);
+			DetailNotification detailNotification = new DetailNotification(0, NO_READING, "/my-trip", booking.getUser(),
+					new Notification(0, "logo1.png", "Đơn hàng của bạn đã không được chấp nhận",
+							"Đơn đặt xe " + booking.getCar().getNameCar() + " của bạn đã không được chấp nhận",
+							new Date(), new Date()));
+			notificationService.saveNotification(detailNotification.getNotification());
+			detailNotificationService.saveDetail(detailNotification);
 			bookingService.changeStatusBill(STATUS_CANCAL, id);
 		} catch (JpaSystemException e) {
 			System.err.println("ex");
@@ -370,9 +460,14 @@ public class HomePageController implements FiledName {
 
 		return "redirect:/my-bill";
 	}
-	
+
 	@GetMapping("/cancel-bill-trip/{id}")
-	public String changStatusCancelBillUser(@PathVariable(name = "id") int id) {
+	public String changStatusCancelBillUser(@PathVariable(name = "id") int id, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User useSession = (User) session.getAttribute("sesionUser");
+		if (useSession == null) {
+			return "redirect:/login";
+		}
 		try {
 			bookingService.changeStatusBill(STATUS_CANCAL, id);
 		} catch (JpaSystemException e) {
@@ -383,7 +478,12 @@ public class HomePageController implements FiledName {
 	}
 
 	@GetMapping("/restore-bill/{id}")
-	public String changStatusRestoreBill(@PathVariable(name = "id") int id) {
+	public String changStatusRestoreBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User useSession = (User) session.getAttribute("sesionUser");
+		if (useSession == null) {
+			return "redirect:/login";
+		}
 		try {
 			bookingService.changeStatusBill(STATUS_PENDING, id);
 		} catch (JpaSystemException e) {
@@ -394,89 +494,135 @@ public class HomePageController implements FiledName {
 	}
 
 	@GetMapping("/payment-bill/{id}")
-	public String changStatusPaymentBill(@PathVariable(name = "id") int id) {
+	public String changStatusPaymentBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User useSession = (User) session.getAttribute("sesionUser");
+		if (useSession == null) {
+			return "redirect:/login";
+		}
 		try {
+			System.err.println("fdjgkdgk");
 			Booking booking = bookingService.getABooking(id);
 			User u = userService.getAUser(idUserOwnerCar);
-			u.setTotalMoney(u.getTotalMoney() + booking.getBillTotal());
+			double totalMoney=u.getTotalMoney() +booking.getBillTotal()- (booking.getBillTotal() * SYSTEM_DISCOUNT);
+			u.setTotalMoney((int) totalMoney);
+			DetailNotification detailNotification = new DetailNotification(0, NO_READING, "/my-bill", u,
+					new Notification(0, "logo1.png", "Đơn hàng của bạn đã thanh toán",
+							"Đơn đặt xe " + booking.getCar().getNameCar() + " của bạn đã thanh toán bởi "
+									+ booking.getUser().getUsername() + "",
+							new Date(), new Date()));
+			notificationService.saveNotification(detailNotification.getNotification());
+			detailNotificationService.saveDetail(detailNotification);
 			try {
 				userService.updateTotalMoney(u.getTotalMoney(), u.getIdUser());
 			} catch (JpaSystemException e) {
 			}
 			bookingService.changeStatusBill(STATUS_PAYMENT, id);
-			
+
 		} catch (JpaSystemException e) {
 			e.printStackTrace();
 		}
 		return "redirect:/my-trip";
 	}
-	
+
 	@GetMapping("/blog")
-	public String getAll( Model model) {
+	public String getAll(Model model) {
 		model.addAttribute("blogs", blogService.getAllBlog());
 		return "pages/blog";
 	}
 
 	@GetMapping("/blog/{id}/{title-blog}")
-	public String getdetailBlog( Model model, @PathVariable(name = "id") int id) {
+	public String getdetailBlog(Model model, @PathVariable(name = "id") int id) {
 		model.addAttribute("blog", blogService.getBlogById(id));
 		model.addAttribute("blogs", blogService.getAllBlog());
 		return "pages/detail-blog";
 	}
-	
+
 	@GetMapping("/my-contract")
 	public String getContract(Model model, HttpServletRequest request) {
-		HttpSession session= request.getSession();
-		User user = (User) session.getAttribute("user");
-		if(user==null) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("sesionUser");
+		if (user == null) {
 			return "redirect:/login";
 		}
 		model.addAttribute("user", user);
+		model.addAttribute("sessionUser", user);
 		model.addAttribute("listContract", contractService.getAllContract());
+		List<RequestWithdrawal> listRequestWithdrawals=
+				requestWithdrawalService.getAllRequestWithdrawByIdUserOrderByCreateDate(user.getIdUser());
+		model.addAttribute("listRequestWithdraw", listRequestWithdrawals);
 		return "pages/my-contract";
 	}
-	
-	@GetMapping({"/my-walet", "/analysis"})
+
+	@GetMapping({ "/my-walet", "/analysis" })
 	public String geMytWalet(Model model, HttpServletRequest request) {
-		HttpSession session= request.getSession();
-		User user = (User) session.getAttribute("user");
-		if(user==null) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("sesionUser");
+		if (user == null) {
 			return "redirect:/login";
 		}
 		model.addAttribute("user", user);
+		model.addAttribute("sessionUser", user);
+		List<RequestWithdrawal> listRequestWithdrawals=
+				requestWithdrawalService.getAllRequestWithdrawByIdUserOrderByCreateDate(user.getIdUser());
+		model.addAttribute("listRequestWithdraw", listRequestWithdrawals);
+		model.addAttribute("requestWithdrawal", new RequestWithdrawal());
 		return "pages/my-walet";
 	}
-	
+
 	@PostMapping("/analysis")
 	public String getAnalystic(Model model, HttpServletRequest request, @RequestParam("dateStart") String dateStart,
 			@RequestParam("dateEnd") String dateEnd) {
-		HttpSession session= request.getSession();
-		User user = (User) session.getAttribute("user");
-		if(user==null) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("sesionUser");
+		model.addAttribute("requestWithdrawal", new RequestWithdrawal());
+		if (user == null) {
 			return "redirect:/login";
 		}
 		model.addAttribute("user", user);
-		List<Booking> list= bookingService.getAllBookingOnTimeByIdUserHaveCar(dateStart, dateEnd, STATUS_PAYMENT, user.getIdUser());
+		List<Booking> list = bookingService.getAllBookingOnTimeByIdUserHaveCar(dateStart, dateEnd, STATUS_PAYMENT,
+				user.getIdUser());
 		System.err.println(list.toString());
-		model.addAttribute("listBooking", 
-				bookingService.getAllBookingOnTimeByIdUserHaveCar(dateStart, dateEnd, STATUS_PAYMENT, user.getIdUser()));
-		String[] array= bookingService.sumRevenueOnTimeByIdUser(dateStart, dateEnd, STATUS_PAYMENT, user.getIdUser());
+		model.addAttribute("listBooking", bookingService.getAllBookingOnTimeByIdUserHaveCar(dateStart, dateEnd,
+				STATUS_PAYMENT, user.getIdUser()));
+		String[] array = bookingService.sumRevenueOnTimeByIdUser(dateStart, dateEnd, STATUS_PAYMENT, user.getIdUser());
 		String valueNgay = "";
 		valueNgay += "[";
 		String valueTongTien = "";
-		valueTongTien += "[";	
-		for( int i=0; i<array.length;i++) {
+		valueTongTien += "[";
+		for (int i = 0; i < array.length; i++) {
 			System.err.println(array[i]);
-			String[] arra= array[i].split(",");
-			valueNgay=valueNgay+ "\""+arra[0]+"\""+"," ;
-			valueTongTien=valueTongTien+ arra[1]+",";
+			String[] arra = array[i].split(",");
+			valueNgay = valueNgay + "\"" + arra[0] + "\"" + ",";
+			valueTongTien = valueTongTien + arra[1] + ",";
 		}
-		valueNgay=valueNgay.substring(0, valueNgay.length()-1);
-		valueTongTien=valueTongTien.substring(0,valueTongTien.length()-1);
-		valueNgay=valueNgay+"]";
-		valueTongTien=valueTongTien+"]";
+		valueNgay = valueNgay.substring(0, valueNgay.length() - 1);
+		valueTongTien = valueTongTien.substring(0, valueTongTien.length() - 1);
+		valueNgay = valueNgay + "]";
+		valueTongTien = valueTongTien + "]";
 		model.addAttribute("valueDate", valueNgay);
 		model.addAttribute("totalMoney", valueTongTien);
 		return "pages/my-walet";
+	}
+	
+	@GetMapping({ "/withdraw" })
+	public String requestWithdrawMoney(Model model, HttpServletRequest request,
+			@ModelAttribute("requestWithdrawal") RequestWithdrawal requestWithdrawal) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("sesionUser");
+		if (user == null) {
+			return "redirect:/login";
+		}
+		model.addAttribute("user", user);
+		model.addAttribute("sessionUser", user);
+		requestWithdrawal.setCreateDate(new Date());
+		requestWithdrawal.setUpdateDate(new Date());
+		requestWithdrawal.setStatusRequest(STATUS_PENDING);
+		requestWithdrawal.setUser(user);
+		requestWithdrawal.setNameAccount(requestWithdrawal.getNameAccount().toUpperCase());
+		requestWithdrawalService.saveRequestWithdrawal(requestWithdrawal);
+		user.setTotalMoney(user.getTotalMoney()-requestWithdrawal.getMoneyNumber());
+		userService.saveUser(user);
+		return "redirect:/my-walet";
 	}
 }

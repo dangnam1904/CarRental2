@@ -14,69 +14,138 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.CarRental2.model.Blog;
+import com.project.CarRental2.model.User;
 import com.project.CarRental2.service.BlogService;
+import com.project.CarRental2.service.EncryptionPassword;
 import com.project.CarRental2.service.UploadFileImpl;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/admin")
 public class BlogController {
 	@Autowired
 	private BlogService blogService;
-	
+
 	@GetMapping("/blog/add")
-	public String getForm( Model model) {
-		model.addAttribute("blog", new Blog());
-		return "admin/pages/blogs/add";
+	public String getForm(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if (sessionUser != null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				model.addAttribute("blog", new Blog());
+				return "admin/pages/blogs/add";
+			} else {
+				return "redirect:/login";
+			}
+		} else {
+			return "redirect:/login";
+		}
+
 	}
-	
-	
+
 	@GetMapping("/blog")
-	public String getAll( Model model) {
-		model.addAttribute("blogs", blogService.getAllBlog());
-		return "admin/pages/blogs/list";
+	public String getAll(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if (sessionUser != null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				model.addAttribute("blogs", blogService.getAllBlog());
+				return "admin/pages/blogs/list";
+			} else {
+				return "redirect:/login";
+			}
+		} else {
+			return "redirect:/login";
+		}
+
 	}
-	
+
 	@PostMapping("/blog/add")
 	public String saveBlogs(@ModelAttribute("blog") Blog blog,
-			@RequestParam(name ="image", required = false) MultipartFile img) {
-		UploadFileImpl upload= new UploadFileImpl();
-		blog.setImageBlog( upload.uploadSingleFile(img));
-		blog.setCreateDate(new Date());
-		blog.setUpdateDate(new Date());
-		System.err.println(blog.toString());
-		blogService.saveBlog(blog);
-		return "redirect:/admin/blog";
+			@RequestParam(name = "image", required = false) MultipartFile img, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if (sessionUser != null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				UploadFileImpl upload = new UploadFileImpl();
+				blog.setImageBlog(upload.uploadSingleFile(img));
+				blog.setCreateDate(new Date());
+				blog.setUpdateDate(new Date());
+				System.err.println(blog.toString());
+				blogService.saveBlog(blog);
+				return "redirect:/admin/blog";
+			} else {
+				return "redirect:/login";
+			}
+		} else {
+			return "redirect:/login";
+		}
 	}
-	
+
 	@GetMapping("/blog/edit/{id}")
-	public String editBlog( Model model, @PathVariable(name="id") int idBlog ) {
-		model.addAttribute("blog", blogService.getBlogById(idBlog));
-		return "admin/pages/blogs/edit";
+	public String editBlog(Model model, @PathVariable(name = "id") int idBlog, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if (sessionUser != null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				model.addAttribute("blog", blogService.getBlogById(idBlog));
+				return "admin/pages/blogs/edit";
+			} else {
+				return "redirect:/login";
+			}
+		} else {
+			return "redirect:/login";
+		}
 	}
+
 	@GetMapping("/blog/delete/{id}")
-	public String deleteBlog( Model model, @PathVariable(name="id") int idBlog ) {
-		blogService.deleteBlog(idBlog);
-		return "redirect:/admin/blog";
+	public String deleteBlog(Model model, @PathVariable(name = "id") int idBlog, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if (sessionUser != null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				blogService.deleteBlog(idBlog);
+				return "redirect:/admin/blog";
+			} else {
+				return "redirect:/login";
+			}
+		} else {
+			return "redirect:/login";
+		}
+
 	}
-	
+
 	@PostMapping("/blog/edit")
 	public String saveEditBlogs(@ModelAttribute("blog") Blog blog,
-			@RequestParam(name ="image", required = false) MultipartFile img) {
-		Blog oldBlog= blogService.getBlogById(blog.getIdBlog());
-		UploadFileImpl upload= new UploadFileImpl();
-		if(img.getOriginalFilename()=="") {
-			
-			blog.setImageBlog(oldBlog.getImageBlog());
-		}else {
-			upload.removeFile(oldBlog.getImageBlog());
-			blog.setImageBlog( upload.uploadSingleFile(img));
+			@RequestParam(name = "image", required = false) MultipartFile img, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User sessionUser = (User) session.getAttribute("sesionUser");
+		if (sessionUser != null) {
+			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+				Blog oldBlog = blogService.getBlogById(blog.getIdBlog());
+				UploadFileImpl upload = new UploadFileImpl();
+				if (img.getOriginalFilename() == "") {
+
+					blog.setImageBlog(oldBlog.getImageBlog());
+				} else {
+					upload.removeFile(oldBlog.getImageBlog());
+					blog.setImageBlog(upload.uploadSingleFile(img));
+				}
+
+				blog.setCreateDate(oldBlog.getCreateDate());
+				blog.setUpdateDate(new Date());
+				System.err.println(blog.toString());
+				blogService.saveBlog(blog);
+				return "redirect:/admin/blog";
+			} else {
+				return "redirect:/login";
+			}
+		} else {
+			return "redirect:/login";
 		}
-		
-		blog.setCreateDate(oldBlog.getCreateDate());
-		blog.setUpdateDate(new Date());
-		System.err.println(blog.toString());
-		blogService.saveBlog(blog);
-		return "redirect:/admin/blog";
+
 	}
-	
+
 }

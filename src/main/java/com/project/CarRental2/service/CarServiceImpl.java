@@ -99,5 +99,19 @@ public class CarServiceImpl implements CarService {
 		return repository.findCarByUserIdUserAndStatusOrderByNameCar(id_user, status);
 	}
 	
+	@Override
+	public void updatePromotionalPriceCar(int promotionalPrice) {
+		repository.updatePromotionalPriceCar(promotionalPrice);
+	}
+	
+	@Override
+	public List<Car> findCarByNameCarContaining(String nameCar) {
+		
+		return repository.findCarByNameCarContaining(nameCar);
+	}
 
+	@Override
+	public void resetPromotionalPriceCar(int oldPromotionalPrice, int idCar) {
+		repository.resetPromotionalPriceCar(oldPromotionalPrice, idCar);
+	}
 }

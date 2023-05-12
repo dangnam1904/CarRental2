@@ -17,7 +17,7 @@
 			<li> <i class="fa-solid fa-cart-shopping"></i><a th:href="@{/my-bill}"> Đơn hàng</a></li>
 			<li><i class="fa-solid fa-truck-fast"></i><a th:href="@{/my-trip}"> Chuyến đi</a></li>
 			<li style="border-right: none"><i class="fas fa-wallet"></i> <a th:href="@{/my-walet}" 
-				th:utext=" ' Số dư: '+ ${#numbers.formatInteger(user.totalMoney,3,'POINT')}+ 'đ'">
+				th:utext=" 'Số dư: '+ ${#numbers.formatInteger(user.totalMoney,3,'POINT')}+ 'đ'">
 			</a></li>
 		</ul>
 	</div>

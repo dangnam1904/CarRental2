@@ -3,6 +3,8 @@ package com.project.CarRental2.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,9 +12,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,22 +30,33 @@ public class Notification {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idNoti;
+	
+	@Column(columnDefinition = "nvarchar(200)")
 	private String image;
+	
+	@Column(columnDefinition = "nvarchar(500)")
+	private String titleNoti;
+	
 	@Column(columnDefinition = "nvarchar(2000)")
 	private String contentNoti;
-	
+
 	private Date createDate;
 	private Date updateDate;
+
+	@OneToMany(mappedBy = "notification", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
+	private List<DetailNotification> detailNotifications;
+
+	public Notification(int idNoti, String image, String titleNoti, String contentNoti, Date createDate,
+			Date updateDate) {
+		this.idNoti = idNoti;
+		this.image = image;
+		this.titleNoti = titleNoti;
+		this.contentNoti = contentNoti;
+		this.createDate = createDate;
+		this.updateDate = updateDate;
+	}
 	
-	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	    // Quan hệ n-n với đối tượng ở dưới (Notication) (1 thông báo có nhiều người có)
-	    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-	    @ToString.Exclude // Khoonhg sử dụng trong toString()
-
-	    @JoinTable(name = "detail_notification",
-
-	            joinColumns = @JoinColumn(name = "id_noti"),
-	            inverseJoinColumns = @JoinColumn(name = "id_user")
-	    )
-	    private List<User> users;
 }
