@@ -43,4 +43,10 @@ public class RequestWithdrawalServiceImpl  implements RequestWithdrawalService{
 	public List<RequestWithdrawal> getAllRequestWithdrawOrderByCreateDate() {
 		return repository.getAllWithdrawal();
 	}
+	
+	@Override
+	public void changeStatusRequestWithdraw(int stausRequest, int idRequest) {
+		repository.changeStatusRequestPayment(stausRequest, idRequest);
+		
+	}
 }

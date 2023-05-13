@@ -62,12 +62,12 @@
 										<tr>
 											<th>ID</th>
 											<th style="display: none;">Id </th>
-											<th>Tên sự kiện</th>
-											<th>Ngày bắt đầu</th>
-											<th>Ngày kết thúc</th>
-											<th>Giảm giá</th>
-											<th>Ngày tạo</th>
-											<th>Ngày sửa</th>
+											<th>Ngân hàng</th>
+											<th>Số tài khoản</th>
+											<th>Chủ TK</th>
+											<th>Tổng tiền</th>
+											<th>Trạng thái</th>
+											<th>Ngày y/c</th>
 											<th>Thao tác</th>
 										</tr>
 									</thead>
@@ -76,26 +76,29 @@
 										<tr th:each="l,index : ${list}">
 											<td th:text="${index.count}"></td>
 											<td th:text="${l.idRequest}" style="display: none;"></td>
-											<td th:text="${l.nameBank}"></td>
-											<td th:text="${l.dateStartEvent}"></td>
-											
+											<td th:text="${l.nameBank}"></td>											
 											<td th:text="${l.accountNumber}"></td>
-											<td th:text="${l.discount}"></td>
-											
 											<td th:text="${l.nameAccount}"></td>
 											<td th:text="${l.moneyNumber}"></td>
-											<td th:text="${l.statusRequest}"></td>
-											<td th:text="${l.statusRequest}"></td>
+											<th:block th:if="${l.statusRequest==0}">
+											<td> Chờ duyệt</td>
+											</th:block>
+											<th:block th:if="${l.statusRequest==1}">
+											<td> Đã duyệt</td>
+											</th:block>
+											<th:block th:if="${l.statusRequest==3}">
+											<td> Không duyệt</td>
+											</th:block>
+											<td th:text="${l.createDate}"></td>
 											
 											<td>
 												<div class="div_action">
 													<a class="btn btn-success"
-														th:href="@{'/admin/changeStatus/'+${l.idRequest}}"><span><i
+														th:href="@{'/admin/request-withdraw/status-approve/'+${l.idRequest}}"><span><i
 															class="fa fa-edit"></i></span> Duyệt</a>
-													<button class="btn btn-secondary"
-														th:onclick="Delete([[${event.idEvent}]])">
-														<span><i class="fa fa-trash-o"></i></span> Xóa
-													</button>
+													<a class="btn btn-success" style="background: #db4949"
+														th:href="@{'/admin/request-withdraw/status-cancel/'+${l.idRequest}}"><span><i
+															class="fa fa-edit"></i></span> Không duyệt</a>
 												</div>
 											</td>
 										</tr>

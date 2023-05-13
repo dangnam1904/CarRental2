@@ -4,7 +4,6 @@ $(document).ready(function() {
 	const carNoDriver = document.querySelector("#carouselCarNotDriver");
 	const carDriver = document.querySelector("#carouselCarDriver");
 	const addressNotCarDriver = document.querySelector("#carouselAddressNotCarDriver");
-	document.getElementById("content-noti").style.visibility="hidden"
 
 	const imgCar = document.querySelector('#carouselImgCar');
 	if (imgCar != null) {
@@ -59,7 +58,7 @@ function carouselImgCar() {
 }
 function carouselTinhNang() {
 	const multipleItemCarousel = document.querySelector("#carouselTinhNang");
-
+	 console.log(multipleItemCarousel);
 	if (window.matchMedia("(min-width:576px)").matches) {
 		const carousel = new bootstrap.Carousel(multipleItemCarousel, {
 			interval: false
@@ -67,6 +66,7 @@ function carouselTinhNang() {
 		var carouselWidth = $(".carousel-inner-tt")[0].scrollWidth;
 		var cardWidth = $(".carousel-item-tt").width();
 		var scrollPosition = 0;
+		console.log(cardWidth, carouselWidth)
 
 		$("#carousel-control-next-tt").on("click", function() {
 			if (scrollPosition < carouselWidth - cardWidth * 4) {
@@ -292,7 +292,6 @@ $(document).ready(function() {
 	const datetimeStringStart = `${year}-${month}-${day}T${hours}:${minutes}`;
 	const datetimeStringEnd = `${year}-${month}-${dayEnd}T${hours}:${minutes}`;
 
-    console.log(datetimeStringEnd);
 	document.getElementById("inputDateStart").value = datetimeStringStart;
 	document.getElementById("inputDateEnd").value = datetimeStringEnd;
 
@@ -426,6 +425,9 @@ function getWard(id) {
 	})
 }
 
+$(document).ready(function() {
+	document.getElementById("content-noti").style.visibility="hidden"
+})
 var click= 1;
 function openNotification(){
 	click=click+1;

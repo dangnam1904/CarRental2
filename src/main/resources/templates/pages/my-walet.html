@@ -74,6 +74,12 @@
 								<th:block th:if="${r.statusRequest==0}">
 								<td> Chờ duyệt</td>
 								</th:block>
+								<th:block th:if="${r.statusRequest==1}">
+								<td> Đã duyệt</td>
+								</th:block>
+									<th:block th:if="${r.statusRequest==3}">
+								<td> Không duyệt</td>
+								</th:block>
 							</tr>
 
 						</table>

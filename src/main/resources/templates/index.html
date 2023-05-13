@@ -286,9 +286,8 @@
 
 		<h4 class="title-content">XE NỔI BẬT - XE CÓ TÀI XẾ</h4>
 		<div id="carouselCarDriver" class="carousel" data-bs-ride="carousel">
-			<div class="carousel-inner carousel-inner-driver"
-				th:each="c : ${carHasDriver}">
-				<div class="carousel-item-driver">
+			<div class="carousel-inner carousel-inner-driver">
+				<div class="carousel-item-driver" th:each="c : ${carHasDriver}">
 					<div class="card">
 						<div class="card-body-car">
 							<a th:href="@{'/car-detail/'+${c.idCar}+'/'+${c.nameCar}}"> <img

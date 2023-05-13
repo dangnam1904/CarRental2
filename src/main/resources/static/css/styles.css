@@ -20,7 +20,7 @@ li {
 
 .navbar-nav a {
 	color: black;
-	font-size: 18px;
+	font-size: 17px;
 	font-weight: 500;
 	padding: 10px 15px;
 	opacity: 0.5;
@@ -337,7 +337,12 @@ li {
 	height: 350px;
 	border-radius: 10px;
 }
-
+.card-body-car a{
+	padding: 0;
+}
+.icon a{
+	padding: 5px;
+}
 .card-body-car a {
 	text-decoration: none;
 }

@@ -24,4 +24,9 @@ public interface RequestWithdrawalRepository extends JpaRepository<RequestWithdr
 	@Transactional
 	@Query(value = "select * from request_withdrawal where id_user=:idUser order by create_date desc", nativeQuery = true)
 	List<RequestWithdrawal> getAllWithdrawalByIdUser(@Param("idUser") int idUser);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "update request_withdrawal set  status_request=:stausRequest  where id_request=:idRequest",nativeQuery = true)
+	void changeStatusRequestPayment(@Param("stausRequest") int stausRequest, @Param("idRequest") int idRequest);
 }

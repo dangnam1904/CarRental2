@@ -11,4 +11,6 @@ public interface RequestWithdrawalService {
 	List<RequestWithdrawal> getAllRequestWithdrawByIdUserOrderByCreateDate(int idUser);
 	RequestWithdrawal getRequestWithdrawalById(int idReq);
 	void deleteRequestWithdrawal(int idReq);
+	void changeStatusRequestWithdraw(int stausRequest, int idRequest);
+	
 }
