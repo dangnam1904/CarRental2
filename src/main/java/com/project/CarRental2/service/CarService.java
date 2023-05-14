@@ -18,7 +18,7 @@ public interface CarService {
 	List<Car> getAllCarByDriverOderByName(boolean driver);
 	List<Car> getAllCarByDriverInAddressOrderByName(boolean driver,String address);
 	List<Car> getAllCarByDriverInAddressAndPromotionalPriceOderByName(boolean driver,String address);
-	List<Car> findCarOnTimeByDriverAndAddress(boolean driver, String address, String dateStart, String dateEnd);
+	List<Car> findCarOnTimeByDriverAndAddress(boolean driver, String address, String dateStart, String dateEnd, int status);
 	int countCar();
 	List<Car> getAllCarByDriverAndStatusCarOderByName(boolean driver, int status);
 	List<Car> findCarByUserIdUserAndStatusOrderByNameCar(int id_user, int status);

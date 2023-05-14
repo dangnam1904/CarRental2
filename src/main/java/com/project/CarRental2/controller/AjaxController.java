@@ -114,9 +114,9 @@ public class AjaxController implements FiledName {
 		String[] arrdateEnd = dateEnd.split("T");
 		List<Car> listCar = new ArrayList<>();
 		if (driver == true) {
-			listCar = carService.findCarOnTimeByDriverAndAddress(HAS_DRIVERS, address, arrdateStart[0], arrdateEnd[0]);
+			listCar = carService.findCarOnTimeByDriverAndAddress(HAS_DRIVERS, address, arrdateStart[0], arrdateEnd[0], STATUS_APPROVED);
 		} else {
-			listCar = carService.findCarOnTimeByDriverAndAddress(NO_DRIVERS, address, arrdateStart[0], arrdateEnd[0]);
+			listCar = carService.findCarOnTimeByDriverAndAddress(NO_DRIVERS, address, arrdateStart[0], arrdateEnd[0], STATUS_APPROVED);
 		}
 		listCarWithNewAddress = HomePageController.setListNewAddress(listCar);
 		System.err.println(listCarWithNewAddress);

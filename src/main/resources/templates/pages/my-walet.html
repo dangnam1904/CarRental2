@@ -19,7 +19,7 @@
 			</div>
 			<div class="content-walet">
 				<div class="form-anlysist">
-					<form action="/analysis" method="post">
+					<form action="/my-walet" method="get">
 						<div class="row">
 							<div class="col-md-4 col-sm-4">
 								<div class="form-group">
@@ -72,62 +72,19 @@
 								<td th:text="${r.moneyNumber}"></td>
 								<td th:text="${r.createDate}"></td>
 								<th:block th:if="${r.statusRequest==0}">
-								<td> Chờ duyệt</td>
+									<td>Chờ duyệt</td>
 								</th:block>
 								<th:block th:if="${r.statusRequest==1}">
-								<td> Đã duyệt</td>
+									<td>Đã duyệt</td>
 								</th:block>
-									<th:block th:if="${r.statusRequest==3}">
-								<td> Không duyệt</td>
+								<th:block th:if="${r.statusRequest==3}">
+									<td>Không duyệt</td>
 								</th:block>
 							</tr>
 
 						</table>
 					</div>
 				</div>
-
-				<style>
-.content {
-	position: absolute;
-	top: 60px;
-	left: 55px;
-	overflow-x: auto;
-}
-
-.content table {
-	border-collapse: collapse;
-	border-spacing: 0;
-	width: 100%;
-	border: 1px solid #ddd;
-}
-
-.content th, td {
-	text-align: left;
-	padding: 8px;
-}
-
-.content tr:nth-child(even) {
-	background-color: #f2f2f2
-}
-
-.popupHistory {
-	text-align: center;
-	width: 900px;
-	height: 400px;
-	overflow: auto;
-	background:#c8d7d7;
-	margin: 20px 10px;
-	padding: 5px 10px;
-	position: absolute;;
-	top: 0;
-	left: 50%;
-	transform: translate(-50%, -50%) scale(0.1);
-	visibility: hidden;
-	border-radius: 6px;
-	transition: transform 0.4s, top 0.4s;
-	width: 900px;
-}
-</style>
 				<div id=popupWithdraw class="popup">
 					<form action="/withdraw" method="get"
 						th:object=${requestWithdrawal} id="form-withdraw">
@@ -161,7 +118,7 @@
 						</div>
 					</form>
 				</div>
-				<div class="my-car">
+				 <div class="my-car">
 					<table class="table-car">
 						<thead>
 							<tr>
@@ -300,6 +257,47 @@
 	background: #e8eaef;
 	margin: 0px auto;
 	padding: 0 15px;
+}
+
+.content {
+	position: absolute;
+	top: 60px;
+	left: 55px;
+	overflow-x: auto;
+}
+
+.content table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	border: 1px solid #ddd;
+}
+
+.content th, td {
+	text-align: left;
+	padding: 8px;
+}
+
+.content tr:nth-child(even) {
+	background-color: #f2f2f2
+}
+
+.popupHistory {
+	text-align: center;
+	width: 900px;
+	height: 400px;
+	overflow: auto;
+	background:#c8d7d7;
+	margin: 20px 10px;
+	padding: 5px 10px;
+	position: absolute;;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0.1);
+	visibility: hidden;
+	border-radius: 6px;
+	transition: transform 0.4s, top 0.4s;
+	width: 900px;
 }
 </style>
 

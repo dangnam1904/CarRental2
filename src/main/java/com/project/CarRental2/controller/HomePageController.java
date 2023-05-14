@@ -270,9 +270,9 @@ public class HomePageController implements FiledName {
 		String[] arrdateEnd = dateEnd.split("T");
 		List<Car> listCar = new ArrayList<>();
 		if (driver == true) {
-			listCar = carService.findCarOnTimeByDriverAndAddress(HAS_DRIVERS, address, arrdateStart[0], arrdateEnd[0]);
+			listCar = carService.findCarOnTimeByDriverAndAddress(HAS_DRIVERS, address, arrdateStart[0], arrdateEnd[0],STATUS_APPROVED);
 		} else {
-			listCar = carService.findCarOnTimeByDriverAndAddress(NO_DRIVERS, address, arrdateStart[0], arrdateEnd[0]);
+			listCar = carService.findCarOnTimeByDriverAndAddress(NO_DRIVERS, address, arrdateStart[0], arrdateEnd[0],STATUS_APPROVED);
 		}
 		List<Car> listCarWithNewAddress = HomePageController.setListNewAddress(listCar);
 		System.err.println(listCarWithNewAddress);
@@ -554,8 +554,12 @@ public class HomePageController implements FiledName {
 		return "pages/my-contract";
 	}
 
-	@GetMapping({ "/my-walet", "/analysis" })
-	public String geMytWalet(Model model, HttpServletRequest request) {
+	@GetMapping({ "/my-walet", "/analysis"})
+	public String geMytWalet(Model model, HttpServletRequest request,
+			@RequestParam(name="dateStart", required = false) String dateStart,
+			@RequestParam(name="dateEnd", required = false) String dateEnd) {
+		System.err.println(dateStart);
+		
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("sesionUser");
 		if (user == null) {
@@ -567,43 +571,32 @@ public class HomePageController implements FiledName {
 				requestWithdrawalService.getAllRequestWithdrawByIdUserOrderByCreateDate(user.getIdUser());
 		model.addAttribute("listRequestWithdraw", listRequestWithdrawals);
 		model.addAttribute("requestWithdrawal", new RequestWithdrawal());
+		
+		if( dateEnd !=null && dateStart != null) {
+			model.addAttribute("listBooking", bookingService.getAllBookingOnTimeByIdUserHaveCar(dateStart, dateEnd,
+					STATUS_PAYMENT, user.getIdUser()));
+			String[] array = bookingService.sumRevenueOnTimeByIdUser(dateStart, dateEnd, STATUS_PAYMENT, user.getIdUser());
+			String valueNgay = "";
+			valueNgay += "[";
+			String valueTongTien = "";
+			valueTongTien += "[";
+			for (int i = 0; i < array.length; i++) {
+				System.err.println(array[i]);
+				String[] arra = array[i].split(",");
+				valueNgay = valueNgay + "\"" + arra[0] + "\"" + ",";
+				valueTongTien = valueTongTien + arra[1] + ",";
+			}
+			valueNgay = valueNgay.substring(0, valueNgay.length() - 1);
+			valueTongTien = valueTongTien.substring(0, valueTongTien.length() - 1);
+			valueNgay = valueNgay + "]";
+			valueTongTien = valueTongTien + "]";
+			model.addAttribute("valueDate", valueNgay);
+			model.addAttribute("totalMoney", valueTongTien);
+		}
 		return "pages/my-walet";
 	}
 
-	@PostMapping("/analysis")
-	public String getAnalystic(Model model, HttpServletRequest request, @RequestParam("dateStart") String dateStart,
-			@RequestParam("dateEnd") String dateEnd) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
-		model.addAttribute("requestWithdrawal", new RequestWithdrawal());
-		if (user == null) {
-			return "redirect:/login";
-		}
-		model.addAttribute("user", user);
-		List<Booking> list = bookingService.getAllBookingOnTimeByIdUserHaveCar(dateStart, dateEnd, STATUS_PAYMENT,
-				user.getIdUser());
-		System.err.println(list.toString());
-		model.addAttribute("listBooking", bookingService.getAllBookingOnTimeByIdUserHaveCar(dateStart, dateEnd,
-				STATUS_PAYMENT, user.getIdUser()));
-		String[] array = bookingService.sumRevenueOnTimeByIdUser(dateStart, dateEnd, STATUS_PAYMENT, user.getIdUser());
-		String valueNgay = "";
-		valueNgay += "[";
-		String valueTongTien = "";
-		valueTongTien += "[";
-		for (int i = 0; i < array.length; i++) {
-			System.err.println(array[i]);
-			String[] arra = array[i].split(",");
-			valueNgay = valueNgay + "\"" + arra[0] + "\"" + ",";
-			valueTongTien = valueTongTien + arra[1] + ",";
-		}
-		valueNgay = valueNgay.substring(0, valueNgay.length() - 1);
-		valueTongTien = valueTongTien.substring(0, valueTongTien.length() - 1);
-		valueNgay = valueNgay + "]";
-		valueTongTien = valueTongTien + "]";
-		model.addAttribute("valueDate", valueNgay);
-		model.addAttribute("totalMoney", valueTongTien);
-		return "pages/my-walet";
-	}
+	
 	
 	@GetMapping({ "/withdraw" })
 	public String requestWithdrawMoney(Model model, HttpServletRequest request,

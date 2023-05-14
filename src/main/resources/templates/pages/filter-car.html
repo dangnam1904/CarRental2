@@ -43,7 +43,7 @@
 				<div class="col-md-4 filter-left">
 					<div class="sort-item">
 						<h6>Sắp xếp</h6>
-						<select name="sort-price" id="">
+						<select name="sort-price" id="sort-price" onchange="filterCar()">
 							<option value="min">Giá thấp nhất</option>
 							<option value="max">Giá cao nhất</option>
 							<option value="">Đánh giá cao</option>
@@ -107,7 +107,7 @@
 							value="Bỏ lọc">
 					</div>
 				</div>
-				<div class="col-md-8 car-content">
+				<div class="col-md-8 car-content" id="car-content">
 					<div class="container" th:if="${#lists.isEmpty(listCar)}"
 						th:text="'Không có xe nào'"
 						style="text-align: center; margin: 30px 10px; height: 100px; padding: 25px; background: aliceblue; font-size: 22px; font-weight: 500;">
@@ -122,7 +122,7 @@
 									<h5 th:text="${c.nameCar}" class="name-car">Tên xe</h5>
 									<div class="characteristic d-flex">
 										<p
-											th:text="${c. manualTransmissionCar} ? 'Số sàn' : 'Số tự động'">Số
+											th:text="${c.manualTransmissionCar} ? 'Số sàn' : 'Số tự động'">Số
 											sàn</p>
 										<p>Giao xe tận nơi</p>
 									</div>
@@ -130,7 +130,6 @@
 										style="margin-top: 15px;"></p>
 									<input type="hidden" th:value="${c.idCar}" class="id-car">
 									<p class="sum-delivery">SỐ chuyến</p>
-									<span>
 								</div>
 								<div class="price-car d-flex">
 									<div class="price-km">
@@ -146,7 +145,174 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="col-md-8 contain-car" style="background-color: rgb(247, 247, 247);">
+			<!-- Deatail car -->
+		</div>
+	</div>
+	<style>
+</style>
+</body>
+<script>
+	var slider = document.getElementById("myRange");
+	var output = document.getElementById("demo");
+	/* Hiển thị giá trị mặc định 50 cho thẻ span với id là demo*/
+	output.innerHTML = slider.value;
+
+	/* cập nhật giá trị hiện tại của ranger slider*/
+	slider.oninput = function() {
+		output.innerHTML = this.value;
+	}
+
+	var fuel = document.getElementById("fuel");
+	var fuelPrice = document.getElementById("fuel-price");
+	fuelPrice.innerHTML = fuel.value;
+	fuel.oninput = function() {
+		fuelPrice.innerHTML = this.value;
+	}
+
+	function filterCar() {
+		var address = document.getElementById("addressCar")
+		var dateStart = document.getElementById("dateStart")
+		var dateEnd = document.getElementById("dateEnd")
+		var arrdateStart = dateStart.value.split("T");
+		var arrdateEnd = dateEnd.value.split("T");
+		var dateEnd = document.getElementById("dateEnd");
+		var sortPrice= document.getElementById("sort-price")
+		
+		var divCarContent= document.getElementById("car-content")
+		var a_hert= document.getElementsByClassName("link-car");
+		var image_car= document.getElementsByClassName("image-car-main");
+		var name_car= document.getElementsByClassName("name-car");
+		 window.location.href="/filter?address="+address.value+"&dateStart="+dateStart.value+"&dateEnd="+dateEnd.value+"&driver=false&sortPrice="+sortPrice.value
+		/* 
+		 $.ajax({
+			url : "/filter-car",
+			data : {
+				address : address.value,
+				dateStart : dateStart.value,
+				dateEnd : dateEnd.value,
+				driver : 'false'
+			},
+			type : "get",
+			responseType : "application/json"
+		}).done(function(ketqua) {
+			console.log(ketqua.length);
+			console.log(ketqua);
+			if(ketqua.length>0){
+				for( let i=0; i<ketqua.length; i++){
+					let div = document.createElement('div');
+					
+					div.className = 'car-item';
+					let a = document.createElement('a');
+					a.className="link-car"
+					a.setAttribute("href",'car-detail/'+ketqua[i].idCar+'/'+ketqua[i].nameCar);
+					
+					let divShowImg = document.createElement('div');
+					divShowImg.className="show-img";
+					
+					let img = document.createElement('img');
+					img.src="/uploads/"+ketqua[i].avatarCar;
+					divShowImg.appendChild(img);
+					
+					let divCarText = document.createElement('div');
+					divCarText.className="car-text";
+					let divInfoCar = document.createElement('div');
+					divInfoCar.className="info-car"
+					
+					let h5 = document.createElement('h5');
+					h5.className="name-car";
+					h5.innerText=ketqua[i].nameCar;
+					divInfoCar.appendChild(h5);
+				
+					let divCharacteristic= document.createElement('div');
+					divCharacteristic.className="characteristic d-flex";
+					divInfoCar.appendChild(divCharacteristic);
+					
+					let p= document.createElement('p');
+					
+					
+					
+					let pAddress= document.createElement('p');
+					pAddress.innerText="Địa chỉ: "+ketqua[i].addressCar;
+					divInfoCar.appendChild(pAddress);
+					
+					let pSumDelivery= document.createElement('p');
+					
+					let input= document.createElement('input');
+					input.className="id-car"
+					input.value=ketqua[i].idCar
+					input.type="hidden"
+					divInfoCar.appendChild(input);
+					pSumDelivery.className="sum-delivery"
+					divInfoCar.appendChild(pSumDelivery);
+					
+					let p1= document.createElement('p');
+					p1.innerText="Giao xe tận nơi"
+					if(ketqua[i].manualTransmissionCar==true){
+						p.innerText="Số tự động"
+					}else{
+						p.innerText="Số sàn"
+					}
+					divCharacteristic.appendChild(p)
+					divCharacteristic.appendChild(p1)
+					divCarText.appendChild(divInfoCar)
+					
+					a.appendChild(divShowImg)
+					
+					a.appendChild(divCarText)
+					
+					let divPriceCar= document.createElement('div');
+					divPriceCar.className="price-car d-flex"
+					
+					let divPriceKm= document.createElement('div');
+					divPriceKm.className="price-km"
+					let pPriceKM= document.createElement('p');
+					pPriceKM.innerText=ketqua[i].price-ketqua[i].price*ketqua[i].promotionalPrice/100 +'K'
+					divPriceKm.appendChild(pPriceKM)
+					
+					let divPrice= document.createElement('div');
+					divPrice.className="price"
+					let pPrice= document.createElement('p');
+					pPrice.innerText=ketqua[i].price+ "K"
+					divPrice.appendChild(pPrice)
+					
+					divPriceCar.appendChild(divPriceKm)
+					divPriceCar.appendChild(divPrice)
+					divCarText.appendChild(divPriceCar)
+					
+					div.appendChild(a);
+					console.log(div);
+					divCarContent.appendChild(div);
+					
+					
+					 // create a new heading and add it to the div
+					let h2 = document.createElement('h2');
+					h2.textContent = 'Add h2 element to the div';
+					div.appendChild(h2);
+
+					// add div to the document
+					document.body.appendChild(div);
+
+					a_hert[i].setAttribute("href",'car-detail/'+ketqua[i].idCar+'/'+ketqua[i].nameCar);
+					image_car[i].src="/uploads/"+ketqua[i].avatarCar;
+					name_car[i].inneText=ketqua[i].nameCar; 
+				}
+			}
+			
+		})		
+		*/
+	}
+</script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<script th:src="@{/js/main.js}"></script>
+<script type="text/javascript">
+	
+</script>
+</html>
+
+<!-- <div class="col-md-8 contain-car" style="background-color: rgb(247, 247, 247);">
 				<div class="contain-car-title">
 					<h2> SUZUKI ERTIGA 2016</h2>
 					<p> Số chuyến 5</p>
@@ -479,71 +645,3 @@
 					<span class="visually-hidden">Next</span>
 				</button>
 			</div> -->
-
-		</div>
-	</div>
-	<style>
-</style>
-</body>
-<script>
-	var slider = document.getElementById("myRange");
-	var output = document.getElementById("demo");
-	/* Hiển thị giá trị mặc định 50 cho thẻ span với id là demo*/
-	output.innerHTML = slider.value;
-
-	/* cập nhật giá trị hiện tại của ranger slider*/
-	slider.oninput = function() {
-		output.innerHTML = this.value;
-	}
-
-	var fuel = document.getElementById("fuel");
-	var fuelPrice = document.getElementById("fuel-price");
-	fuelPrice.innerHTML = fuel.value;
-	fuel.oninput = function() {
-		fuelPrice.innerHTML = this.value;
-	}
-
-	function filterCar() {
-		var address = document.getElementById("addressCar")
-		var dateStart = document.getElementById("dateStart")
-		var dateEnd = document.getElementById("dateEnd")
-		var arrdateStart = dateStart.value.split("T");
-		var arrdateEnd = dateEnd.value.split("T");
-		var dateEnd = document.getElementById("dateEnd");
-		var a_hert= document.getElementsByClassName("link-car");
-		var image_car= document.getElementsByClassName("image-car-main");
-		var name_car= document.getElementsByClassName("name-car");
-		$.ajax({
-			url : "/filter-car",
-			data : {
-				address : address.value,
-				dateStart : dateStart.value,
-				dateEnd : dateEnd.value,
-				driver : 'false'
-			},
-			type : "get",
-			responseType : "application/json"
-		}).done(function(ketqua) {
-			console.log(ketqua.length);
-			console.log(ketqua);
-			if(ketqua.length>0){
-				for( let i=0; i<ketqua.length; i++){
-					a_hert[i].setAttribute("href",'car-detail/'+ketqua[i].idCar+'/'+ketqua[i].nameCar);
-					image_car[i].src="/uploads/"+ketqua[i].avatarCar;
-					name_car[i].inneText=ketqua[i].nameCar;
-				}
-			}
-			
-		})
-	}
-</script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-	crossorigin="anonymous"></script>
-<script th:src="@{/js/main.js}"></script>
-<script type="text/javascript">
-	
-</script>
-
-</html>
