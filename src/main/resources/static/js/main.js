@@ -220,6 +220,7 @@ function carouselDriver() {
 $(document).ready(function() {
 
 	var a = document.getElementsByClassName("name-car")
+	console.log(a);
 	var sumcar = document.getElementsByClassName("sum-car")
 	for (let i = 0; i < a.length; i++) {
 

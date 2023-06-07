@@ -150,7 +150,8 @@ public class CarController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ){
 				/* biến = Biểu thức logic ? Câu lệnh khi biểu thức trả về true : Câu lệnh khi biếu thức trả về false; */
 				List<Car> listCar= nameCar==null 
 						? carService.getAllCarWithUserAndBrandOrderByNameCarAsc()
@@ -174,7 +175,8 @@ public class CarController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				try {
 					carService.changeStatusCar(STATUS_PENDING, id);
 				} catch (JpaSystemException e) {
@@ -197,7 +199,8 @@ public class CarController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				try {
 					carService.changeStatusCar(STATUS_APPROVED, id);
 				} catch (JpaSystemException e) {
@@ -221,7 +224,8 @@ public class CarController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				model.addAttribute("car", new Car());
 				model.addAttribute("province", provinceService.getAllProvinceOrderByName());
 				model.addAttribute("brandcar", brandCarService.getAllBrandCarOderByNameAsc());
@@ -248,7 +252,8 @@ public class CarController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				List<Car> listCar = carService.getAllCarOrderByNameCarAsc();
 				for (Car c : listCar) {
 					if (c.getLicensePlates().equals(car.getLicensePlates())) {
@@ -284,7 +289,8 @@ public class CarController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ){
 
 				String[] arrayAddress = carService.getACarByIdCar(id_car).getAddressCar().split(",");
 				String province = arrayAddress[arrayAddress.length - 1];
@@ -313,7 +319,8 @@ public class CarController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				Car oldCar = carService.getACarByIdCar(car.getIdCar());
 				car.setAddressCar(car.getAddressCar() + "," + ward.getNameWard() + "," + district.getNameDistrict() + ","
 						+ province.getNameProvince());

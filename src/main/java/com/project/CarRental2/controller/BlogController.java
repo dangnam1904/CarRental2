@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.CarRental2.constants.FiledName;
 import com.project.CarRental2.model.Blog;
 import com.project.CarRental2.model.User;
 import com.project.CarRental2.service.BlogService;
@@ -24,7 +25,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/admin")
-public class BlogController {
+public class BlogController implements FiledName {
 	@Autowired
 	private BlogService blogService;
 
@@ -33,7 +34,8 @@ public class BlogController {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if (sessionUser != null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				model.addAttribute("blog", new Blog());
 				return "admin/pages/blogs/add";
 			} else {
@@ -50,7 +52,8 @@ public class BlogController {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if (sessionUser != null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				model.addAttribute("blogs", blogService.getAllBlog());
 				return "admin/pages/blogs/list";
 			} else {
@@ -68,7 +71,8 @@ public class BlogController {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if (sessionUser != null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				UploadFileImpl upload = new UploadFileImpl();
 				blog.setImageBlog(upload.uploadSingleFile(img));
 				blog.setCreateDate(new Date());
@@ -89,7 +93,8 @@ public class BlogController {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if (sessionUser != null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				model.addAttribute("blog", blogService.getBlogById(idBlog));
 				return "admin/pages/blogs/edit";
 			} else {
@@ -105,7 +110,8 @@ public class BlogController {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if (sessionUser != null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				blogService.deleteBlog(idBlog);
 				return "redirect:/admin/blog";
 			} else {
@@ -123,7 +129,8 @@ public class BlogController {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if (sessionUser != null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ){
 				Blog oldBlog = blogService.getBlogById(blog.getIdBlog());
 				UploadFileImpl upload = new UploadFileImpl();
 				if (img.getOriginalFilename() == "") {

@@ -28,7 +28,7 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idRole;
-	@Column(length = 50, nullable = false)
+	@Column(columnDefinition = "nvarchar(200) not null")
 	private String nameRole;
 	private Date createDate;
 	private Date updateDate;

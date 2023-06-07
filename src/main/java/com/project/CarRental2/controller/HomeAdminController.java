@@ -43,7 +43,7 @@ public class HomeAdminController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole()!=ROLE_USER) {
 				System.err.println(" tông: "+bookingService.countBill());
 				model.addAttribute("countBill", bookingService.countBill());
 				model.addAttribute("countCar", carService.countCar());
@@ -88,7 +88,8 @@ public class HomeAdminController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole()==ROLE_ACCOUNTANT || 
+					sessionUser.getRole().getIdRole()==ROLE_ADMIN ) {
 				return "admin/pages/analysis/analysis";
 			}else {
 				return "redirect:/login";
@@ -106,7 +107,8 @@ public class HomeAdminController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole()==ROLE_ACCOUNTANT || 
+					sessionUser.getRole().getIdRole()==ROLE_ADMIN ){
 				List<Booking> listBooking= bookingService.getBookingOnTimeByStatusBill(dateStart, dateEnd, STATUS_PAYMENT);
 				model.addAttribute("listBooking", listBooking);
 				String[] array= bookingService.sumRevenueOnTime(dateStart,dateEnd,STATUS_PAYMENT);

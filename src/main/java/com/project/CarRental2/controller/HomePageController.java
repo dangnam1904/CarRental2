@@ -293,15 +293,17 @@ public class HomePageController implements FiledName {
 			RedirectAttributes rAttributes) {
 		String url = "";
 		HttpSession sessionUser = request.getSession();
+		HttpSession sessionRole = request.getSession();
 		user.setPassword(EncryptionPassword.encryption(user.getPassword()));
 		List<User> list = userService.getAllUserOrderByUsername();
 		for (User user2 : list) {
 			if (user.getUsername().equals(user2.getUsername()) && user.getPassword().equals(user2.getPassword())) {
 				sessionUser.setAttribute("sesionUser", user2);
+				sessionRole.setAttribute("sessionRole", user2.getRole().getIdRole());
 				System.out.println(sessionUser.getAttribute("sesionUser"));
 				if (user2.getRole().getIdRole() == ROLE_USER) {
 					return "redirect:/";
-				} else if (user2.getRole().getIdRole() == ROLE_ADMIN) {
+				} else if (user2.getRole().getIdRole() != ROLE_USER) {
 					return "redirect:/admin";
 				}
 

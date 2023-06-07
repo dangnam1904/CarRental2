@@ -37,7 +37,9 @@ public class RequestPaymentController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE ||  
+					sessionUser.getRole().getIdRole() == ROLE_ACCOUNTANT
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				model.addAttribute("list", requestWithdrawalService.getAllRequestWithdraw());
 				return "admin/pages/payment/list";
 			}else {
@@ -56,7 +58,9 @@ public class RequestPaymentController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE ||  
+					sessionUser.getRole().getIdRole() == ROLE_ACCOUNTANT
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				requestWithdrawalService.changeStatusRequestWithdraw(STATUS_APPROVED, idRequest);
 				RequestWithdrawal requestWithdrawal= requestWithdrawalService.getRequestWithdrawalById(idRequest);
 				System.err.println(requestWithdrawal.toString());
@@ -82,7 +86,9 @@ public class RequestPaymentController implements FiledName {
 		HttpSession session = request.getSession();
 		User sessionUser = (User) session.getAttribute("sesionUser");
 		if(sessionUser!=null) {
-			if (sessionUser.getRole().getNameRole().equals("Admin")) {
+			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE ||  
+					sessionUser.getRole().getIdRole() == ROLE_ACCOUNTANT
+					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
 				requestWithdrawalService.changeStatusRequestWithdraw(STATUS_CANCAL, idRequest);
 				RequestWithdrawal requestWithdrawal= requestWithdrawalService.getRequestWithdrawalById(idRequest);
 				System.err.println(requestWithdrawal.toString());
