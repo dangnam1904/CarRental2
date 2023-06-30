@@ -11,13 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.userdetails.UserDetailsService;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.project.CarRental2.model.User;
 import com.project.CarRental2.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService /*, UserDetailsService */ {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository repo;
@@ -67,24 +72,6 @@ public class UserServiceImpl implements UserService /*, UserDetailsService */ {
 		return (int) repo.count();
 	}
 
-//	@Override
-//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//		Optional<User> option = repo.findUserByUsername(username);
-//		
-//		org.springframework.security.core.userdetails.User springUser=null;
-//		if(option.isEmpty()) {
-//			throw new UsernameNotFoundException("User with username: " +username +" not found");
-//		}
-//			User user= option.get();
-//			String role =  user.getRole().getNameRole();
-//			Set<GrantedAuthority> ga = new HashSet<>();
-//				ga.add(new SimpleGrantedAuthority(role));
-//			springUser = new org.springframework.security.core.userdetails.User(
-//							username,
-//							user.getPassword(),
-//							ga );	
-//		return springUser;
-//	}
 
 	@Override
 	public Optional<User> findUserByUserName(String username) {
@@ -96,5 +83,7 @@ public class UserServiceImpl implements UserService /*, UserDetailsService */ {
 	public User getUserByIdCar(int idCar) {
 		return repo.getUserByIdCar(idCar);
 	}
+
+	
 
 }

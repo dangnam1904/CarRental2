@@ -33,7 +33,7 @@
 									<h6 th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
 								</div>
 								<div class="promotional_price">
-									<span th:utext="'Giảm'+ ${c.promotionalPrice} +'%'"></span>
+									<span th:text="'Giảm&nbsp;'+ ${c.promotionalPrice} +'%'"></span>
 								</div>
 								<div class="info-car">
 									<h5 th:text="${c.nameCar}"> </h5>
