@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<meta charset="utf-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--   header th:fragment="header" -->
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg  header"
+		style="border-bottom: 1px solid green; height: 64px"
+		th:fragment="header">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/" style="margin-left: 30px"><img
+				th:src="@{/uploads/logo1.png}" style="width: 100px;" alt=""
+				srcset=""></a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon "></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link" th:href="@{/}">Trang
+							chủ</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/register-car}">Trở thành chủ xe</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/blog}">Blogs</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/lien-he}">Liên
+							hệ</a></li>
+					<th:block th:unless="${session.sesionUser}">
+						<li class="nav-item"><a class="nav-link" th:href="@{/login}">Đăng
+								nhập</a></li>
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/sign-up}">Đăng kí</a>
+					</th:block>
+					<th:block th:if="${session.sesionUser}">
+
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#"
+							id="navbarDarkDropdownMenuLink" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false"> Xin chào, <span
+								th:text="${session.sesionUser.nameDisplay}"></span>
+						</a>
+							<ul class="dropdown-menu dropdown-menu-acc "
+								aria-labelledby="navbarDarkDropdownMenuLink">
+								<li><a class="dropdown-item" th:href="@{/edit-profile}">Tài
+										Khoản</a></li>
+								<li><a class="dropdown-item" href="#">Xe yêu thích</a></li>
+								<li><a class="dropdown-item" th:href="@{/my-car}">Xe
+										của tôi</a></li>
+								<li><a class="dropdown-item" th:href="@{/my-trip}">Chuyến
+										đi</a></li>
+								<li><a class="dropdown-item" href="#">Đổi mật khẩu</a></li>
+								<li><a class="dropdown-item" th:href="@{/logout}">Đăng
+										xuất</a></li>
+							</ul></li>
+						</li>
+						<li class="nav-item"><a class="nav-link notification"
+							onclick="openNotification()"> <i
+								class="fa-solid fa-bell"></i>
+								<div class="icon-noti" th:each="n : ${listDetailNotification}" th:if="${n.statusRead !=1}"></div></a>
+							<div class="content-noti" id="content-noti">
+									<div class="title-noti" th:each="n : ${listDetailNotification}">
+									<th:block  th:unless="${n.statusRead ==1}">
+									<a th:href="@{${n.url}}" onclick="readingNoti()"> <img alt=""
+										th:src="@{'/uploads/'+ ${n.getNotification().image}}">
+										<div>
+										<input type="hidden" class="id_noti" th:value="${n.getNotification().idNoti}">
+											 <p th:text="${n.getNotification().titleNoti}"></p>
+											<p th:text="${n.getNotification().contentNoti}"></p>
+											<span style="color: green; font-size: 12px" th:text="${'Thời gian: '+ n.getNotification().createDate}"
+											></span>
+										</div>
+									</a>
+									</th:block>
+										<th:block  th:if="${n.statusRead ==1}">
+									<a th:href="@{${n.url}}" style="background: #bfbfbf;" onclick="readingNoti()"> <img alt=""
+										th:src="@{'/uploads/'+ ${n.getNotification().image}}">
+										<div>
+										<input  type="hidden" class="id_noti" th:value="${n.getNotification().idNoti}">
+											 <p th:text="${n.getNotification().titleNoti}"></p>
+											<p th:text="${n.getNotification().contentNoti}"></p>
+											<span style="color: green; font-size: 12px" th:text="${'Thời gian: '+ n.getNotification().createDate}"
+											></span>
+										</div>
+									</a>
+									</th:block>
+								</div>	
+									<button onclick="readingAllNotification()">
+										<i class="fa-solid fa-check-double"></i> Đánh dấu là đã đọc
+										hết
+									</button>
+							</div></li>
+					</th:block>
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+</body>
+<script>
+var click= 1;
+function openNotification(){
+	click=click+1;
+	if(click%2==0){
+		document.getElementById("content-noti").style.visibility="visible"
+	}else{
+		document.getElementById("content-noti").style.visibility="hidden"
+	}
+}
+</script>
+</html>

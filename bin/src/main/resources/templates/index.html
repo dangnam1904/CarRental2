@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Trang chủ</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+</head>
+<script>
+	function closepPoupupInsurances() {
+		document.getElementById("contentInsurances").classList
+				.remove("open-contentInsurances");
+	}
+
+	function openInsurances() {
+		document.getElementById("contentInsurances").classList
+				.add("open-contentInsurances");
+	}
+</script>
+<body>
+
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="col-md-12" style="padding: 0px;">
+		<div th:replace="~{pages/layout/search-car ::search-car}"></div>
+	</div>
+	<div class="container" style="padding: 0px;">
+		<div class="row">
+
+			<div style="position: relative;">
+				<div class="insurance-partner">
+					<p style="text-decoration: underline;">Đối tác bảo hiểm</p>
+					<div class="partner-logo hasCursor">
+						<div class="partner-logo__image" th:each="l :${listInsurances}">
+							<img class="img-fluid" th:src="'/uploads/'+${l.imageInsurance} "
+								onclick="openInsurances()" alt="" srcset="">
+						</div>
+						<div id="contentInsurances" class="contentInsurances">
+							<i class="icon-remove fa-solid fa-xmark"
+								onclick="closepPoupupInsurances()"></i>
+							<div th:utext="${contentInsurances}"
+								style="margin-top: 50px; padding: 10px 20px; text-align: justify;"></div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<style>
+.img-fluid:hover {
+	cursor: pointer;
+}
+
+.contentInsurances {
+	position: absolute;
+	width: 800px;
+	top: -250px;
+	background: #d1d1d1;
+	border-radius: 15px;
+	visibility: hidden;
+}
+
+.open-contentInsurances {
+	visibility: visible;
+}
+
+.icon-remove {
+	position: absolute;
+	font-size: 25px;
+	font-weight: 800;
+	top: 5px;
+	right: 5px;
+}
+
+.icon-remove:hover {
+	cursor: pointer;
+	color: red;
+}
+</style>
+			<div class="features__sect">
+				<h4 class="title-content">Tính năng nổi bật</h4>
+
+				<div id="carouselTinhNang" class="carousel " data-bs-ride="carousel">
+					<div class="carousel-inner carousel-inner-tt">
+						<div class="carousel-item carousel-item-tt active">
+							<div class="card">
+								<img th:src="@{/images/features_1.d60ace8e.jpg}"
+									class="card-img-top" alt="...">
+							</div>
+						</div>
+						<div class="carousel-item carousel-item-tt">
+							<div class="card">
+								<img th:src="@{/images/features_2.63b45674.jpg}"
+									class="card-img-top" alt="...">
+							</div>
+						</div>
+						<div class="carousel-item carousel-item-tt">
+							<div class="card">
+								<img th:src="@{/images/features_3.d9b52125.jpg}"
+									class="card-img-top" alt="...">
+							</div>
+						</div>
+						<div class="carousel-item carousel-item-tt">
+							<div class="card">
+								<img th:src="@{/images/features_4.173d9abf.jpg}"
+									class="card-img-top" alt="...">
+							</div>
+						</div>
+						<div class="carousel-item carousel-item-tt">
+							<div class="card">
+								<img th:src="@{/images/features_5.c524494b.jpg}"
+									class="card-img-top" alt="...">
+							</div>
+						</div>
+						<div class="carousel-item carousel-item-tt">
+							<div class="card">
+								<img th:src="@{/images/features_6.2eb8bccb.jpg}"
+									class="card-img-top" alt="...">
+							</div>
+						</div>
+					</div>
+					<button class="carousel-control-prev" id="carousel-control-prev-tt"
+						type="button" data-bs-target="#carouselTinhNang"
+						data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" id="carousel-control-next-tt"
+						type="button" data-bs-target="#carouselTinhNang"
+						data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+			</div>
+			<div class="col-md-12 help-use"
+				style="position: static; margin-top: 150px; padding-bottom: 20px;">
+
+				<h3>Hướng dẫn thuê xe</h3>
+				<a th:href="@{/help}" class="d-md-flex a-help">
+					<div class="fix-img">
+						<div>
+							<img th:src="@{/images/step-1.c204d3e1.svg}" alt="" srcset="">
+							<p>Đặt xe</p>
+						</div>
+
+					</div>
+					<div class="fix-img">
+						<div>
+							<img th:src="@{/images/step-2.0bcadc00.svg}" alt="" srcset="">
+							<p>Nhận xe</p>
+						</div>
+
+					</div>
+					<div class="fix-img">
+						<div>
+							<img th:src="@{/images/step-3.5ee48572.svg}" alt="" srcset="">
+							<p>Trải nghiệm chuyến đi</p>
+						</div>
+
+					</div>
+					<div class="fix-img">
+						<div>
+							<img th:src="@{/images/step-4.518ab6a3.svg}" alt="" srcset="">
+							<p>Kết thúc giao dịch</p>
+						</div>
+
+					</div>
+				</a>
+			</div>
+
+			<h4 class="title-content">ĐỊA ĐIỂM NỔI BẬT - XE CÓ TÀI XẾ</h4>
+			<div id="carouselAddressDriver" class="carousel"
+				data-bs-ride="carousel">
+				<div class="carousel-inner carousel-inner-address-driver">
+					<div class="carousel-item-address-driver"
+						th:each="p : ${provinces}">
+						<div class="card">
+							<div class="card-body">
+
+								<a
+									th:href="@{'/'+${p.idProvince}+'/'+${p.nameProvince}+'/'+'has-driver'} ">
+									<img th:src="@{'/uploads/' +${p.imgProvince}}" alt="...">
+									<div class="text">
+										<h4 class="name-car" th:text="${p.nameProvince}"></h4>
+										<p class="sum-car"></p>
+									</div>
+								</a>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<button class="carousel-control-prev"
+					id="carousel-control-prev-address-driver" type="button"
+					data-bs-target="#carouselAddressDriver" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next"
+					id="carousel-control-next-address-driver" type="button"
+					data-bs-target="#carouselAddressDriver" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+		</div>
+
+		<h4 class="title-content">ĐỊA ĐIỂM NỔI BẬT - XE TỰ LÁI</h4>
+		<div id="carouselAddressNotCarDriver" class="carousel"
+			data-bs-ride="carousel">
+			<div class="carousel-inner carousel-inner-address-no-driver">
+				<div class="carousel-item-address-no-driver"
+					th:each="p : ${provinces}">
+					<div class="card">
+						<div class="card-body">
+
+							<a
+								th:href="@{'/'+${p.idProvince}+'/'+${p.nameProvince}+'/'+'no-driver'} ">
+								<img th:src="@{'/uploads/' +${p.imgProvince}}" alt="...">
+								<div class="text">
+									<h4 class="name-car-no-driver" th:text="${p.nameProvince}"></h4>
+									<p class="sum-car-no-driver"></p>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button class="carousel-control-prev"
+				id="carousel-control-prev-address-no-driver" type="button"
+				data-bs-target="#carouselAddressNotCarDriver" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next"
+				id="carousel-control-next-address-no-driver" type="button"
+				data-bs-target="#carouselAddressNotCarDriver" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+
+		<h4 class="title-content">XE NỔI BẬT - XE TỰ LÁI</h4>
+		<div id="carouselCarNotDriver" class="carousel"
+			data-bs-ride="carousel">
+			<div class="carousel-inner carousel-inner-no-driver">
+				<div class="carousel-item-no-driver" th:each="c : ${carNoDriver}">
+					<div class="card">
+						<div class="card-body-car">
+							<a th:href="@{'/car-detail/'+${c.idCar}+'/'+${c.nameCar}}"> <img
+								th:src="@{'/uploads/' +${c.avatarCar}}" alt="...">
+								<div class="price">
+									<h6
+										th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
+								</div>
+								<div class="info-car">
+									<h4 th:text="${c.nameCar}"></h4>
+									<input type="hidden" th:value="${c.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p>
+									<p th:text="${c.addressCar}"></p>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button class="carousel-control-prev"
+				id="carousel-control-prev-no-driver" type="button"
+				data-bs-target="#carouselCarNotDriver" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next"
+				id="carousel-control-next-no-driver" type="button"
+				data-bs-target="#carouselCarNotDriver" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+
+		<h4 class="title-content">XE NỔI BẬT - XE CÓ TÀI XẾ</h4>
+		<div id="carouselCarDriver" class="carousel" data-bs-ride="carousel">
+			<div class="carousel-inner carousel-inner-driver">
+				<div class="carousel-item-driver" th:each="c : ${carHasDriver}">
+					<div class="card">
+						<div class="card-body-car">
+							<a th:href="@{'/car-detail/'+${c.idCar}+'/'+${c.nameCar}}"> <img
+								th:src="@{'/uploads/' +${c.avatarCar}}" alt="...">
+								<div class="price">
+									<h6
+										th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
+								</div>
+								<div class="info-car">
+									<h4 th:text="${c.nameCar}"></h4>
+									<input type="hidden" th:value="${c.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p>
+									<p th:text="${c.addressCar}"></p>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button class="carousel-control-prev"
+				id="carousel-control-prev-driver" type="button"
+				data-bs-target="#carouselCarDriver" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next"
+				id="carousel-control-next-driver" type="button"
+				data-bs-target="#carouselCarDriver" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	</div>
+
+</body>
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+
+<script th:src="@{/js/main.js}"></script>
+<script
+	th:src="@{/lib/bower_components/sweetalert2/dist/sweetalert2.js}"></script>
+<th:block th:if="${mes_login}">
+	<script>
+		alert("Cần đăng nhập để dùng chức năng này");
+	</script>
+
+	<th:block th:if="${mes_registerCar}">
+		<script>
+			alert("Đăng ký xe thành công, chờ được phê duyệt");
+		</script>
+</html>

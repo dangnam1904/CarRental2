@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Trang chi tiết xe</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous"> -->
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluid" style="padding: 0px;">
+		<div class="row">
+			<div id="carouselImgCar" class="carousel" data-bs-ride="carousel">
+				<div class="carousel-inner carousel-inner-ImgCar">
+					<div class="carousel-item-ImgCar"
+						th:each="c: ${#strings.arraySplit(car.imageCar, ';')}">
+						<div class="card">
+							<div class="card-body-car-img">
+								<img th:src="@{'/uploads/'+${c}}" alt="...">
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<button class="carousel-control-prev"
+					id="carousel-control-prev-ImgCar" type="button"
+					data-bs-target="#carouselImgCar" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next"
+					id="carousel-control-next-ImgCar" type="button"
+					data-bs-target="#carouselImgCar" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+			<div class="col-md-8 contain-car"
+				style="background-color: rgb(247, 247, 247);">
+				<div class="contain-car-title">
+					<h2 th:text="${car.nameCar}"></h2>
+					<input type="hidden" th:value="${car.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p>
+				</div>
+				<div class="group">
+					<span> Đặc điểm </span>
+					<div class="content-text">
+						<ul class="fusture">
+							<li><i class="fa-solid fa-couch"></i> <span
+								th:text="'Số ghế : '+${car.numberOfSeats}"></span></li>
+							<li><i class="fa-solid fa-shuffle"></i> <span
+								th:text="${manualTransmissionCar} ? 'Truyền động: Số tự động' : 'Truyền động: Số sàn'"></span>
+							</li>
+							<li><i class="fa-solid fa-gas-pump"></i> <span
+								th:text="${fuel} ?  'Nhiên liêu: Dầu deizen':'Nhiên liệu: Xăng' "></span></li>
+							<li><i class="fa-solid fa-battery-half"></i> <span
+								th:text="'Mức tiêu thụ: '+${car.fuelFor100km} +'/100KM'">Mức
+									tiêu thụ: 100km /9lit</span></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="group">
+					<span> Mô tả </span>
+					<div class="content-text">
+						<p th:text="${car.overviewCar}"></p>
+					</div>
+				</div>
+				<div class="group">
+					<span> Tính năng </span>
+					<div class="content-text">
+						<ul class="fusture">
+							<li th:if="${car.maps!=false}"><img
+								th:src="@{/images/map.png}" alt="" srcset=""> <span>Map
+							</span></li>
+							<li th:if="${car.bluetooth!=false}"><img
+								th:src="@{/images/bluetooth.png}" alt="" srcset=""> <span>Bluetooth
+							</span></li>
+							<li th:if="${car.camera360!=false}"><img
+								th:src="@{/images/360_camera.png}" alt="" srcset=""> <span>Camera
+									360</span></li>
+							<li th:if="${car.parkingCamera!=false}"><img
+								th:src="@{/images/parking_camera.png}" alt="" srcset=""> <span>Camera
+									cập lề</span></li>
+							<li th:if="${car.dashCamera!=false}"><img
+								th:src="@{/images/dash_camera.png}" alt="" srcset=""> <span>Camera
+									hành trình</span></li>
+							<li th:if="${car.reverseCamera!=false}"><img
+								th:src="@{/images/reverse_camera.png}" alt="" srcset=""> <span>Camera
+									lùi</span></li>
+							<li th:if="${car.tpms!=false}"><img
+								th:src="@{/images/tpms.png}" alt="" srcset=""> <span>Cảm
+									biến áp suất lốp </span></li>
+							<li th:if="${car.impactSensor!=false}"><img
+								th:src="@{/images/impact_sensor.png}" alt="" srcset=""> <span>Cảm
+									biến va chạm </span></li>
+							<li th:if="${car.speedWarning!=false}"><img
+								th:src="@{/images/head_up.png}" alt="" srcset=""> <span>Cảm
+									biến tốc độ </span></li>
+							<li th:if="${car.usb!=false}"><img
+								th:src="@{/images/usb.png}" alt="" srcset=""> <span>Khe
+									cắm USB </span></li>
+							<li th:if="${car.dvdScreen!=false}"><img
+								th:src="@{/images/dvd.png}" alt="" srcset=""> <span>Màn
+									hình DVD </span></li>
+
+							<li th:if="${car.sunroof!=false}"><img
+								th:src="@{/images/sunroof.png}" alt="" srcset=""> <span>Cửa
+									sổ trời </span></li>
+
+							<li th:if="${car.gpsLocator!=false}"><img
+								th:src="@{/images/gps.png}" alt="" srcset=""> <span>Định
+									vị GPS</span></li>
+
+							<li th:if="${car.babyseat!=false}"><img
+								th:src="@{/images/babyseat.png}" alt="" srcset=""> <span>Ghế
+									trẻ em</span></li>
+
+							<li th:if="${car.spareTire!=false}"><img
+								th:src="@{/images/spare_tire.png}" alt="" srcset=""> <span>Lốp
+									dự phòng </span></li>
+
+							<li th:if="${car.bonnet!=false}"><img
+								th:src="@{/images/bonnet.png}" alt="" srcset=""> <span>Xe
+									bán tải</span></li>
+
+							<li th:if="${car.etc!=false}"><img
+								th:src="@{/images/etc.png}" alt="" srcset=""> <span>Thu
+									phí không dừng </span></li>
+							<li th:if="${car.airbags!=false}"><img
+								th:src="@{/images/airbags.png}" alt="" srcset=""> <span>Túi
+									khí an toàn </span></li>
+
+						</ul>
+					</div>
+				</div>
+				<div class="group">
+					<span> Giấy tờ thuê xe( bản gốc) </span>
+					<div class="content-text">
+						<ul class="fusture">
+							<li><img th:src="@{/images/cmnd.png}" alt="" srcset="">
+								<span>CNND & GPLX </span></li>
+							<li><span>Chọn 1 trong 2</span></li>
+							<li><img th:src="@{/images/passport.png}" alt="" srcset="">
+								<span> Passport (Giữ lại) </span></li>
+							<li><img th:src="@{/images/cccd.png}" alt="" srcset="">
+								<span>CCCD gắn chíp (Đối chiếu) </span></li>
+						</ul>
+					</div>
+				</div>
+				<div class="group">
+					<span> Tài sản thế chấp </span>
+					<div class="content-text">
+						<p>15 triệu (tiền mặt/chuyển khoản cho chủ xe khi nhận xe)
+							hoặc Xe máy (kèm cà vẹt gốc) giá trị 15 triệu</p>
+					</div>
+				</div>
+				<div class="group">
+					<span> Điều khoản </span>
+					<div class="content-text">
+						<p>Quy định khác:</p>
+						<p th:text="${car.polyUseCar}"></p>
+					</div>
+				</div>
+				<div class="group">
+					<span>Thông tin khác bổ sung </span>
+					<div class="content-text">
+						<p
+							th:text="'Quãng đường giao xe tối đa:  '+${car.maximumDeliveryDistance}+' km'"></p>
+						<p
+							th:text="'Phí giao xe cho 1km: '+ ${car.limitCrossingfee1Km}+'K'"></p>
+
+						<p
+							th:text="'Giới hạn '+${car.maximumKilometersperDay}+' km trên ngày'"></p>
+						<p th:text="'Phí khi vượt qua 1km: '+ ${car.limitCrossingfee1Km}"></p>
+						<p>Các khoản này xẽ được tính ngoài dựa trên thực tế</p>
+					</div>
+				</div>
+				<div class="group">
+					<span> Chủ xe </span>
+					<div class="profile-mini">
+						<div class="avatar">
+							<a href=""> <img th:src="@{'/uploads/'+ ${user.image}}"
+								alt="" srcset="">
+							</a>
+						</div>
+						<div class="info">
+							<a href="">
+								<h6 th:text="${user.nameDisplay}"></h6> <input type="hidden" th:value="${car.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p> <span
+								th:text="'Số điện thoại: '+${user.phone}"> </span>
+							</a>
+						</div>
+						<div class="owner-response">
+							<div class="response-desc d-flex">
+								<p>Ti lệ phản hồi</p>
+								<span class="rate"> 70% </span>
+							</div>
+							<div class="response-desc d-flex">
+								<p>Thời gian phản hồi</p>
+								<span class="rate"> 1 giờ </span>
+							</div>
+							<div class="response-desc d-flex">
+								<p>Tỉ lệ đồng ý</p>
+								<span class="rate"> 70% </span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="group">
+					<span> Vị trí </span>
+					<div class="profile-mini">
+						<iframe
+							src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d7559.993265039596!2d105.6990166!3d18.6641471!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1679509320078!5m2!1svi!2s"
+							width="600" height="450" style="border: 0;" allowfullscreen=""
+							loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+						<h4 style="margin-top: 7px;" th:text="'Địa chỉ : '+${address}"></h4>
+					</div>
+				</div>
+				<div class="feedback">
+					<button>Báo xấu</button>
+					<button class="favourite">Thêm vào danh sách yêu thích</button>
+				</div>
+				<div>
+					<h2 class="title">Đánh giá</h2>
+				</div>
+				<div class="commment">
+					<div class="avatar">
+						<img th:src="@{images/avatar1.jpg}" alt="" srcset="">
+					</div>
+					<div class="name">
+						<h5>Hoàng</h5>
+						<p>Oilk</p>
+					</div>
+					<div class="time-left">
+
+						<p>10 phút trước</p>
+					</div>
+				</div>
+				<div class="commment">
+					<div class="avatar">
+						<img th:src="@{images/avatar1.jpg}" alt="" srcset="">
+					</div>
+					<div class="name">
+						<h5>Hoàng</h5>
+						<p>Oilk</p>
+					</div>
+					<div class="time-left">
+						<p>10 phút trước</p>
+					</div>
+				</div>
+				<div>
+				<form action="" >
+				<div style="position: relative;">
+				<input name="comment" style="height: 75px; width: 100%" />
+				<button style="position: absolute; bottom: 0; right: 0; padding: 2px 15px; border: none;background: #919191; border-top-left-radius: 10px;word-wrap: break-word">Gửi</button>
+				</div>
+				</form>
+				</div>
+			</div>
+			<div class="col-md-4 contain-car ">
+				<div class="contain-car-price">
+					<form action="/booking-car" method="post" id="booking">
+						<div class="price-car">
+							<h4
+								th:text="${car.price}-${car.price}*${car.promotionalPrice}/100 +' K/Ngày'"></h4>
+						</div>
+						<div class="select-date">
+							<input th:field="*{car.idCar}" type="hidden"> <input
+								type="hidden" name="price_car"
+								th:value="${car.price}-${car.price}*${car.promotionalPrice}/100">
+							<label for="inputDateStart">Ngày nhận</label> <input
+								id="inputDateStart" name="dateStart" type="datetime-local"
+								class="form-control" value="2023-03-14T18:22"
+								th:onchange="changeData()"> <label for="inputDateEnd">Ngày
+								trả</label> <input type="datetime-local" class="form-control"
+								id="inputDateEnd" th:onchange="changeData()" name="dateEnd"
+								value="2023-03-14T18:22"> <small id="noti-error"
+								style="color: red; font-size: 15px"></small>
+						</div>
+						<div class="address-car">
+							<h5>Địa chỉ giao nhận xe</h5>
+							<p th:text="'Địa chỉ : '+${address}"></p>
+							<span>Địa chỉ cụ thể sẽ hiện sau khi đặt </span>
+						</div>
+						<div class="phiphatsinh">
+							<h5>Phụ phí</h5>
+							<div class="phuphi">
+								<h6>Quá giờ</h6>
+								<p>70.000 vnđ/1h, Nếu quá 6h thì tính giá 1 ngày</p>
+							</div>
+							<div class="phuphi">
+								<h6>Vệ sinh xe</h6>
+								<p>Phí: 80 000đ (nếu trả xe nhiều vết bẩn, bùn cát, sình
+									lầy.... cần phải vệ sinh lại trước khi giao cho khách sau)</p>
+							</div>
+							<div class="phuphi">
+								<h6>Quá giờ</h6>
+								<p>Vệ sinh xe Phí: 300 000đ (nếu hút thuốc lá trong xe, chở
+									sầu riêng, hải sản nặng mùi .... cần phải đi khử mùi trước khi
+									giao cho khách sau)</p>
+							</div>
+							<div class="phuphi">
+								<h6>Bảo hiểm</h6>
+								<p>Chuyến đi được bảo hiểm bởi ...</p>
+							</div>
+						</div>
+						<h5>Chi tiết giá</h5>
+						<div class="price-detail">
+							<div class="title">Đơn giá</div>
+							<div class="price" id="price-booking"
+								th:text="${car.price}-${car.price}*${car.promotionalPrice}/100 +'K / Ngày'"></div>
+						</div>
+						<div class="price-detail">
+							<div class="title">Phí dịch vụ</div>
+							<div class="price" id="price-dv">60K/Ngày</div>
+						</div>
+						<div class="price-detail">
+							<div class="title">Phí bảo hiểm</div>
+							<div class="price" id="pirce-bh">60K/ngày</div>
+						</div>
+						<div class="price-detail">
+							<div class="title">Tổng phí thuê xe</div>
+							<div class="price-total" id="price-total-per-day"></div>
+						</div>
+						<div class="total-feel">
+							<div class="total-feel-title">Tổng cộng</div>
+							<div class="price-total" id="total_bill"
+								style="margin-left: 10px"></div>
+						</div>
+						<input type="hidden" id="input_total_bill" name="input_total_bill">
+						<a onclick="openPopup()" class="btn-sucs" id="btn-booking">Đặt xe</a>
+
+						<div class="popup" id="popup">
+							<h4>Thông tin</h4>
+							<h6>Số điện thoại</h6>
+							<input type="text" placeholder="Số điện thoại" name="phone"
+								id="phone"> <small></small>
+							<h6>Địa chỉ nhận xe</h6>
+							<div class="group-form-address">
+								<select name="province" th:onchange="GetDistrict(this.value)"
+									id="province">
+									<option value="0">Chọn tỉnh - thành phố</option>
+									<th:bock th:each="item : ${province}">
+										<option th:value="${item.idProvince}"
+											th:text="${item.nameProvince}"></option>
+									</th:bock>
+								</select> <small></small>
+							</div>
+							<div class="group-form-address">
+								<select id="district" name="district"
+									th:onchange="getWard(this.value)">
+									<option value="0">Chọn quận - huyện</option>
+								</select> <small></small>
+							</div>
+							<div class="group-form-address">
+								<select name="ward" id="ward">
+									<option value="0">Chọn phường /xã</option>
+								</select> <small></small>
+							</div>
+							<h6>Địa chỉ cụ thể</h6>
+							<div class="form-inline-address">
+								<input type="text" placeholder=" Số nhà 12, ngõ 7, đường, khối"
+									name="address-detail" id="address-detail"> <small></small>
+							</div>
+							<div class="group-action">
+								<a class="btn-cancel" onclick="closePopup()">Hủy bỏ</a>
+								<button class="btn-success" type="submit">Xác nhận</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div id="carouselCarDriver" class="carousel" data-bs-ride="carousel">
+				<div class="carousel-inner carousel-inner-driver">
+					<div class="carousel-item-driver" th:each="c: ${listCar}">
+						<div class="card">
+							<div class="card-body-car">
+								<a th:href="@{'/car-detail/'+ ${c.idCar}+'/'+${c.nameCar}}">
+									<img th:src="@{'/uploads/'+${c.avatarCar}}" alt="...">
+									<div class="price">
+										<h6
+											th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
+									</div>
+									<div class="promotional_price">
+										<span th:text="'Giảm'+ ${c.promotionalPrice} +'%'"></span>
+									</div>
+									<div class="info-car">
+										<h4 th:text="${c.nameCar}"></h4>
+										<input type="hidden" th:value="${c.idCar}" class="id-car">
+										<p class="sum-delivery">Số chuyến</p>
+										<p th:text=${c.addressCar}></p>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<button class="carousel-control-prev"
+					id="carousel-control-prev-driver" type="button"
+					data-bs-target="#carouselCarDriver" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next"
+					id="carousel-control-next-driver" type="button"
+					data-bs-target="#carouselCarDriver" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+		</div>
+	</div>
+	<style>
+.disabled {
+	pointer-events: none;
+	cursor: default;
+	background: #c5c7c2 !important;
+}
+
+.popup {
+	width: 600px;
+	background-image: linear-gradient(#747374, #9b9b9b);
+	margin: 20px 10px;
+	padding: 5px 10px;
+	position: absolute;;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0.1);
+	visibility: hidden;
+	border-radius: 6px;
+	transition: transform 0.4s, top 0.4s;
+}
+
+.open-popup {
+	visibility: visible;
+	top: 200%;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.popup input, select {
+	width: 90%;
+	margin: 5px 30px;
+	padding: 5px 10px;
+}
+
+.popup h4 {
+	text-align: center;
+	margin-top: 15px;
+}
+
+.popup h6, small {
+	margin-left: 30px
+}
+
+.popup  small {
+	margin-left: 30px;
+	color: red;
+	font-size: 14px;
+}
+
+.popup .group-action {
+	display: flex;
+	justify-content: space-around;
+	margin: 10px;
+	margin-bottom: 20px;
+}
+a.popup .group-action{
+	border: 0;
+	outline: none;
+	padding: 10px 25px;
+	border-radius: 7px;
+	margin-top: 10px;
+	font-weight: 700;
+	font-size: 19px;
+	text-decoration: none;
+	color: black;
+}
+.popup .group-action button,a {
+	border: 0;
+	outline: none;
+	padding: 10px 25px;
+	border-radius: 7px;
+	margin-top: 10px;
+	font-weight: 700;
+	font-size: 19px;
+	text-decoration: none;
+	color: black;
+}
+
+.popup .group-action a {
+	cursor: pointer;
+}
+
+.btn-sucs {
+	display: inherit;
+	text-align: center;
+	text-decoration: none;
+	width: 100%;
+	padding: 10px 25px;
+	border-radius: 7px;
+	margin-top: 10px;
+	font-weight: 700;
+	font-size: 19px;
+	background-color: #41cd5f;
+	color:white;
+	cursor: pointer;
+}
+
+.popup .group-action .btn-cancel {
+	background-color: #d3474d;
+}
+
+.popup .group-action .btn-success {
+	background-color: #41cd5f;
+}
+</style>
+</body>
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+
+<script th:src="@{/js/main.js}"></script>
+<script type="text/javascript">
+var popup = document.getElementById('popup');
+function openPopup(){
+	popup.classList.add("open-popup");
+}
+
+function closePopup(){
+	popup.classList.remove("open-popup");
+}
+var form=  document.getElementById('booking');
+
+
+function showError(input, message) {
+    //  console.log(input.parentElement.querySelector('small'));
+        let parent = input.parentElement;
+        let small = parent.querySelector('small');
+        parent.classList.add('error');
+        small.innerText = message;
+    }
+
+  function showSuccess(input, message) {
+        let parent = input.parentElement;
+        let small = parent.querySelector('small');
+        parent.classList.remove('error');
+        small.innerText = '';
+    }
+    
+function checkEmptyError(listInput) {
+    let isEmptyError = false;
+    listInput.forEach(input => {
+        input.value = input.value.trim();
+        if (!input.value) {
+          
+            showError(input, 'Không được để trống');
+        } else {
+            showSuccess(input);
+            isEmptyError = true;
+        }
+    });
+    return isEmptyError;
+}
+function checkSelect(listselect){
+	result= false;
+	listselect.forEach(select=>{
+		if(select.value<=0){
+			  showError(select, 'Không được để trống');
+			}else{
+				 showSuccess(select);
+				 result= true;
+				}})
+	return  result;
+}
+
+function checkSdt(input){
+	result= false;
+	if((/^[0-9]/.test(input.value))==false){
+		 showError(input, 'Sai định dang số điện thoại');
+		}else{
+			 showSuccess(input);
+			 result= true;
+		}
+	 return result;
+}
+
+var sdt=document.getElementById('phone');
+var province=document.getElementById('province');
+var district=document.getElementById('district');
+var ward=document.getElementById('ward');
+var address=document.getElementById('address-detail');
+console.log(province.value);
+form.addEventListener('submit', function(e) {
+    e.preventDefault()
+   var check= checkEmptyError([sdt,address]);
+   var chekselect=checkSelect([province,ward,district]);
+   var checksdt=checkSdt(sdt);
+   console.log(checksdt);
+    if(check && chekselect && checksdt){
+		 form.submit();
+        }
+});
+
+</script>
+<script th:inline="javascript">
+  var  drivingLicense ="[(${user.drivingLicense})]"
+  var 	imgDrivingLicense= "[(${user.ImgDrivingLicense})]"
+  console.log(drivingLicense + "   r   " +imgDrivingLicense);
+</script>
+</html>

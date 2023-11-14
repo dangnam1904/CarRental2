@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Chuyến đi</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluid" style="padding: 0">
+		<div th:replace="~{pages/layout/menu-account :: menu-acc}">
+		</div>
+		<div class="content-car">
+		<div class="title-page"> <h2> Danh sách chuyến đi </h2></div>
+			<div class="filter-status">
+				<h6>Trạng thái</h6>
+				<select onchange="fiterBill()" id="filter-bill">
+					<option value="5">--Chọn trạng thái--</option>
+					<option value="5">Tất cả</option>
+					<option value="0">Chờ duyệt</option>
+					<option value="1">Đã duyệt</option>
+					<option value="2">Đã thanh toán</option>
+					<option value="3">Đã hủy</option>
+				</select>
+				</select>
+			</div>
+
+			<div class="my-car">
+				<table class="table-car">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th style="display: none">ID</th>
+							<th>Biển số xe</th>
+							<th>Tên xe</th>
+							<th>Ảnh xe</th>
+							<th>Giá xe</th>
+							<th>Chủ xe</th>
+							<th>Số điện thoại</th>
+							<th>Địa chỉ</th>
+							<th>Ngày bắt đầu</th>
+							<th>Ngày kết thúc</th>
+							<th>Tổng tiền</th>
+							<th>Trạng thái</th>
+							<th>Thao tác</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="b, index: ${listBooking}">
+							<td th:text="${index.count}"></td>
+							<td style="display: none" th:text="${b.idBooking}"></td>
+							<td th:text="${b.getCar().getLicensePlates()}"></td>
+							<td th:text="${b.getCar().getNameCar()}"></td>
+							<td><img class="img-car" alt=""
+								th:src="'/uploads/'+${b.getCar().getAvatarCar()}" /></td>
+							<td id="price-bill"
+								th:text="${b.getCar().price}-${b.getCar().price}*${b.getCar().promotionalPrice}/100 +' K'"></td>
+							<td th:text="${b.getCar().getUser().nameDisplay}"></td>
+							<td th:text="${b.getCar().getUser().phone}"></td>
+							<td th:text="${b.getCar().getUser().address}"></td>
+							<td th:text="${b.dateStart}"></td>
+							<td th:text="${b.dateEnd}"></td>
+							<td th:text="${b.billTotal}+ 'đ'"></td>
+							<th:block th:switch="${b.statusBill}">
+								<td th:case="'0'">Chờ duyệt</td>
+								<td th:case="'1'">Đã duyệt</td>
+								<td th:case="'2'">Đã thanh toán</td>
+								<td th:case="'3'">Đã hủy</td>
+							</th:block>
+							<td style="min-width: 150px"><th:block th:if="${b.statusBill==0}">
+									<button class="btn-action"
+										th:onclick="cancelBill([[${b.idBooking}]])">
+										<span><i class="fa fa-edit"></i></span> Hủy đơn
+									</button>
+								</th:block>
+								<th:block th:if="${b.statusBill==1}">
+									<button class="btn-action"
+										th:onclick="paymentBill([[${b.idBooking}]],[[${b.billTotal}]])">
+										<span><i class="fa fa-edit"></i></span> Thanh toán
+									</button>
+								</th:block>
+								<th:block th:if="${b.statusBill==2}">
+									<button class="btn-action">
+										<span></span> Đã thanh toán
+									</button>
+								</th:block>
+								
+								</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</body>
+
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+
+<script th:src="@{/js/main.js}"></script>
+
+<script>
+function paymentBill(id,totalBill){
+	window.location.href = "/payment-bill/" + id+"/?amount="+totalBill;
+}
+
+function cancelBill(id){
+	 window.location.href = "/cancel-bill-trip/" + id;
+}
+
+function fiterBill(){
+	 var status= document.getElementById("filter-bill")
+	 window.location.href = "/filter-bill/" + status.value;
+}
+</script>
+</html>

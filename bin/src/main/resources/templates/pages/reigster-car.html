@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Đăng kí xe</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+
+	<div class="register-car">
+		<form action="/register-car" method="post" id="form-register-car" enctype="multipart/form-data"
+			class="form-register-car" th:object=${car}>
+			<h4>Biển số xe</h4>
+			<p>Lưu ý: Sau khi đăng kí khó thay đổi thông tin</p>
+			<div class="form-inline">
+				<input type="text" th:field="*{licensePlates}" id="licensePlates"
+					placeholder="37A-67896">
+			</div>
+			<h4>Thông tin cơ bản</h4>
+			<div class="group-form">
+				<label for="">Hãng xe</label> <select name="brandcar" id="brandcar">
+					<option value="0">Chọn hãng xe</option>
+					<option th:each="item :${brandcar}" th:value="${item.idBrand}"
+						th:text="${item.nameBrand}"></option>
+				</select> <label for="">Số ghế</label> <input type="number"
+					th:field="*{numberOfSeats}" placeholder="4"> <label for="">Truyền
+					động</label> <select th:field="*{manualTransmissionCar}">
+					<option value="0">Số sàn</option>
+					<option value="1">Số tự động</option>
+				</select>
+			</div>
+			<div class="group-form">
+				<label for="">Mẫu xe</label> <input placeholder="Nhập tên xe"
+					type="text" th:field="*{nameCar}"
+					style="padding: 5px 15px; margin: 10px 0px;"> <label for="">Năm
+					sản xuất</label> <input type="number" th:field="*{modelYear}"
+					placeholder="2022"> <label for="">Loại nhiên liệu</label> <select
+					th:field="*{fuel}">
+					<option value="0">Xăng</option>
+					<option value="1">Dâu desen</option>
+				</select>
+			</div>
+			<h4>Mức tiêu thụ nhiên liệu</h4>
+			<h6>Số lít dùng cho quãng đường 100km</h6>
+			<div class="group-form">
+				<input type="number" th:field="*{fuelFor100km}" placeholder="10">
+			</div>
+		
+			<div class="group-form" style="margin-top: -30px;">
+			<h6>Loại cho thuê</h6>
+				<select th:field="*{driver}">
+					<option value="0">Xe tự lái</option>
+					<option value="1">Xe có tài xế</option>
+				</select>
+			</div>
+			<h4>Mô tả</h4>
+			<div class="form-inline">
+				<textarea th:field="*{overviewCar}" cols="130" rows="10"
+					placeholder="Mô tả về xe"></textarea>
+			</div>
+			<h4>Tính năng</h4>
+			<div class="form-inline">
+				<div class="list-feature">
+					<div class="squaredThree">
+						<input id="map" type="checkbox" th:field="*{maps}"> <label
+							for="map">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/map.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Bản đồ</span>
+					</div>
+					<div class="squaredThree">
+						<input id="bt" type="checkbox" th:field="*{bluetooth}"> <label
+							for="bt">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/bluetooth.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Bluetooth</span>
+					</div>
+					<div class="squaredThree">
+						<input id="c360" type="checkbox" th:field="*{camera360}">
+						<label for="c360">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/360_camera.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Camera 360</span>
+					</div>
+					<div class="squaredThree">
+						<input id="ccle" type="checkbox" th:field="*{parkingCamera}">
+						<label for="ccle">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/parking_camera.png}"
+									alt="">
+							</div>
+						</label> <span class="description-img"> Camera cập lề</span>
+					</div>
+					<div class="squaredThree">
+						<input id="cht" type="checkbox" th:field="*{dashCamera}">
+						<label for="cht">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/dash_camera.png}"
+									alt="">
+							</div>
+						</label> <span class="description-img"> Camera hành trình</span>
+					</div>
+					<div class="squaredThree">
+						<input id="cre" type="checkbox" th:field="*{reverseCamera}">
+						<label for="cre">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/reverse_camera.png}"
+									alt="">
+							</div>
+						</label> <span class="description-img"> Camera lùi</span>
+					</div>
+					<div class="squaredThree">
+						<input id="tpms" type="checkbox" th:field="*{tpms}"> <label
+							for="tpms">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/tpms.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Cảm biến áp suất lốp</span>
+					</div>
+					<div class="squaredThree">
+						<input id="impact_sensor" type="checkbox"
+							th:field="*{impactSensor}"> <label for="impact_sensor">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/impact_sensor.png}"
+									alt="">
+							</div>
+						</label> <span class="description-img"> Cảm biến va chạm</span>
+					</div>
+					<div class="squaredThree">
+						<input id="head_up" type="checkbox" th:field="*{speedWarning}">
+						<label for="head_up">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/head_up.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Cảnh báo tốc độ</span>
+					</div>
+					<div class="squaredThree">
+						<input id="sunroof" type="checkbox" th:field="*{sunroof}">
+						<label for="sunroof">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/sunroof.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Cửa sổ trời</span>
+					</div>
+					<div class="squaredThree">
+						<input id="gps" type="checkbox" th:field="*{gpsLocator}">
+						<label for="gps">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/gps.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Định vị GPS</span>
+					</div>
+					<div class="squaredThree">
+						<input id="babyseat" type="checkbox" th:field="*{babyseat}">
+						<label for="babyseat">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/babyseat.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Ghế trẻ em</span>
+					</div>
+					<div class="squaredThree">
+						<input id="usb" type="checkbox" th:field="*{usb}"> <label
+							for="usb">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/usb.png}" alt="">
+							</div>
+						</label> <span class="description-img"> USB</span>
+					</div>
+					<div class="squaredThree">
+						<input id="spare_tire" type="checkbox" th:field="*{spareTire}">
+						<label for="spare_tire">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/spare_tire.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Lốp dự phòng</span>
+					</div>
+					<div class="squaredThree">
+						<input id="dvd" type="checkbox" th:field="*{dvdScreen}"> <label
+							for="dvd">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/dvd.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Màn hình dvd</span>
+					</div>
+					<div class="squaredThree">
+						<input id="bonnet" type="checkbox" th:field="*{bonnet}"> <label
+							for="bonnet">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/bonnet.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Nắp thùng xe bán tải</span>
+					</div>
+					<div class="squaredThree">
+						<input id="etc" type="checkbox" th:field="*{etc}"> <label
+							for="etc">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/etc.png}" alt="">
+							</div>
+						</label> <span class="description-img">Thu phí không dừng</span>
+					</div>
+					<div class="squaredThree">
+						<input id="airbags" type="checkbox" th:field="*{airbags}">
+						<label for="airbags">
+							<div class="thumbnail">
+								<img class="img-fluid" th:src="@{/images/airbags.png}" alt="">
+							</div>
+						</label> <span class="description-img"> Túi khí an toàn</span>
+					</div>
+
+				</div>
+			</div>
+			<h4>Giá cả</h4>
+			<div class="group-form">
+				<label for="">Đơn giá</label> <input class="price" type="number"
+					th:field="*{price}" id="input-price" placeholder="500"> <span
+					id="price">K</span>
+			</div>
+			<div class="group-form">
+				<label for="">Giảm giá</label> <input class="price" type="range"
+					th:field="*{promotionalPrice}" id="input-promotion-price" min="0"
+					max="50" step="1"><span id="promotion-price"> %</span>
+			</div>
+			<h4>Địa chỉ xe</h4>
+			<div class="group-form-address">
+				<select name="province" th:onchange="GetDistrict(this.value)">
+					<option value="0">Chọn tỉnh - thành phố</option>
+					<th:bock th:each="item : ${province}">
+						<option th:value="${item.idProvince}"
+							th:text="${item.nameProvince}"></option>
+					</th:bock>
+				</select>
+			</div>
+			<div class="group-form-address">
+				<select id="district" name="district"  th:onchange="getWard(this.value)">
+					<option value="0">Chọn quận - huyện</option>
+				</select>
+			</div>
+			<div class="group-form-address">
+				<select name="ward" id="ward">
+					<option value="0">Chọn phường /xã</option>
+					
+				</select>
+			</div>
+			<h6>Địa chỉ cụ thể</h6>
+			<div class="form-inline-address">
+				<input type="text"  th:field="*{addressCar}"
+					placeholder=" Số nhà 12, ngõ 7, đường, khối">
+			</div>
+			<h4>Giao xe tận nơi</h4>
+			<div class="group-form">
+				<label for="">Quãng đường giao xe tối đa</label> <input
+					class="price" type="range" id="input-distance" min="0" max="50"  th:field="*{maximumDeliveryDistance}"
+					step="1"> <span id="distance">Km</span>
+			</div>
+			<div class="group-form">
+				<label for="">Phí giao xe cho 1 Km</label> <input class="price"  th:field="*{deliveryFeeFor1Km}"
+					type="range" id="input-feet-distance" min="0" max="20" step="1"><span
+					id="distance-price"> K</span>
+			</div>
+			<h4>Giới hạn số KM</h4>
+			<div class="group-form">
+				<label for="">Số km tối đa trên ngày</label> <input class="price" th:field="*{maximumKilometersperDay}"
+					type="range" id="input-limit-km" min="200" max="600" step="5">
+				<span id="limit-km">Km</span>
+			</div>
+			<div class="group-form">
+				<label for="">Phí vượt qua gới hạn cho 1 Km</label> <input
+					class="price" type="range" id="input-feet-limit-km" min="0" th:field="*{limitCrossingfee1Km}"
+					max="10" step="1"><span id="limit-km-price"> K</span>
+			</div>
+			<h4>Điều khoản thuê xe</h4>
+			<h6>Ghi rõ các điều kiện khi cho thuê xe</h6>
+			<div class="form-inline">
+				<textarea th:field="*{polyUseCar}" id=""  cols="130" rows="10"></textarea>
+			</div>
+			<h4>Cung cấp ảnh xe</h4>
+			<div class="group-form">
+				<label for="">Ảnh đại diện</label> <input type="file"
+					name="img-main" accept="image/png, image/gif, image/jpeg" />
+			</div>
+			<div class="group-form">
+				<label for="">Các ảnh khác</label> <input type="file"
+					name="img-sub" multiple accept="image/png, image/gif, image/jpeg" />
+			</div>
+			<div class="form-inline-succes">
+				<input type="submit" value="Đăng kí xe">
+			</div>
+		</form>
+	</div>
+
+</body>
+<script>
+    $(document).ready(function () {
+        promotionPrice();
+        distance();
+        feeLimitKM();
+        fee_distance();
+        limitKM();
+        validata();
+    });
+
+
+    function validata() {
+        $('form[id="form-register-car"]').validate({
+            rules: {
+                licensePlates: {
+                    required: true,
+                    maxlength: 9,
+                    validatalicensePlates: true
+                },
+                brandcar: { min: 1 },
+                numberOfSeats: {
+                    required: true,
+                    validataNumberSeat: true,
+                },
+                nameCar:{
+                    required:true,
+                    minlength:5
+                    },
+                modelYear:{
+                    validataYear: true
+                },
+                fuelFor100km:{
+                    required: true,
+                    validataNumberwaste:true,
+                },
+                price:{
+                    required: true,
+                    validataPrice:true,
+                },
+                ward:{min:1},
+                district:{min :1},
+                province:{min: 1}
+                
+            },
+            messages: {
+                licensePlates: {
+                    required: "Chưa nhập biển số xe",
+                    maxlength: "Không vượt quá 9 kí tự",
+                    validatalicensePlates: "Biển số không hợp lệ",
+                },
+                brandcar: "Chưa chọn hãng xe",
+                numberOfSeats: {
+                    required: "Nhập số ghế",
+                    validataNumberSeat: "Số ghế ảo",
+                },
+                nameCar:{
+                	 required: "Chưa nhập thông tin xe",
+                	 minlength:"Tên xe quá ngắn",
+                    },
+                modelYear: {
+                    validataYear:"Năm sản xuất không hợp lệ"
+                },
+                fuelFor100km:{
+                    required: "Chưa nhập dữ liệu",
+                    validataNumberwaste: "Chỉ nhập số " 
+                },
+                price: {
+                    required: "Chưa nhập dữ liệu",
+                    validataPrice: "Chỉ nhập số" 
+                },
+                ward:"Chưa chọn tỉnh/tp",
+                district:'Chưa chọn quận/ huyện',
+                province:"Chưa chọn phường, xã"
+
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+
+        $.validator.addMethod("validatalicensePlates", function () {
+            var licensePlates = $('#licensePlates').val();
+            return (/^[0-9]{2}[a-zA-Z]{1}[-][0-9]{5}$/.test(licensePlates));
+        })
+
+        $.validator.addMethod("validataNumberSeat", function () {
+            var numberseat = $('#numberOfSeats').val();
+            return ((/^[0-9]/.test(numberseat)) && numberseat < 10);
+        })
+        
+         $.validator.addMethod("validataNumberwaste", function () {
+            var numberwaste = $('#fuelFor100km').val();
+            return ((/^[0-9]/.test(numberwaste)));
+        })
+        $.validator.addMethod("validataYear", function () {
+            var year = $('#modelYear').val();
+            let curentYear= new Date().getFullYear();
+            console.log(curentYear);
+            if(year<=curentYear){
+                console.log("oki");
+                
+                }
+            console.log(Number.isInteger(year));
+            return ((/^[0-9]/.test(year)) && year<=curentYear && year>=1940);
+        })
+    
+        $.validator.addMethod("validataPrice", function () {
+            var price = $('#input-price').val();
+            var pric= parseInt(price);
+            return ( Number.isInteger(pric));
+        })
+        
+    }
+
+    function promotionPrice() {
+        var input_promotion_price = document.getElementById("input-promotion-price");
+        var span_pirce_promotion = document.getElementById("promotion-price");
+        /* Hiển thị giá trị mặc định 50 cho thẻ span với id là demo*/
+        span_pirce_promotion.innerText = input_promotion_price.value + "%";
+        /* cập nhật giá trị hiện tại của ranger */
+        input_promotion_price.oninput = function () {
+            console.log(this.value);
+            span_pirce_promotion.innerText = this.value + "%";
+        }
+    }
+
+    function distance() {
+        // quang dương di //
+        var input_distance = document.getElementById("input-distance");
+        var distance = document.getElementById("distance");
+        /* Hiển thị giá trị mặc định 50 cho thẻ span với id là demo*/
+        distance.innerText = input_distance.value + "Km";
+        /* cập nhật giá trị hiện tại của ranger */
+        input_distance.oninput = function () {
+            distance.innerText = this.value + "Km";
+        }
+    }
+    function fee_distance() {
+        // phi tien quang dương di //
+        var input_feet = document.getElementById("input-feet-distance");
+        var distance_price = document.getElementById("distance-price");
+        /* Hiển thị giá trị mặc định 50 cho thẻ span với id là demo*/
+        distance_price.innerText = input_feet.value + "K";
+        /* cập nhật giá trị hiện tại của ranger */
+        input_feet.oninput = function () {
+            distance_price.innerText = this.value + "K";
+        }
+    }
+
+    function limitKM() {
+        // Gioi hạn km //
+        var input_limit_km = document.getElementById("input-limit-km");
+        var limit_km = document.getElementById("limit-km");
+        /* Hiển thị giá trị mặc định 50 cho thẻ span với id là demo*/
+        limit_km.innerText = input_limit_km.value + "Km";
+        /* cập nhật giá trị hiện tại của ranger */
+        input_limit_km.oninput = function () {
+            limit_km.innerText = this.value + "Km";
+        }
+    }
+
+    function feeLimitKM() {
+        //  phí Gioi hạn km //
+        var input_feet_limit_km = document.getElementById("input-feet-limit-km");
+        var limit_km_price = document.getElementById("limit-km-price");
+        /* Hiển thị giá trị mặc định 50 cho thẻ span với id là demo*/
+        limit_km_price.innerText = input_feet_limit_km.value + "K";
+        /* cập nhật giá trị hiện tại của ranger */
+        input_feet_limit_km.oninput = function () {
+            limit_km_price.innerText = this.value + "K";
+        }
+    }
+
+</script>
+<style>
+label.error {
+	display: block;
+	color: red;
+	width: 200px;
+}
+
+label {
+	margin-top: 7px;
+}
+
+.form-inline-succes input[type="submit"] {
+	width: 95%;
+	border: rgb(58, 211, 58) 1px solid;
+	margin: 20px 10px;
+	border-radius: 10px;
+	padding: 10px;
+	text-transform: uppercase;
+	color: white;
+	font-weight: 700;
+	background-color: rgb(58, 211, 58);
+}
+
+.form-inline-succes {
+	text-align: center;
+	width: 100%;
+}
+
+.group-form-address select {
+	width: 100%;
+	padding: 5px 15px;
+	margin: 10px 0px;
+}
+
+.group-form-address {
+	width: calc(93%/ 3);
+	margin: 10px;
+	padding: 5px 15px;
+}
+
+.group-form input[type="range"] {
+	padding: 0;
+	margin: 10px 0px 0px 0px;
+}
+
+.group-form #input-price {
+	width: 90%;
+	padding: 5px 10px;
+}
+
+.group-form #input-promotion-price {
+	width: 90%;
+	padding: 5px 10px;
+}
+
+.group-form .price {
+	width: 85%;
+	padding: 5px 10px;
+}
+
+input[type=checkbox]:checked ~.description-img {
+	color: blue;
+	font-weight: 700;
+}
+
+.list-feature .squaredThree .thumbnail .img-fluid {
+	width: 30px;
+	height: auto;
+	margin: 0 auto;
+}
+
+.list-feature .squaredThree .thumbnail {
+	padding: 10px;
+	text-align: center;
+	border: 1px solid #e8eaef;
+	box-sizing: border-box;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.list-feature .squaredThree input[type="checkbox"] {
+	position: absolute;
+	visibility: hidden;
+}
+
+.list-feature .squaredThree {
+	width: calc(93%/ 3);
+	margin: 10px;
+	padding: 5px 15px;
+	border: 1px solid gray;
+	border-radius: 5px;
+}
+
+.list-feature {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.form-inline-address {
+	width: 100%;
+	margin: 10px 25px;
+}
+
+.form-inline-address input {
+	width: 100%;
+}
+
+.form-inline {
+	width: 100%;
+	margin: 10px 25px;
+}
+
+.form-register-car p {
+	color: red;
+	font-size: 15px;
+}
+
+.form-inline input {
+	width: 50%;
+}
+
+.group-form {
+	width: calc(90%/ 2);
+	margin: 10px 25px;
+	background-color: rgb(255, 255, 255);
+}
+
+.group-form input {
+	width: 100%;
+	padding: 5px 10px;
+}
+
+.group-form select {
+	width: 100%;
+	padding: 5px 15px;
+	margin: 10px 0px;
+}
+
+.form-register-car h4, p, h6 {
+	margin: 5px 25px;
+	width: 100%;
+}
+
+.form-register-car {
+	margin-top: 15px;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.register-car {
+	margin: 15px;
+	padding: 0;
+	width: 80%;
+	margin-left: 10%;
+	border: 4px solid rgb(73, 73, 116);
+	border-radius: 12px;
+}
+</style>
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<script th:src="@{/js/main.js}"></script>
+<script>
+		function GetDistrict(id){
+			var districts = document.getElementById('district');
+			console.log(districts)
+			$.ajax({
+				url: "/../getDistrict",
+				data: {
+					id: id
+				},
+				type: "GET",
+				 responseType: "application/json"
+			}).done(function(ketqua){
+				console.log(ketqua);
+				 district.length = 1;
+				for(let d of ketqua){
+					districts.options[districts.options.length] = new Option(d.nameDistrict , d.idDistrict);
+					}
+			})
+			
+		}
+
+		function getWard(id){
+			var wards = document.getElementById('ward');
+			
+			$.ajax({
+				url: "/../getWard",
+				data: {
+					id: id
+				},
+				type: "GET",
+				 responseType: "application/json"
+			}).done(function(ketqua){
+				console.log(ketqua);
+				wards.length = 1;
+				for(let d of ketqua){
+					wards.options[wards.options.length] = new Option(d.nameWard , d.idWard);
+					}
+			})
+			
+		}
+	</script>
+
+</html>

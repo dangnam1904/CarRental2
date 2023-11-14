@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Admin - Sửa Xã Phường</title>
+<meta name="description" content="Admin - Thêm phụ kiện">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head th:replace="~{admin/layout/css :: css}">
+<script th:src='@{/lib/bower_components/tinymce/tinymce.min.js}'></script>
+</head>
+<body>
+
+	<aside th:replace="~{admin/layout/nav-left :: nav-left} "></aside>
+
+	<!-- Right Panel -->
+
+	<div id="right-panel" class="right-panel">
+
+		<header th:replace="~{admin/layout/header :: header}"> </header>
+
+		<div class="breadcrumbs">
+			<div class="breadcrumbs-inner">
+				<div class="row m-0">
+					<div class="col-sm-4">
+						<div class="page-header float-left">
+							<div class="page-title">
+								<h1>
+									<b>Xã /Phường</b>
+								</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="page-header float-right">
+							<div class="page-title">
+								<ol class="breadcrumb text-right">
+									<li><a href="javascript:void(0)">Trang chủ</a></li>
+									<li><a href="javascript:void(0)">Xã - phường</a></li>
+									<li class="active">Sửa</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="content">
+			<div class="animated fadeIn">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<strong>Thêm</strong>
+							</div>
+							<div class="card-body card-block">
+								<form th:action="@{/admin/ward/add}" method="post"
+									id="form-action" class="form-horizontal" th:object=${ward}>
+									<div class="row">
+									<input type="hidden" th:field="*{idWard}"> 
+									<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-control-label">Tên tỉnh/ thành phố</label> 
+													<select name="province" th:onchange="GetDistrict(this.value)" th:onload="GetDistrict(this.value)">
+													<option value="0"> Chọn tỉnh - thành phố</option>
+													<th:bock  th:each="item : ${province}" >
+													<option  th:value="${item.idProvince}" th:unless="${item.idProvince==ward.getDistrict().getProvince().getIdProvince()}" th:text="${item.nameProvince}" ></option>
+													 <option  th:value="${item.idProvince}" th:if="${item.idProvince==ward.getDistrict().getProvince().getIdProvince()}" th:text="${item.nameProvince}" selected="selected"></option>
+													  </th:bock>
+													</select>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-control-label">Tên Quận - Huyện</label> 
+													<select id="district" name="district" >	
+													<th:bock  th:each="item : ${district}" >
+													 
+													 <option  th:value="${item.idDistrict}" th:if="${item.idDistrict==ward.getDistrict().getIdDistrict}" th:text="${item.nameDistrict}" selected="selected"></option>
+													  <option  th:value="${item.idDistrict}" th:unless="${item.idDistrict==ward.getDistrict().getIdDistrict}" th:text="${item.nameDistrict}"></option>
+												
+													</th:bock>
+													</select>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-control-label">Tên Xã Phường</label> <input
+													type="text" placeholder="Nhập quận/ huyện" th:field="*{nameWard}"
+													class="form-control" name="" id="nameward"> <small></small>
+											</div>
+										</div>
+									
+										<div class="col-md-12">
+											<hr>
+											<div class="form-actions form-group">
+												<button type="submit" class="btn btn-success">Lưu
+													lại</button>
+												<a class="btn btn-danger" th:href="@{/admin/ward}">Hủy bỏ</a>
+											</div>
+										</div>
+									</div>
+									<span style="color: red" th:if="${mes}"
+										class="alert alert-succes text-center"> [[${mes}]]</span>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- .animated -->
+		</div>
+		<!-- .content -->
+		<div class="clearfix"></div>
+	</div>
+
+<footer th:replace="~{admin/layout/footer :: footer}"></footer>
+
+	<script th:src="@{/lib/bower_components/jquery/dist/jquery.min.js}"></script>
+
+	
+	<style type="text/css">
+.form-group.error small {
+	color: #e74c3c;
+}
+.form-group select{
+display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;}
+</style>
+
+<script>
+
+		function GetDistrict(id){
+			var districts = document.getElementById('district');
+			console.log("565")
+			$.ajax({
+				url: "/../getDistrict",
+				data: {
+					id: id
+				},
+				type: "GET",
+				 responseType: "application/json"
+			}).done(function(ketqua){
+				console.log(ketqua);
+				 district.length = 1;
+				for(let d of ketqua){
+					districts.options[districts.options.length] = new Option(d.nameDistrict , d.idDistrict);
+					}
+			})
+			
+		}
+
+	</script>
+
+	<script>
+	var form = document.getElementById('form-action');
+	var district = document.getElementById('district');
+	
+	var ten = document.getElementById('nameward');
+
+	function showError(input, message) {
+	    //  console.log(input.parentElement.querySelector('small'));
+	        let parent = input.parentElement;
+	        let small = parent.querySelector('small');
+	        parent.classList.add('error');
+	        small.innerText = message;
+	    }
+
+	  function showSuccess(input, message) {
+	        let parent = input.parentElement;
+	        let small = parent.querySelector('small');
+	        parent.classList.remove('error');
+	        small.innerText = '';
+	    }
+	    
+	function checkEmptyError(listInput) {
+        let isEmptyError = false;
+        listInput.forEach(input => {
+            input.value = input.value.trim();
+            if (!input.value) {
+              
+                showError(input, 'Không được để trống');
+            } else {
+                showSuccess(input);
+                isEmptyError = true;
+            }
+        });
+        return isEmptyError;
+    }
+    
+    function checkSdt(input){
+        var check=false;
+    	var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+    	if(vnf_regex.test(input)){
+        	check= true;
+        	}
+    	return check;	
+     }
+
+    function checkNumber(input){
+        var check= false;
+        if(/^[0-9]+$/.test(input.value)){
+            check= true;
+        	 showSuccess(input);
+            }else{
+            	showError(input, 'Chỉ được nhập số');
+            	check= false;
+            }
+        return check;
+        }
+ 
+	 form.addEventListener('submit', function(e) {
+	        e.preventDefault()
+	    	
+	        var check= checkEmptyError([ten]);
+	       
+	        if(check && district.value>0 ){
+				 form.submit();
+		        }
+	    });
+		
+	</script>
+
+</body>
+</html>

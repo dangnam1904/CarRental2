@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Trang cá nhân</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluid" style="padding: 0">
+		<div class="img-head"></div>
+		<div class="profile">
+			<div class="profile-info">
+				<div class="avatar">
+					<img alt="" th:src="@{'/uploads/'+${user.image}}"
+						class="avatar-img">
+					<form action="/upload-avatar" enctype="multipart/form-data"
+						method="post">
+						<input type="file" accept=".png, .jpg, .jpeg, .git"
+							name="avatar-user">
+						<button>Lưu</button>
+					</form>
+				</div>
+				<div class="name-info">
+					<h2 th:text="${user.nameDisplay}"></h2>
+					<a onclick=" openPopup()"> <i
+						class="fa-solid fa-pen-to-square "></i></a>
+					<p th:text="'Ngày tham gia '+${user.createDate}"></p>
+					<h6 th:text="'Ngày sinh '+${user.dateOfBrith}"></h6>
+					<h6 th:text="${user.sex} ? 'Giới tính : nam' : 'Giới tính : nữ'"></h6>
+					<p th:text="${user.address}"></p>
+				</div>
+				<div class="popup" id="popup">
+					<form action="/update-info-user" method="post"
+						name="edit-infomation">
+
+						<h4>Thông tin</h4>
+						<h6>Tên hiển thị</h6>
+						<input type="text" placeholder="Tên hiển thỉ" name="name-display"
+							id="namedisplay"> <small></small>
+						<h6>Ngày sinh</h6>
+						<input type="text" placeholder="Ngày sinh" name="dateOfBrith"
+							id="dateOfBrith"> <small></small>
+						<h6>Giới tính</h6>
+						<div class="group-form-address">
+							<select id="sex" name="sex">
+								<option value="0">Nam</option>
+								<option value="1">Nữ</option>
+							</select> <small></small>
+						</div>
+						<h6>Địa chỉ</h6>
+						<div class="group-form-address">
+							<select name="province" th:onchange="GetDistrict(this.value)"
+								id="province">
+								<option value="0">Chọn tỉnh - thành phố</option>
+								<th:bock th:each="item : ${province}">
+									<option th:value="${item.idProvince}"
+										th:text="${item.nameProvince}"></option>
+								</th:bock>
+							</select> <small></small>
+						</div>
+						<div class="group-form-address">
+							<select id="district" name="district"
+								th:onchange="getWard(this.value)">
+								<option value="0">Chọn quận - huyện</option>
+							</select> <small></small>
+						</div>
+						<div class="group-form-address">
+							<select name="ward" id="ward">
+								<option value="0">Chọn phường /xã</option>
+							</select> <small></small>
+						</div>
+						<h6>Địa chỉ cụ thể</h6>
+						<div class="form-inline-address">
+							<input type="text" placeholder=" Số nhà 12, ngõ 7, đường, khối"
+								name="address-detail" id="address-detail"> <small></small>
+						</div>
+						<div class="group-action">
+							<a class="btn-cancel" onclick="closePopup()">Hủy bỏ</a>
+							<button class="btn-success" type="submit">Xác nhận</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="information-acc">
+				<ul>
+					<li><span class="title-text">Số điện thoại</span> <span
+						class="content-text"> <a onclick="openPopupPhone()"> <i
+								class="fa-solid fa-pen-to-square "></i></a> <span
+							th:text="${user.phone}"> </span>
+					</span>
+						<div class="popup" id="popup-phone">
+							<form action="/updatePhone" id="" method="post" name="edit-phone">
+
+								<h4>Thông tin</h4>
+								<h6>Số điện thoại</h6>
+								<input type="text" placeholder="Số điện thoại" name="phone"
+									id="phone"> <small></small>
+								<div class="group-action">
+									<a class="btn-cancel" onclick="closePopupPhone()">Hủy bỏ</a>
+									<button class="btn-success" type="submit">Xác nhận</button>
+								</div>
+							</form>
+						</div></li>
+					<li><span class="title-text">Giấy phép lái xe</span> <span
+						class="content-text"> <a onclick="openPopupGPLX()"> <i
+								class="fa-solid fa-pen-to-square "></i></a> <span
+							th:text="${user.drivingLicense}"> </span> <img alt=""
+							th:src="'/uploads/'+${user.ImgDrivingLicense}"
+							style="width: 133px; height: auto; top: 30p; position: absolute; top: 36px; left: 10px;">
+					</span>
+						<div class="popup" id="popup-gplx">
+							<form action="/upload-gplx" method="post" id=""
+								enctype="multipart/form-data" name="edit-gplx">
+
+								<h4>Thông tin</h4>
+								<h6>Số giấy phép lái xe</h6>
+								<input type="text" placeholder="Số nằm mắt trước của GPLX"
+									name="gplx" id="phone"> <small></small>
+								<h6>Tải ảnh</h6>
+								<input type="file" name="image-gplx" accept=".jpg, .png, .git"
+									id="dateOfBrith"> <small></small>
+								<div class="group-action">
+									<a class="btn-cancel" onclick="closePopupGPLX()">Hủy bỏ</a>
+									<button class="btn-success" type="submit">Xác nhận</button>
+								</div>
+							</form>
+						</div></li>
+					<li><span class="title-text">Email</span> <span
+						class="content-text"> <a onclick="openPopupEmail()"> <i
+								class="fa-solid fa-pen-to-square "></i></a> <span
+							th:text="${user.email}"> </span>
+					</span>
+						<div class="popup" id="popup-email">
+							<form action="/updateEmail" method="post" id="" name="edit-email">
+
+								<h4>Thông tin</h4>
+								<h6>Email</h6>
+								<input type="text" placeholder="Email" name="email" id="phone">
+								<small></small>
+								<div class="group-action">
+									<a class="btn-cancel" onclick="closePopupEmail()">Hủy bỏ</a>
+									<button class="btn-success" type="submit">Xác nhận</button>
+								</div>
+							</form>
+						</div></li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+</body>
+
+
+<style>
+.popup {
+	width: 600px;
+	background-image: linear-gradient(#747374, #9b9b9b);
+	margin: 20px 10px;
+	padding: 5px 10px;
+	position: absolute;;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0.1);
+	visibility: hidden;
+	border-radius: 6px;
+	transition: transform 0.4s, top 0.4s;
+}
+
+.open-popup {
+	visibility: visible;
+	top: 70%;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.popup input, select {
+	width: 90%;
+	margin: 5px 30px;
+	padding: 5px 10px;
+}
+
+.popup h4 {
+	text-align: center;
+	margin-top: 15px;
+}
+
+.popup h6, small {
+	margin-left: 30px;
+	text-align: left;
+}
+
+.popup  small {
+	margin-left: 30px;
+	color: red;
+	font-size: 14px;
+}
+
+.popup .group-action {
+	display: flex;
+	justify-content: space-around;
+	margin: 10px;
+	margin-bottom: 20px;
+}
+
+.popup .group-action button, a {
+	border: 0;
+	outline: none;
+	padding: 10px 25px;
+	border-radius: 7px;
+	margin-top: 10px;
+	font-weight: 700;
+	font-size: 19px;
+	text-decoration: none;
+	color: black;
+}
+
+.popup .group-action a {
+	cursor: pointer;
+}
+
+.btn-sucs {
+	display: inherit;
+	text-align: center;
+	width: 100%;
+	padding: 10px 25px;
+	border-radius: 7px;
+	margin-top: 10px;
+	font-weight: 700;
+	font-size: 19px;
+	background-color: #41cd5f;
+	padding: 10px 25px;
+	cursor: pointer;
+}
+
+.popup .group-action .btn-cancel {
+	background-color: #d3474d;
+}
+
+.popup .group-action .btn-success {
+	background-color: #41cd5f;
+}
+
+.information-acc .title-text {
+	display: block;
+	text-align: center;
+	width: 100%;
+	position: relative;
+	width: 100%;
+	font-size: 22px;
+	font-weight: bold;
+	
+}
+
+.information-acc .content-text {
+	transform: translate(-50%, -50%);
+	margin-top: 20px;
+	position: absolute;
+}
+
+.information-acc .content-text a {
+	position: absolute;
+	top: -30px;
+	right: -100px;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.information-acc {
+	display: flex;
+	justify-content: center;
+	background-color: #e8ebe8;
+	padding: 0 10%;
+	height: 100px;
+	border-radius: 7px;
+	margin-top: 15px;
+	background-color: white;
+	margin-bottom: 15px;
+	height: 180px;
+}
+
+.information-acc ul {
+	width: 100%;
+}
+
+.information-acc li {
+	width: calc(100%/ 3 - 50px);
+	text-align: center;
+	margin-top: 15px;
+	border-radius: 7px;
+}
+
+.profile {
+	background-color: #e8ebe8;
+}
+
+.name-info {
+	position: relative;
+	text-align: center;
+	background-color: white;
+	width: 600px;
+	padding: 15px 10px 10px 10px;
+	text-align: center;
+	border-radius: 7px;
+}
+
+.name-info a {
+	position: absolute;
+	top: 30px;
+	right: 100px;
+	cursor: pointer;
+}
+
+.name-info a:hover {
+	position: absolute;
+	top: 30px;
+	right: 100px;
+	cursor: pointer;
+}
+
+.name-info i {
+	font-size: 24px;
+}
+
+.profile-info {
+	display: flex;
+	padding-top: 30px;
+	justify-content: center;
+}
+
+.avatar-img {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	margin-top: -70px;
+	margin-left: 20px;
+}
+
+.avatar {
+	background: white;
+	margin-right: 40px;
+	border-radius: 7px;
+}
+
+.avatar button {
+	border: none;
+	overflow: hidden;
+	padding: 5px 20px;
+	margin: 5px 10px;
+	border-radius: 7px;
+	background-color: #9ba7e5;
+}
+
+.avatar input {
+	padding: 5px 20px;
+	margin: 5px 10px;
+}
+</style>
+
+<style th:inline="text">
+.img-head {
+	background-image: url([[@{/images/car-9.4970ef2e.jpg}]]);
+	height: 360px;
+	background-repeat: no-repeat, repeat;
+	background-size: cover;
+}
+</style>
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+
+<script th:src="@{/js/main.js}"></script>
+<script>
+	var popup = document.getElementById('popup');
+	function openPopup() {
+		popup.classList.add("open-popup");
+	}
+
+	function closePopup() {
+		popup.classList.remove("open-popup");
+	}
+
+	var popup_phone = document.getElementById('popup-phone');
+	function openPopupPhone() {
+		popup_phone.classList.add("open-popup");
+	}
+
+	function closePopupPhone() {
+		popup_phone.classList.remove("open-popup");
+	}
+
+	var popup_email = document.getElementById('popup-email');
+	function openPopupEmail() {
+		popup_email.classList.add("open-popup");
+	}
+
+	function closePopupEmail() {
+		popup_email.classList.remove("open-popup");
+	}
+
+	var popup_gplx = document.getElementById('popup-gplx');
+	function openPopupGPLX() {
+		popup_gplx.classList.add("open-popup");
+	}
+
+	function closePopupGPLX() {
+		popup_gplx.classList.remove("open-popup");
+	}
+</script>
+
+<th:block th:if="${messege_error}">
+				<script>
+		alert("Cần cập nhật số điện thoại, bằng lái");
+</script>
+			</th:block>
+
+</html>

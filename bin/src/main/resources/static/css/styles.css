@@ -1,0 +1,1101 @@
+/* home page */
+.row {
+	margin: 0px;
+}
+
+.navbar-collapse {
+	margin-left: 380px;
+	font-weight: 500;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+li {
+	display: inline-block;
+	margin: 0 10px;
+}
+
+.navbar-nav a {
+	color: black;
+	font-size: 17px;
+	font-weight: 500;
+	padding: 10px 15px;
+	opacity: 0.5;
+}
+
+.navbar-nav a:hover {
+	opacity: 0.9;
+	border-bottom: 2px solid green;
+}
+
+.header {
+	backgound-color: #ffff;
+	width: 100%;
+	border: bottom 3px green;
+	/* position: fixed;
+    top: 0;
+    overflow: hidden;
+    */
+}
+
+/* .search-car {
+	background-image: linear-gradient(rgb(201, 204, 200), rgb(99, 97, 97));
+	padding-bottom: 60px;
+} */
+.search-car h2 {
+	padding-top: 40px;
+	text-align: center;
+}
+
+#search-car {
+	opacity: 0.5;
+}
+
+#form-search-car {
+	box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+	border-radius: 10px;
+	background: white;
+	margin: auto;
+	padding: 10px 20px 30px 20px;
+}
+
+#form-search-car label {
+	font-size: 20px;
+	padding-bottom: 5px;
+	border-radius: 25px;
+}
+
+#form-search-car input[type=text] {
+	width: 100%;
+	border: none;
+	border-left: 3px solid green;
+	border-radius: 0;
+}
+
+#form-search-car .form-group {
+	margin-bottom: 10px;
+}
+
+#form-search-car input[type=datetime-local] {
+	width: 100%;
+	border: none;
+	border: none;
+	border-left: 3px solid green;
+	border-radius: 0;
+	opacity: .6;
+}
+
+.btn-search-car {
+	width: 100%;
+}
+
+.insurance-partner {
+	position: absolute;
+	bottom: -110px;
+	left: 25%;
+	padding: 0.75rem 2rem 0;
+	background: #fff;
+	border-radius: 20px;
+	z-index: 1;
+	text-align: center;
+	width: 50%;
+}
+
+.partner-logo {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: stretch;
+}
+
+.partner-logo__image {
+	position: relative;
+	padding: 0 25px;
+	display: flex;
+	align-items: center;
+	flex: 1 1;
+	max-width: 170px
+}
+
+.dropdown-menu-acc li {
+	width: 90%;
+}
+
+.menu-option i {
+	margin-right: 12px;
+}
+
+.img-fluid {
+	max-width: 100%;
+	height: auto;
+}
+
+.partner-logo__image:not(:last-child):after {
+	content: "";
+	position: absolute;
+	width: 2px;
+	right: -2px;
+	height: 40%;
+	top: auto;
+	border-left: 1px solid #6e6e6e;
+	border-right: 1px solid #6e6e6e;
+}
+
+.features__sect {
+	position: relative;
+	bottom: -150px;
+}
+
+.a-help {
+	text-decoration: none;
+	font-size: 18px;
+	color: black;
+	font-weight: 500;
+	padding-bottom: 5px;
+}
+
+.a-help p {
+	padding-bottom: 10px;
+}
+
+.a-help:hover {
+	color: darkgoldenrod;
+}
+
+.fix-img {
+	width: 100%;
+	height: 200px;
+	text-align: center;
+	margin-top: 10px;
+	background-image: linear-gradient(#ffffff, #72abe0);
+}
+
+.fix-img img {
+	width: 50%;
+	height: inherit;
+}
+
+.help-use h3 {
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+/** carouse slide  many item **/
+/* sli tính năng*/
+@media screen and (min-width: 576px) {
+	.carousel-inner-tt {
+		display: flex;
+	}
+	.carousel-item-tt {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 4);
+	}
+}
+
+/* silde dia diêm có có người lái */
+@media screen and (min-width: 576px) {
+	.carousel-inner-address-driver {
+		display: flex;
+	}
+	.carousel-item-address-driver {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 5);
+	}
+}
+/* address không người lái*/
+@media screen and (min-width: 576px) {
+	.carousel-inner-address-no-driver {
+		display: flex;
+	}
+	.carousel-item-address-no-driver {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 5);
+	}
+}
+
+/* xe tự lái*/
+@media screen and (min-width: 576px) {
+	.carousel-inner-no-driver {
+		display: flex;
+	}
+	.carousel-item-no-driver {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 3);
+	}
+}
+
+/* xe slide image car*/
+@media screen and (min-width: 576px) {
+	.carousel-inner-ImgCar {
+		display: flex;
+	}
+	.carousel-item-ImgCar {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 4);
+	}
+}
+
+.card-body-car-img {
+	position: relative;
+	height: 300px;
+}
+
+.card-body-car-img img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+
+/* xe tự có tài*/
+@media screen and (min-width: 576px) {
+	.carousel-inner-driver {
+		display: flex;
+	}
+	.carousel-item-driver {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 3);
+	}
+}
+
+.title-content {
+	margin-top: 20px;
+	margin-left: 25px;
+}
+
+.carousel-inner {
+	padding: 1em;
+}
+
+.card {
+	margin: 0 0.5em;
+	border-radius: 30px;
+	box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+	font-size: 0.9em;
+}
+
+.card-address {
+	margin: 0 0.5em;
+	border-radius: 30px;
+	box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+	font-size: 0.9em;
+}
+
+.card-body {
+	padding: 0;
+	height: 350px;
+	border-radius: 10px;
+	position: relative;
+}
+
+.card-body img {
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+
+.card-body .text {
+	position: absolute;
+	bottom: 40px;
+	text-decoration: none;
+	font-size: 20px;
+	color: #ffffff;
+	font-weight: 500;
+	left: 20px;
+}
+
+.carousel-item:hover {
+	box-shadow: #3568b4;
+	transition: all .3s ease-in-out;
+}
+
+.carousel-control-prev, .carousel-control-next {
+	width: 6vh;
+	height: 6vh;
+	background-color: #3568b4;
+	border-radius: 50%;
+	top: 50%;
+	transform: translateY(-50%);
+	opacity: 0.5;
+}
+
+.carousel-control-prev:hover, .carousel-control-next:hover {
+	opacity: 0.8;
+}
+
+.card-body-car {
+	padding: 0;
+	height: 350px;
+	border-radius: 10px;
+}
+.card-body-car a{
+	padding: 0;
+}
+.icon a{
+	padding: 5px;
+}
+.card-body-car a {
+	text-decoration: none;
+}
+
+.card-body-car img {
+	width: 100%;
+	height: 220px;
+	border-radius: 10px;
+	position: relative;
+}
+
+.card-body-car .price {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	text-decoration: none;
+	border: rgba(0, 161, 80, .8) solid 1px;
+	background-color: rgba(0, 161, 80, .8);;
+	border-radius: 5px;
+	padding: 5px 15px;
+	font-size: 20px;
+	color: white;
+	font-weight: 500;
+}
+
+.card-body-car .info-car {
+	color: black;
+	margin-top: 10px;
+	text-decoration: none;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+/* cardeatail */
+.contain-car-price input[type="submit"] {
+	background-color: #00a550;
+	width: 100%;
+	border: 1px solid #00a550;
+	border-radius: 10px;
+	font-size: 18px;
+	margin-top: 20px;
+	font-weight: 700;
+	margin-bottom: 20px;
+	padding: 10px 0px;
+	color: white;
+}
+
+.total-feel {
+	display: flex;
+}
+
+.total-feel .total-feel-title {
+	width: 60%;
+	margin: 10px 0px 10px 0px;
+}
+
+.total-feel .price-total {
+	margin: 10px 0px 10px 0px;
+}
+
+.price-detail {
+	display: flex;
+	border-bottom: 2px solid green;
+}
+
+.price-detail .title {
+	margin: 3px;
+	border-bottom: none;
+	width: 60%;
+	padding-bottom: 0px;
+	margin-top: 20px;
+}
+
+.price-detail .price, .price-total {
+	margin: 3px;
+	margin-top: 20px;
+}
+
+.phuphi {
+	border: 1px solid gray;
+	border-radius: 4px;
+	padding: 5px;
+	margin: 5px 0px;
+}
+
+.address-car {
+	margin: 15px 0px;
+}
+
+.contain-car-price .price-car h4 {
+	color: #00a550;
+	text-align: center;
+	font-weight: 800;
+	font-size: 28px;
+}
+
+.contain-car-price label {
+	margin-bottom: 7px;
+}
+
+.contain-car-price {
+	padding: 10px 20px;
+	border: 2px solid gray;
+	border-radius: 10px;
+	text-align: justify;
+}
+
+.title {
+	margin: 7px;
+	padding-bottom: 7px;
+	border-bottom: 2px solid black;
+}
+
+.commment {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 1rem;
+	margin-top: 15px;
+	border-bottom: 2px solid grey;
+}
+
+.commment .avatar {
+	width: 75px;
+	height: 75px;
+	margin: 5px;
+	border-radius: 50%;
+}
+
+.commment .name {
+	width: 70%;
+	margin: 10px;
+	margin-left: 20px;
+}
+
+.commment .time-left {
+	margin: 10px;
+	color: #00a550;
+}
+
+.commment .avatar img {
+	width: 100%;
+	height: 100%;
+	border: 1px solid yellow;
+	border-radius: 50%;
+}
+
+.feedback {
+	display: flex;
+}
+
+.feedback button {
+	width: 50%;
+	text-align: center;
+	margin: 10px;
+	padding: 5px 50px;
+	border: 1px solid #00a550;
+	border-radius: 10px;
+}
+
+.feedback .favourite {
+	background-color: #00a550;
+}
+
+.notification {
+	position: relative;
+}
+
+.content-noti {
+	position: absolute;
+	width: 350px;
+	right: 50px;
+	background: #bbbbbb;
+	border-radius: 5px;
+	max-height: 500px;
+	overflow: auto;
+}
+.content-noti p{
+	margin-bottom: 5px;
+}
+.content-noti  button{
+	background: green;
+	border: none;
+	padding: 5px 20px;
+	width: 100%;
+	text-align: center;
+	font-weight: 500;
+	color: white;
+	position: absolute;
+}
+
+
+.content-noti .title-noti a {
+	margin:  0px;
+	
+	display: flex;
+	background:white;
+	border-bottom: 1px solid black;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: lighter;
+	opacity: 1;
+}
+.content-noti .title-noti a:hover {
+	
+	opacity: .8;
+}
+
+.icon-noti {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: red;
+	position: absolute;
+	top: 10px;
+	right: 0px;
+}
+
+#content-noti img {
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+	padding-top: 5px;
+}
+
+.owner-response {
+	width: 75%;
+}
+
+.response-desc {
+	flex-direction: row;
+	justify-content: space-between;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 15px;
+	padding-top: 15px;
+}
+
+.response-desc p {
+	font-weight: 400;
+	color: #141414;
+	text-transform: unset;
+	font-size: 16px;
+	margin: 0px;
+}
+
+.response-desc span {
+	color: #141414;
+	font-size: 16px;
+}
+
+.profile-mini {
+	display: flex;
+	flex-wrap: wrap;
+	width: 75%;
+	margin-bottom: 1rem;
+}
+
+.profile-mini .info {
+	margin-left: 30px;
+}
+
+.profile-mini .info a {
+	text-decoration: none;
+	text-align: center;
+}
+
+.profile-mini .info h6 {
+	font-size: 24px;
+}
+
+.profile-mini .avatar {
+	width: 75px;
+	height: 75px;
+	border-radius: 50%;
+}
+
+.profile-mini .avatar img {
+	width: 75px;
+	height: 75px;
+	border-radius: 50%;
+}
+
+.contain-car {
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+}
+
+.contain-car-title {
+	text-align: center;
+	padding-top: 10px;
+}
+
+.content-text p {
+	font-size: 20px;
+}
+
+.group {
+	display: flex;
+}
+
+.group span {
+	color: #a9aaad;
+	font-size: .875em;
+	font-weight: 700;
+	text-transform: uppercase;
+	line-height: 1.5;
+	width: 25%;
+	padding-right: 5px;
+	margin-left: 15px;
+}
+
+.group .content-text {
+	width: 75%;
+}
+
+.group .fusture {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.group .fusture li {
+	width: 50%;
+	margin: 0px;
+	font-size: 20px;
+	padding: 0px 0px 10px 0px;
+}
+
+.fusture span {
+	color: black;
+	margin-left: 5px;
+	text-transform: none;
+	font-weight: 400;
+	font-size: 20px;
+}
+
+.fusture img {
+	width: 25px;
+	height: auto;
+	margin-bottom: 10px;
+}
+/*end cardetail*/
+
+/* fitler car */
+.btn-remove-filter {
+	width: 100%;
+	margin-top: 15px;
+}
+
+.option-check {
+	margin: 10px 0px;
+	text-align: center;
+	display: block;
+}
+
+.option-check .input-check {
+	font-size: 18px;
+}
+
+.option-check input[type="checkbox"] {
+	margin: 10px 10px 10px -20px;
+}
+
+.slidecontainer {
+	margin-left: 60px;
+}
+
+.space-price {
+	margin: 10px;
+	width: 330px;
+	text-align: center;
+}
+
+.slider {
+	-webkit-appearance: none;
+	width: 100%;
+	height: 15px;
+	border-radius: 5px;
+	background: #d3d3d3;
+	outline: none;
+	opacity: 0.7;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+}
+
+/*Thiết kế phần để kéo trượt trong rangerslider -- dùng -webkit- để chạy trên Chrome, Opera, Safari, Edge*/
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: DodgerBlue;
+	cursor: pointer;
+}
+
+/*-moz- dùng để thiết kế rangerslider trên firefox nhé*/
+.slider::-moz-range-thumb {
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: #4CAF50;
+	cursor: pointer;
+}
+
+.range-wrap {
+	width: 500px;
+	position: relative;
+}
+
+.range-value {
+	position: absolute;
+	top: -50%;
+}
+
+.range-value span {
+	width: 30px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	background: #03a9f4;
+	color: #fff;
+	font-size: 12px;
+	display: block;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0);
+	border-radius: 6px;
+}
+
+.range-value span:before {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-top: 10px solid #03a9f4;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	margin-top: -1px;
+}
+
+.slider {
+	-webkit-appearance: none;
+	width: 100%;
+	height: 15px;
+	border-radius: 5px;
+	background: #d3d3d3;
+	outline: none;
+	opacity: 0.7;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+}
+
+/*Thiết kế phần để kéo trượt trong rangerslider -- dùng -webkit- để chạy trên Chrome, Opera, Safari, Edge*/
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: DodgerBlue;
+	cursor: pointer;
+}
+
+/*-moz- dùng để thiết kế rangerslider trên firefox nhé*/
+.slider::-moz-range-thumb {
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: #4CAF50;
+	cursor: pointer;
+}
+
+.sort-item {
+	margin: 10px 0px;
+	text-align: center;
+}
+
+.type-car {
+	margin: 10px 0px;
+	text-align: center;
+}
+
+.nhienlieu {
+	margin: 10px 0px;
+	text-align: center;
+}
+
+.trans {
+	margin: 10px 0px;
+	text-align: center;
+}
+
+.filter-left h6 {
+	text-align: justify;
+	margin-left: 15px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.filter-left select {
+	text-align: center;
+	width: 70%;
+	padding: 5px 15px;
+	border: #a5a5a5 1px solid;
+}
+
+.content {
+	position: fixed;
+	top: 140px;
+	padding: 0;
+}
+
+.filter-left {
+	background-color: #fff;
+	border: #a5a5a5 2px solid;
+	border-top: none;
+	padding: 10px;
+	overflow-x: hidden;
+	height: 500px;
+}
+
+.fix-top {
+	display: flex;
+	background-color: #fff;
+	padding: 10px;
+	border: 2px solid #a5a5a5;
+	position: fixed;
+	top: 70px;
+	overflow: hidden
+}
+
+.fix-top .address {
+	width: 50%;
+	display: flex;
+}
+
+.fix-top .date-start, .date-end {
+	width: 25%;
+	display: flex;
+}
+
+.fix-top .date-start p, .date-end p {
+	width: 100px;
+	margin-left: 10px;
+	margin-bottom: 0px;
+	margin-top: 5px;
+}
+
+input[type="date-time"] {
+	border-radius: 40px;
+}
+
+.fix-top .address p {
+	color: green;
+	width: 100px;
+	margin-top: 5px;
+	margin-bottom: 0px;
+}
+
+.fix-top .address input[type=text] {
+	border: none;
+	width: 100%;
+	padding: 3px;
+	border-bottom: 1px solid gray;
+	background-color: #fff;
+	margin-left: 10px;
+}
+
+.car-item a {
+	text-decoration: none;
+	color: black;
+}
+
+.car-text .price-car {
+	
+}
+
+.car-text .price-car .price-km p {
+	color: red;
+	font-weight: 600;
+	font-size: 20px;
+	margin-right: 10px;
+}
+
+.car-text .price-car .price p {
+	color: rgb(15, 15, 15);
+	font-weight: 400;
+	font-size: 17px;
+	text-decoration: line-through;
+	margin-right: 10px;
+}
+
+.info-car .characteristic p {
+	margin: 0px 15px 0px 0px;
+	padding: 5px 10px;
+	background-color: grey;
+	color: white;
+	border-radius: 4px;
+	border: 1px solid gray;
+	font-size: 14px;
+}
+
+.car-text {
+	margin: 10px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.car-content {
+	border: 1px solid gray;
+	margin: 0px 10px;
+	display: flex;
+	flex-wrap: wrap;
+	overflow-x: hidden;
+	height: 500px;
+}
+
+.car-item {
+	width: 410px;
+	height: 430px;
+	background-color: rgb(187, 186, 186);
+	margin: 15px 20px 20px 10px;
+}
+
+.show-img {
+	width: inherit;
+	height: 240px;
+}
+
+.show-img img {
+	width: 100%;
+	height: 100%;
+}
+
+/* end fite- car */
+.card-body-car .promotional_price {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	border-right: 81px solid transparent;
+	border-top: 53px solid #f1793f;
+}
+
+.card-body-car .promotional_price  span {
+	position: absolute;
+	font-size: 14px;
+	top: -40px;
+	color: white;
+	left: 0px;
+	transform: rotate(329deg);
+	-webkit-transform: rotate(329deg);
+	-ms-transform: rotate(329deg);
+	-moz-transform: rotate(329deg);
+	transform: rotate(329deg);
+}
+
+/** - danh mục cá nhân **/
+.div_action a, button {
+	text-align: justify;
+}
+
+span i {
+	margin-right: 4px;
+}
+
+.my-car {
+	overflow-x: auto;
+}
+
+.table-car .img-car {
+	max-width: 150px;
+	height: auto;
+}
+
+.menu-option a:hover {
+	color: #1f13d5;
+}
+
+.table-car {
+	width: 100%;
+	margin: 10px 20px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	border: 3px solid #ddd;
+}
+
+.table-car th {
+	background-color: white;
+}
+
+.table-car th, td {
+	text-align: center;
+	padding: 8px;
+}
+
+.table-car tr:nth-child(even) {
+	background-color: #f2f2f2
+}
+
+.filter-status select {
+	padding: 5px 20px;
+	border-radius: 4px;
+}
+
+.filter-status {
+	padding: 20px 15px;
+	display: block;
+	margin: 10px;
+}
+
+.content-car {
+	background-color: #d1d1d1;
+}
+
+.menu-option {
+	border: 1px #d1d1d1 solid;
+}
+
+.menu-option ul {
+	margin: 0px;
+}
+
+.menu-option li {
+	width: calc(100%/ 5 - 40px);
+	display: inline-block;
+	margin: 10px 10px;
+	background-color: white;
+	text-align: center;
+	font-size: 18px;
+	font-weight: 700;
+	text-align: center;
+	border-right: 4px solid #d1d1d1;
+}
+
+.title-page {
+	height: 100px;
+	background: #8fa58f;
+	text-align: center;
+}
+
+.title-page h2 {
+	text-transform: uppercase;
+	padding: 25px;
+}
+
+.content-car {
+	margin-bottom: 50px;
+}
+
+.menu-option a {
+	text-decoration: none;
+	color: black;
+}

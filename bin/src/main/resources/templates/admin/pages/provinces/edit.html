@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Admin - Thêm Tỉnh/ Thành phố</title>
+<meta name="description" content="Admin - Thêm phụ kiện">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head th:replace="~{admin/layout/css :: css}">
+<script th:src='@{/lib/bower_components/tinymce/tinymce.min.js}'></script>
+</head>
+<body>
+
+	<aside th:replace="~{admin/layout/nav-left :: nav-left} "></aside>
+
+	<!-- Right Panel -->
+
+	<div id="right-panel" class="right-panel">
+
+		<header th:replace="~{admin/layout/header :: header}"> </header>
+
+		<div class="breadcrumbs">
+			<div class="breadcrumbs-inner">
+				<div class="row m-0">
+					<div class="col-sm-4">
+						<div class="page-header float-left">
+							<div class="page-title">
+								<h1>
+									<b>Tỉnh /Thành phố</b>
+								</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="page-header float-right">
+							<div class="page-title">
+								<ol class="breadcrumb text-right">
+									<li><a href="javascript:void(0)">Trang chủ</a></li>
+									<li><a href="javascript:void(0)">Tỉnh/ Thành Phố</a></li>
+									<li class="active">Sửa</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="content">
+			<div class="animated fadeIn">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<strong>Sửa</strong>
+							</div>
+							<div class="card-body card-block">
+								<form th:action="@{/admin/provinces/edit}" method="post"   enctype="multipart/form-data"
+									id="form-action" class="form-horizontal" th:object=${province}>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-control-label">Tên tỉnh/ thành phố</label> <input
+													type="text" placeholder="Nhập tỉnh/ thành phố" th:field="*{nameProvince}"
+													class="form-control" name="ten" id="ten"> <small></small>
+											</div>
+											<input type="hidden"  th:field="*{idProvince}"
+													class="form-control" >
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-control-label">Mã code zip</label> <input
+													type="number" placeholder="Nhập mã code zip" th:field="*{zipCode}"
+													class="form-control" name="zipcode" id="zipcode"> <small></small>
+											</div>
+										</div>
+									<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-control-label">Chọn ảnh</label> <input
+													type="file" name="image"  accept="image/png, image/gif, image/jpeg"
+													class="form-control">
+											</div>
+										</div>
+										<div class="col-md-12">
+											<hr>
+											<div class="form-actions form-group">
+												<button type="submit" class="btn btn-success">Lưu
+													lại</button>
+												<a class="btn btn-danger" th:href="@{/admin/provinces}">Hủy bỏ</a>
+											</div>
+										</div>
+									</div>
+									<span style="color: red" th:if="${mes}"
+										class="alert alert-succes text-center"> [[${mes}]]</span>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- .animated -->
+		</div>
+		<!-- .content -->
+		<div class="clearfix"></div>
+	</div>
+
+<footer th:replace="~{admin/layout/footer :: footer}"></footer>
+
+	<script th:src="@{/lib/bower_components/jquery/dist/jquery.min.js}"></script>
+
+	
+	<style type="text/css">
+.form-group.error small {
+	color: #e74c3c;
+}
+</style>
+
+
+	<script>
+	var form = document.getElementById('form-action');
+	var ten = document.getElementById('ten');
+	var soluong = document.getElementById('zipcode');
+
+	
+
+	function showError(input, message) {
+	    //  console.log(input.parentElement.querySelector('small'));
+	        let parent = input.parentElement;
+	        let small = parent.querySelector('small');
+	        parent.classList.add('error');
+	        small.innerText = message;
+	    }
+
+	  function showSuccess(input, message) {
+	        let parent = input.parentElement;
+	        let small = parent.querySelector('small');
+	        parent.classList.remove('error');
+	        small.innerText = '';
+	    }
+	    
+	function checkEmptyError(listInput) {
+        let isEmptyError = false;
+        listInput.forEach(input => {
+            input.value = input.value.trim();
+            if (!input.value) {
+              
+                showError(input, 'Không được để trống');
+            } else {
+                showSuccess(input);
+                isEmptyError = true;
+            }
+        });
+        return isEmptyError;
+    }
+    
+    function checkSdt(input){
+        var check=false;
+    	var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+    	if(vnf_regex.test(input)){
+        	check= true;
+        	}
+    	return check;	
+     }
+
+    function checkNumber(input){
+        var check= false;
+        if(/^[0-9]+$/.test(input.value)){
+            check= true;
+        	 showSuccess(input);
+            }else{
+            	showError(input, 'Chỉ được nhập số');
+            	check= false;
+            }
+        return check;
+        }
+ 
+	 form.addEventListener('submit', function(e) {
+	        e.preventDefault()
+	    	
+	        var check= checkEmptyError([ten,zipcode]);
+	       
+	        if(check  && checkNumber(zipcode)){
+				 form.submit();
+		        }
+	    });
+		
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Đơn hàng</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluid" style="padding: 0">
+		<div th:replace="~{pages/layout/menu-account :: menu-acc}"></div>
+
+		<div class="content-car">
+			<div class="title-page">
+				<h2>Danh sách các hợp đồng</h2>
+			</div>
+			<div class="content-contract">
+				<h4>Chọn hợp đồng bạn muốn xem</h4>
+				<div class="contract" th:each="l : ${listContract}" >
+					<a th:href="@{'/uploads/'+ ${l.nameFile}}">
+						<div class="element-contract">
+							<i class="fa-regular fa-file-pdf"></i> <span
+								th:text="${l.titleContract}"> </span>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+<style>
+.element-contract{
+ padding: 20px;
+ border: 1px solid white;
+ background: white;;
+ font-size: 20px;
+ border-radius: 7px;
+ font-weight: 600;
+
+}
+.contract a{
+ text-decoration: none;
+  color: black;
+}
+.contract{
+	display: inline-block;
+	margin:40px 20px 20px 20px;
+}
+.content-contract h4 {
+	align-items: center;
+	padding-top: 25px;
+}
+
+.content-contract {
+	background: #e8eaef;
+	height: 300px;
+	margin: 0px auto;
+	padding: 0 15px;
+	text-align: center;
+}
+</style>
+
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+
+<script th:src="@{/js/main.js}"></script>
+
+
+</html>

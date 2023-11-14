@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Đơn hàng</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluid" style="padding: 0">
+		<div th:replace="~{pages/layout/menu-account :: menu-acc}"></div>
+		<div class="content-car">
+			<div class="title-page">
+				<h2>Thống kê doanh thu</h2>
+			</div>
+			<div class="content-walet">
+				<div class="form-anlysist">
+					<form action="/my-walet" method="get">
+						<div class="row">
+							<div class="col-md-4 col-sm-4">
+								<div class="form-group">
+									<label class="form-control-label">Ngày bắt đầu</label> <input
+										type="date" name="dateStart" class="form-control"> <small></small>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4">
+								<div class="form-group">
+									<label class="form-control-label">Ngày kết thúc</label> <input
+										type="date" name="dateEnd" class="form-control"> <small></small>
+								</div>
+							</div>
+							<div class="col-md-2 col-sm-2">
+								<div class="form-group">
+									<button class="btn-analystic">Thống kê</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="withdraw">
+					<button onclick="openRequestPayment()">Gửi yêu cầu rút
+						tiền</button>
+					<button onclick="openHistory()">Lịch sử giao dịch</button>
+				</div>
+				<div id="popupHistory" class="col-md-4 popupHistory">
+					<button class="btn-exit" onclick="closePopupHistory()">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+					<h5 style="margin-top: 15px">Lịch sử giao dịch</h5>
+					<div class="content">
+						<table style="width: 100%">
+							<tr>
+								<th>STT</th>
+								<th style="display: none">Id Request</th>
+								<th>Ngân hàng</th>
+								<th>Số tài khoản</th>
+								<th>Tên tài khoản</th>
+								<th>Số tiền</th>
+								<th>Ngày yêu cầu</th>
+								<th>Trạng thái</th>
+							</tr>
+							<tr th:each="r, index : ${listRequestWithdraw}">
+								<td th:text="${index.index+1}"></td>
+								<td th:text="${r.idRequest}" style="display: none"></td>
+								<td th:text="${r.nameBank}"></td>
+								<td th:text="${r.accountNumber}"></td>
+								<td th:text="${r.nameAccount}"></td>
+								<td th:text="${r.moneyNumber}"></td>
+								<td th:text="${r.createDate}"></td>
+								<th:block th:if="${r.statusRequest==0}">
+									<td>Chờ duyệt</td>
+								</th:block>
+								<th:block th:if="${r.statusRequest==1}">
+									<td>Đã duyệt</td>
+								</th:block>
+								<th:block th:if="${r.statusRequest==3}">
+									<td>Không duyệt</td>
+								</th:block>
+							</tr>
+
+						</table>
+					</div>
+				</div>
+				<div id=popupWithdraw class="popup">
+					<form action="/withdraw" method="get"
+						th:object=${requestWithdrawal} id="form-withdraw">
+						<h4>Thông tin rút tiền</h4>
+						<h6>Chọn ngân hàng</h6>
+						<select th:field="*{nameBank}">
+							<option value="Vietcombank">Vietcombank</option>
+							<option value="Vietinbank">VietinBank</option>
+							<option value="MB Bank">MB Bank</option>
+							<option value="BIDV">BIDV</option>
+						</select> <small></small>
+						<h6>Số tài khoản</h6>
+						<div class="group-form-address">
+							<input type="text" th:field="*{accountNumber}"
+								placeholder="010101034040" /><small></small>
+						</div>
+						<h6>Chủ tài khoản</h6>
+						<div class="group-form-address">
+							<input type="text" th:field="*{nameAccount}"
+								placeholder="DANG VAN NAM" /><small></small>
+						</div>
+
+						<h6>Số tiền</h6>
+						<div class="form-inline-address">
+							<input type="text" placeholder="300000" th:field="*{moneyNumber}" />
+							<small></small>
+						</div>
+						<div class="group-action">
+							<a class="btn-cancel" onclick="closePopupWithdraw()">Hủy bỏ</a>
+							<button class="btn-success" type="submit">Xác nhận</button>
+						</div>
+					</form>
+				</div>
+				 <div class="my-car">
+					<table class="table-car">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th style="display: none">ID</th>
+								<th>Biển số xe</th>
+								<th>Tên xe</th>
+								<th>Ảnh xe</th>
+								<th>Giá xe</th>
+								<th>Người đặt</th>
+								<th>Số điện thoại</th>
+								<th>Địa chỉ</th>
+								<th>Ngày bắt đầu</th>
+								<th>Ngày kết thúc</th>
+								<th style="min-width: 150px">Tổng tiền</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<th:block th:if="${#lists.isEmpty(listBooking)}">
+								<tr>
+									<td style="text-align: center;">Không có dữ liệu</td>
+								</tr>
+							</th:block>
+							<th:block th:unless="${#lists.isEmpty(listBooking)}">
+								<tr th:each="b, index: ${listBooking}">
+									<td th:text="${index.count}"></td>
+									<td style="display: none" th:text="${b.idBooking}"></td>
+									<td style="min-width: 100px"
+										th:text="${b.getCar().getLicensePlates()}"></td>
+									<td th:text="${b.getCar().getNameCar()}"></td>
+									<td><img class="img-car" alt=""
+										th:src="'/uploads/'+${b.getCar().getAvatarCar()}" /></td>
+									<td style="min-width: 75px"
+										th:text="${b.getCar().price}-${b.getCar().price}*${b.getCar().promotionalPrice}/100 +' K'"></td>
+									<td th:text="${b.getUser().nameDisplay}"></td>
+									<td th:text="${b.getUser().phone}"></td>
+									<td th:text="${b.getUser().address}"></td>
+									<td th:text="${b.dateStart}"></td>
+									<td th:text="${b.dateEnd}"></td>
+									<td style="min-width: 150px" th:text="${b.billTotal}+ 'đ'"></td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12 " style="padding-bottom: 25px">
+					<div class="card" style="margin-top: 25px; margin-bottom: 10px">
+
+						<h4 style="text-align: center; margin-bottom: 20px">Thống kê
+							thu nhập</h4>
+						<div class="row">
+							<div class="col-md-1"></div>
+							<div class="col-md-10">
+								<canvas id="myChart"></canvas>
+							</div>
+							<div class="col-md-1"></div>
+
+						</div>
+					</div>
+				</div>
+				<input type="hidden" th:value="${valueDate}" id="valueNgay">
+				<input type="hidden" th:value="${totalMoney}" id="valueTongTien">
+			</div>
+
+		</div>
+
+	</div>
+</body>
+<style>
+.withdraw {
+	position: relative;
+	margin-left: 20px;
+}
+
+.btn-exit {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: none;
+	font-size: 18px;
+}
+
+.btn-exit:hover {
+	background: red;
+}
+
+.withdraw button {
+	border: none;
+	border-radius: 9px;
+	background: #33bb33;
+	padding: 7px 15px;
+	color: white;
+	font-size: 18px;
+	font-weight: 600px;
+	margin-right: 20px;
+}
+
+.withdraw button:hover {
+	background: #267426;
+}
+
+.btn-analystic {
+	border: none;
+	background: #33bb33;
+	border-radius: 10px;
+	margin-top: 20px;
+	padding: 7px 10px;
+}
+
+.btn-analystic:hover {
+	background: #267426;
+}
+
+.form-anlysist {
+	margin: auto 100px;
+	padding: 30px;
+}
+
+.contract a {
+	text-decoration: none;
+	color: black;
+}
+
+.contract {
+	display: inline-block;
+	margin: 40px 20px 20px 20px;
+}
+
+.content-walet h4 {
+	align-items: center;
+	padding-top: 25px;
+}
+
+.content-walet {
+	background: #e8eaef;
+	margin: 0px auto;
+	padding: 0 15px;
+}
+
+.content {
+	position: absolute;
+	top: 60px;
+	left: 55px;
+	overflow-x: auto;
+}
+
+.content table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	border: 1px solid #ddd;
+}
+
+.content th, td {
+	text-align: left;
+	padding: 8px;
+}
+
+.content tr:nth-child(even) {
+	background-color: #f2f2f2
+}
+
+.popupHistory {
+	text-align: center;
+	width: 900px;
+	height: 400px;
+	overflow: auto;
+	background:#c8d7d7;
+	margin: 20px 10px;
+	padding: 5px 10px;
+	position: absolute;;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0.1);
+	visibility: hidden;
+	border-radius: 6px;
+	transition: transform 0.4s, top 0.4s;
+	width: 900px;
+}
+</style>
+
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+
+<script th:src="@{/js/main.js}"></script>
+<script type="text/javascript">
+	$(document).ready(function($) {
+		var valueNgay = $('#valueNgay').val();
+		valueNgay = JSON.parse(valueNgay);
+		var valueTongTien = $('#valueTongTien').val();
+		valueTongTien = JSON.parse(valueTongTien);
+		console.log(valueTongTien)
+		var canvas = document.getElementById('myChart');
+		canvas.height = 110;
+		var data = {
+			labels : valueNgay,
+			datasets : [ {
+				label : "Tổng tiền",
+				backgroundColor : "rgba(255,99,132,0.2)",
+				borderColor : "rgba(255,99,132,1)",
+				borderWidth : 2,
+				hoverBackgroundColor : "rgba(255,99,132,0.4)",
+				hoverBorderColor : "rgba(255,99,132,1)",
+				data : valueTongTien
+			} ]
+		};
+		var option = {
+			scales : {
+				yAxes : [ {
+					stacked : true,
+					gridLines : {
+						display : true,
+						color : "rgba(255,99,132,0.2)"
+					}
+				} ],
+				xAxes : [ {
+					gridLines : {
+						display : false
+					}
+				} ]
+			}
+		};
+
+		var myBarChart = new Chart(canvas, {
+			type : 'bar',
+			data : data,
+			options : option
+		});
+	});
+</script>
+<style>
+.popup {
+	width: 600px;
+	background-image: linear-gradient(#747374, #9b9b9b);
+	margin: 20px 10px;
+	padding: 5px 10px;
+	position: absolute;;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0.1);
+	visibility: hidden;
+	border-radius: 6px;
+	transition: transform 0.4s, top 0.4s;
+}
+
+.open-popup {
+	visibility: visible;
+	top: 50%;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.popup input, select {
+	width: 90%;
+	margin: 5px 30px;
+	padding: 5px 10px;
+}
+
+.popup h4 {
+	text-align: center;
+}
+
+.popup h6, small {
+	margin-left: 30px
+}
+
+.popup  small {
+	margin-left: 30px;
+	color: red;
+	font-size: 14px;
+}
+
+.popup .group-action {
+	display: flex;
+	justify-content: space-around;
+	margin: 10px;
+	margin-bottom: 20px;
+}
+
+a.popup .group-action {
+	border: 0;
+	outline: none;
+	padding: 10px 25px;
+	border-radius: 7px;
+	margin-top: 10px;
+	font-weight: 700;
+	font-size: 19px;
+	text-decoration: none;
+	color: black;
+}
+
+.popup .group-action .btn-cancel {
+	border: 0;
+	outline: none;
+	padding: 10px 25px;
+	border-radius: 7px;
+	margin-top: 10px;
+	font-weight: 700;
+	font-size: 19px;
+	text-decoration: none;
+	color: black;
+}
+
+.popup .group-action a {
+	cursor: pointer;
+}
+
+.btn-sucs {
+	display: inherit;
+	text-align: center;
+	width: 100%;
+	padding: 10px 25px;
+	border-radius: 7px;
+	margin-top: 10px;
+	font-weight: 700;
+	font-size: 19px;
+	background-color: #41cd5f;
+	padding: 10px 25px;
+	cursor: pointer;
+}
+
+.popup .group-action .btn-cancel {
+	background-color: #d3474d;
+}
+
+.popup .group-action .btn-success {
+	border: 0;
+	outline: none;
+	padding: 10px 25px;
+	border-radius: 7px;
+	margin-top: 10px;
+	font-weight: 700;
+	font-size: 19px;
+	text-decoration: none;
+	color: black;
+	background-color: #41cd5f;
+}
+</style>
+<script th:inline="javascript">
+var  moneyAccount ="[(${sessionUser.getTotalMoney()})]";
+var form = document.getElementById('form-withdraw');
+
+var money = document.getElementById('moneyNumber');
+var accountNumber = document.getElementById('accountNumber');
+var nameAccount = document.getElementById('nameAccount');
+console.log(money,accountNumber,nameAccount)
+
+function showError(input, message) {
+    //  console.log(input.parentElement.querySelector('small'));
+        let parent = input.parentElement;
+        let small = parent.querySelector('small');
+        parent.classList.add('error');
+        small.innerText = message;
+    }
+
+  function showSuccess(input, message) {
+        let parent = input.parentElement;
+        let small = parent.querySelector('small');
+        parent.classList.remove('error');
+        small.innerText = '';
+    }
+    
+function checkEmptyError(listInput) {
+    let isEmptyError = false;
+    listInput.forEach(input => {
+        input.value = input.value.trim();
+        if (!input.value) {
+          
+            showError(input, 'Không được để trống');
+        } else {
+            showSuccess(input);
+            isEmptyError = true;
+        }
+    });
+    return isEmptyError;
+}
+
+function checkNumber(input){
+    var check= false;
+    if(/^[0-9]+$/.test(input.value)){
+        check= true;
+    	 showSuccess(input);
+        }else{
+        	showError(input, 'Chỉ được nhập số');
+        	check= false;
+        }
+    return check;
+    }
+
+function checkTotalMoney(moneywithdraw, moneyAccount){
+    var check= false;
+    if(Number(moneywithdraw.value) < Number(moneyAccount) ){
+        check= true;
+    	 showSuccess(moneywithdraw);
+        }else{
+        	showError(moneywithdraw, 'Số tiền lớn hơn số tiền có hiện tại');
+        	check= false;
+        }
+    return check;
+    }
+ form.addEventListener('submit', function(e) {
+        e.preventDefault()	
+        var check= checkEmptyError([nameAccount,accountNumber,money]);
+        if(check && checkNumber(accountNumber) == true && checkNumber(money)== true
+        		&& checkTotalMoney(money, moneyAccount)==true ){
+			 form.submit();
+	        }
+    });
+	function openRequestPayment() {
+		var popup = document.getElementById('popupWithdraw');
+		popup.classList.add("open-popup");
+	}
+	function closePopupWithdraw() {
+		var popup = document.getElementById('popupWithdraw');
+		popup.classList.remove("open-popup");
+	}
+	function openHistory() {
+		var popup = document.getElementById('popupHistory');
+		popup.classList.add("open-popup");
+	}
+	function closePopupHistory(){
+		var popup = document.getElementById('popupHistory');
+		popup.classList.remove("open-popup");
+	}
+</script>
+</html>

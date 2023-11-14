@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/layout/css :: css}">
+<meta charset="utf-8">
+<title>Admin - Xe</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+	<aside th:replace="~{admin/layout/nav-left :: nav-left} "></aside>
+
+	<!-- Right Panel -->
+
+	<div id="right-panel" class="right-panel">
+
+		<header th:replace="~{admin/layout/header :: header}"> </header>
+
+		<div class="breadcrumbs">
+			<div class="breadcrumbs-inner">
+				<div class="row m-0">
+					<div class="col-sm-4">
+						<div class="page-header float-left">
+							<div class="page-title">
+								<h1>
+									<b>Xe</b>
+								</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="page-header float-right">
+							<div class="page-title">
+								<ol class="breadcrumb text-right">
+									<li><a href="javascript:void(0)">Trang chủ</a></li>
+									<li><a href="javascript:void(0)">Xe</a></li>
+									<li class="active">Danh sách</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="content">
+			<div class="animated fadeIn">
+				<div class="row">
+
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<strong class="card-title">Danh sách</strong> <br>
+								<hr>
+								<div class="col-md-12 d-flex">
+									<div class="col-md-3">
+										<a class="btn btn-primary float-left"
+											th:href="@{/admin/car/add}"><span><i
+												class="fa fa-plus-square"></i></span> Thêm</a>
+
+									</div>
+									<div class="col-md-8">
+										<div class="form-group">
+											<form method="get" action="list" class="d-flex">
+												<input type="text" placeholder="Nhập xe cần tìm"
+													class="form-control" id="input_seacrh" name="search">
+												<input type="submit" value="Tìm kiếm" id="input_submit">
+											</form>
+										</div>
+									</div>
+								</div>
+		<div class="col-md-3 filter-status">
+		<h6 style="margin-bottom: 10px">Trạng thái</h6>
+				<select id="fiter-bill-status" onchange="filterBillByStatus()">
+				<option value="5">--Chọn trạng thái--</option>
+					<option value="5">Tất cả</option>
+					<option value="0">Chờ duyệt</option>
+					<option value="1">Đã duyệt</option>
+					<option value="2">Đã thanh toán</option>
+					<option value="3">Đã hủy</option>
+				</select>
+		</div>
+							</div>
+
+							<div class="card-body">
+								<table id="bootstrap-data-table"
+									class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th style="display: none">ID</th>
+											<th>Biển số xe</th>
+											<th>Tên xe</th>
+											<th>Ảnh xe</th>
+											<th>Giá xe</th>
+											<th>Người đặt</th>
+											<th>Số điện thoại</th>
+											<th>Địa chỉ</th>
+											<th>Ngày bắt đầu</th>
+											<th>Ngày kết thúc</th>
+											<th>Tự lái</th>
+											<th>Tổng tiền</th>
+											<th>Trạng thái</th>
+											<th>Thao tác</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="b, index: ${listBooking}">
+											<td th:text="${index.count}"></td>
+											<td style="display: none" th:text="${b.idBooking}"></td>
+											<td style="min-width: 100px"
+												th:text="${b.getCar().getLicensePlates()}"></td>
+											<td th:text="${b.getCar().getNameCar()}"></td>
+											<td><img class="img-car" alt=""
+												th:src="'/uploads/'+${b.getCar().getAvatarCar()}" /></td>
+											<td style="min-width: 75px"
+												th:text="${b.getCar().price}-${b.getCar().price}*${b.getCar().promotionalPrice}/100 +' K'"></td>
+											<td th:text="${b.getUser().nameDisplay}"></td>
+											<td th:text="${b.getUser().phone}"></td>
+											<td th:text="${b.getUser().address}"></td>
+											<td th:text="${b.dateStart}"></td>
+											<td th:text="${b.dateEnd}"></td>
+											<td th:text="${b.getCar().driver} ? 'Có tài xế': 'Tự lái'"></td>
+											<td th:text="${b.billTotal}+ 'đ'"></td>
+											<th:block th:switch="${b.statusBill}">
+												<td th:case="'0'">Chờ duyệt</td>
+												<td th:case="'1'">Đã duyệt</td>
+												<td th:case="'2'">Đã thanh toán</td>
+												<td th:case="'3'">Đã hủy</td>
+											</th:block>
+											<td style="min-width: 150px"><th:block
+													th:if="${b.statusBill==0}">
+													<button class="btn-action"
+														th:onclick="approvedBill([[${b.idBooking}]])">
+														<span><i class="fa fa-edit"></i></span> Duyệt
+													</button>
+													<button class="btn-action"
+														style="background-color: #f15b5b"
+														th:onclick="cancelBill([[${b.idBooking}]])">
+														<span><i class="fa fa-remove"></i></span> Từ chối
+													</button>
+												</th:block> <th:block th:if="${b.statusBill==1}">
+													<button class="btn-action"
+														th:onclick="cancelBill([[${b.idBooking}]])">
+														<span><i class="fa fa-edit"></i></span> Hủy duyệt
+													</button>
+													<button class="btn-action"
+														th:onclick="paymentBill([[${b.idBooking}]])">
+														<span><i class="fa fa-edit"></i></span> Thanh toán
+													</button>
+												</th:block> <th:block th:if="${b.statusBill==3}">
+													<button class="btn-action"
+														th:onclick="restorelBill([[${b.idBooking}]])">
+														<span><i class="fa fa-edit"></i></span> Bỏ hủy
+													</button>
+												</th:block> <th:block th:if="${b.statusBill==2}">
+													<button class="btn-action">
+														<span><i class="fa fa-edit"></i></span> Đã thanh toán
+													</button>
+												</th:block></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- .animated -->
+		</div>
+		<!-- .content -->
+		<div class="clearfix"></div>
+	</div>
+	<script>
+	
+	function approvedBill(id){
+		 window.location.href = "/admin/booking/approved-bill/" + id;
+	}
+
+	function cancelBill(id){
+		 window.location.href = "/admin/booking/cancel-bill/" + id;
+	}
+
+	function restorelBill(id){
+		 window.location.href = "/admin/booking/restore-bill/" + id;
+	}
+	function paymentBill(id){
+		 window.location.href = "/admin/booking/payment-bill/" + id;
+	}
+
+	function cancelBill(id){
+		 window.location.href = "/admin/booking/cancel-bill/" + id;
+	}
+	function filterBillByStatus(){
+		var statusbill= document.getElementById("fiter-bill-status");
+		 window.location.href = "/admin/booking/get-bill-status/" + statusbill.value;
+	}
+	</script>
+	<script
+		th:src="@{/lib/bower_components/sweetalert2/dist/sweetalert2.js}"></script>
+	<th:block th:if="${mes_success}">
+		<script>
+		swal('Thành công');
+	</script>
+	</th:block>
+
+	<style>
+	.btn-action i{
+	margin-right: 5px;
+	}
+	.btn-action {
+	width: 100%;
+	color:black;
+	cursor: pointer;
+	display: flex;
+	margin: 4px;
+	padding: 5px 10px;
+	border: none;
+	overflow: hidden;
+	border-radius: 4px;
+	background-color: green;
+}
+.div_action {
+	margin: 0px 1px;
+	display: inline-block;
+}
+.filter-status select{
+padding: 5px 20px;
+	border-radius: 4px;
+}
+.div_action a, button {
+	margin: 5px;
+}
+
+#input_seacrh {
+	margin-right: 20px;
+	margin-left: 400px;
+}
+
+#input_submit {
+	border: 1px solid #ced4da;
+	padding: 2px 7px;
+	margin-right: -60px;
+	background-color: #28a745;
+	border-radius: 5px;
+}
+</style>
+
+
+	<script>
+    function Delete(id) {
+    	swal({
+  		  title: "Bạn có chắc chắn muốn xóa dữ liệu?",
+  		  text: "Sau khi xóa, bạn sẽ không thể phục hồi dữ liệu này!",
+  		  type: 'warning',
+  		  showCancelButton: true,
+  		  confirmButtonColor: '#3085d6',
+  		  cancelButtonColor: '#d33',
+  		  confirmButtonText: 'Yes'
+  		}).then((result) => {
+  		  if (result.value) {
+  			  window.location.href = "/admin/district/delete/" + id;
+  		  } else {
+  			  swal("Dữ liệu của bạn không thay đổi!");
+  		  }
+  		});
+    }
+  </script>
+  	<script>
+    function changeStatusApproved(id) {
+    	swal({
+  		  title: "Bạn có muốn duyệt xe này",
+  		  text: "Bạn có muốn duyệt xe này!",
+  		  type: 'warning',
+  		  showCancelButton: true,
+  		  confirmButtonColor: '#3085d6',
+  		  cancelButtonColor: '#d33',
+  		  confirmButtonText: 'Yes'
+  		}).then((result) => {
+  		  if (result.value) {
+  			  window.location.href = "/admin/car/status-approved/" + id;
+  		  } else {
+  			  swal("Dữ liệu của bạn không thay đổi!");
+  		  }
+  		});
+    }
+
+    function changeStatusPending(id) {
+    	swal({
+  		  title: "Bạn có muốn  hủy duyệt xe này",
+  		  text: "Bạn có muốn hủy duyệt xe này!",
+  		  type: 'warning',
+  		  showCancelButton: true,
+  		  confirmButtonColor: '#3085d6',
+  		  cancelButtonColor: '#d33',
+  		  confirmButtonText: 'Yes'
+  		}).then((result) => {
+  		  if (result.value) {
+  			  window.location.href = "/admin/car/status-pending/" + id;
+  		  } else {
+  			  swal("Dữ liệu của bạn không thay đổi!");
+  		  }
+  		});
+    }
+  </script>
+	<footer th:replace="~{admin/layout/footer :: footer}"></footer>
+</body>
+</html>

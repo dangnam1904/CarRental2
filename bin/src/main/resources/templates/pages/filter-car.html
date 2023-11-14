@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe - Tìm kiếm xe</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluid" style="padding: 0px;">
+		<div class="row">
+			<div class="fix-top">
+				<div class="address">
+					<p>Địa điểm</p>
+					<input type="text" th:value="${address}" id="addressCar" onchange="filterCar()"
+						placeholder="Nhập địa điểm">
+				</div>
+				<div class="date-start">
+					<p>Bắt đầu</p>
+					<input type="datetime-local" class="form-control" id="dateStart"
+						th:value="${dateStart}">
+				</div>
+				<div class="date-end">
+					<p>Kết thúc</p>
+					<input type="datetime-local" class="form-control" id="dateEnd"
+						th:value="${dateEnd}">
+				</div>
+			</div>
+
+			<div class="col-md-12 content d-md-flex">
+				<div class="col-md-4 filter-left">
+					<div class="sort-item">
+						<h6>Sắp xếp</h6>
+						<select name="sort-price" id="sort-price" onchange="filterCar()">
+							<option value="min">Giá thấp nhất</option>
+							<option value="max">Giá cao nhất</option>
+							<option value="">Đánh giá cao</option>
+						</select>
+					</div>
+
+					<h6>Mức giá</h6>
+					<div class="space-price">
+						<div class="slidecontainer">
+							<input type="range" min="500" max="9000" value="700"
+								th:field="*{car.price}" class="slider" id="myRange">
+							<p>
+								Giá hiện tại: <span id="demo"></span> K
+							</p>
+						</div>
+					</div>
+					<div class="type-car">
+						<h6>Hãng xe</h6>
+						<select name="brandCar" id="">
+							<option value="">BMV</option>
+							<option value="">Ford</option>
+							<option value="">BMV</option>
+						</select>
+					</div>
+					<div class="trans">
+						<h6>Truyền động</h6>
+						<select th:field="*{car.manualTransmissionCar}">
+							<option value="true">Số tự dồng</option>
+							<option value="false">Số sàn</option>
+
+						</select>
+					</div>
+					<div class="option-check">
+						<input type="checkbox" name="insurance" id=""><span>
+							Hỗ trợ bảo hiểm</span> <br> <input type="checkbox" name="discount"
+							id="" style="margin-left: -50px;"> <span> Xe giảm
+							giá</span> <br> <input type="checkbox" name="delivery" id="">
+						<span> Giao xe tận nơi</span>
+					</div>
+					<div class="nhienlieu">
+						<h6>Nhiên liệu</h6>
+						<select name="" id="">
+							<option value="">Xăng</option>
+							<option value="">Dầu</option>
+
+						</select>
+					</div>
+					<h6>Mức tiêu thụ nhiện liệu</h6>
+					<div class="space-price">
+
+						<div class="slidecontainer">
+							<input type="range" min="1" max="30" value="10" class="slider"
+								id="fuel">
+							<p>
+								<span id="fuel-price"></span> lit/ 100km
+							</p>
+						</div>
+					</div>
+					<div class="remove-filter">
+						<input type="button" class="btn btn-success btn-remove-filter"
+							value="Bỏ lọc">
+					</div>
+				</div>
+				<div class="col-md-8 car-content" id="car-content">
+					<div class="container" th:if="${#lists.isEmpty(listCar)}"
+						th:text="'Không có xe nào'"
+						style="text-align: center; margin: 30px 10px; height: 100px; padding: 25px; background: aliceblue; font-size: 22px; font-weight: 500;">
+					</div>
+					<div class="car-item" th:each="c :${listCar}">
+						<a th:href="@{'/car-detail/'+${c.idCar}+'/'+${c.nameCar}}" class="link-car">
+							<div class="show-img">
+								<img th:src="@{'/uploads/' +${c.avatarCar}}" alt="" class="image-car-main" srcset="">
+							</div>
+							<div class="car-text">
+								<div class="info-car">
+									<h5 th:text="${c.nameCar}" class="name-car">Tên xe</h5>
+									<div class="characteristic d-flex">
+										<p
+											th:text="${c.manualTransmissionCar} ? 'Số sàn' : 'Số tự động'">Số
+											sàn</p>
+										<p>Giao xe tận nơi</p>
+									</div>
+									<p th:text="'Địa chỉ: '+ ${c.addressCar}"
+										style="margin-top: 15px;"></p>
+									<input type="hidden" th:value="${c.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p>
+								</div>
+								<div class="price-car d-flex">
+									<div class="price-km">
+										<p
+											th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +'K'">600k</p>
+									</div>
+									<div class="price">
+										<p th:text="${c.price}+ 'K'">700K</p>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- Deatail car -->
+		</div>
+	</div>
+	<style>
+</style>
+</body>
+<script>
+	var slider = document.getElementById("myRange");
+	var output = document.getElementById("demo");
+	/* Hiển thị giá trị mặc định 50 cho thẻ span với id là demo*/
+	output.innerHTML = slider.value;
+
+	/* cập nhật giá trị hiện tại của ranger slider*/
+	slider.oninput = function() {
+		output.innerHTML = this.value;
+	}
+
+	var fuel = document.getElementById("fuel");
+	var fuelPrice = document.getElementById("fuel-price");
+	fuelPrice.innerHTML = fuel.value;
+	fuel.oninput = function() {
+		fuelPrice.innerHTML = this.value;
+	}
+
+	function filterCar() {
+		var address = document.getElementById("addressCar")
+		var dateStart = document.getElementById("dateStart")
+		var dateEnd = document.getElementById("dateEnd")
+		var arrdateStart = dateStart.value.split("T");
+		var arrdateEnd = dateEnd.value.split("T");
+		var dateEnd = document.getElementById("dateEnd");
+		var sortPrice= document.getElementById("sort-price")
+		
+		var divCarContent= document.getElementById("car-content")
+		var a_hert= document.getElementsByClassName("link-car");
+		var image_car= document.getElementsByClassName("image-car-main");
+		var name_car= document.getElementsByClassName("name-car");
+		 window.location.href="/filter?address="+address.value+"&dateStart="+dateStart.value+"&dateEnd="+dateEnd.value+"&driver=false&sortPrice="+sortPrice.value
+		/* 
+		 $.ajax({
+			url : "/filter-car",
+			data : {
+				address : address.value,
+				dateStart : dateStart.value,
+				dateEnd : dateEnd.value,
+				driver : 'false'
+			},
+			type : "get",
+			responseType : "application/json"
+		}).done(function(ketqua) {
+			console.log(ketqua.length);
+			console.log(ketqua);
+			if(ketqua.length>0){
+				for( let i=0; i<ketqua.length; i++){
+					let div = document.createElement('div');
+					
+					div.className = 'car-item';
+					let a = document.createElement('a');
+					a.className="link-car"
+					a.setAttribute("href",'car-detail/'+ketqua[i].idCar+'/'+ketqua[i].nameCar);
+					
+					let divShowImg = document.createElement('div');
+					divShowImg.className="show-img";
+					
+					let img = document.createElement('img');
+					img.src="/uploads/"+ketqua[i].avatarCar;
+					divShowImg.appendChild(img);
+					
+					let divCarText = document.createElement('div');
+					divCarText.className="car-text";
+					let divInfoCar = document.createElement('div');
+					divInfoCar.className="info-car"
+					
+					let h5 = document.createElement('h5');
+					h5.className="name-car";
+					h5.innerText=ketqua[i].nameCar;
+					divInfoCar.appendChild(h5);
+				
+					let divCharacteristic= document.createElement('div');
+					divCharacteristic.className="characteristic d-flex";
+					divInfoCar.appendChild(divCharacteristic);
+					
+					let p= document.createElement('p');
+					
+					
+					
+					let pAddress= document.createElement('p');
+					pAddress.innerText="Địa chỉ: "+ketqua[i].addressCar;
+					divInfoCar.appendChild(pAddress);
+					
+					let pSumDelivery= document.createElement('p');
+					
+					let input= document.createElement('input');
+					input.className="id-car"
+					input.value=ketqua[i].idCar
+					input.type="hidden"
+					divInfoCar.appendChild(input);
+					pSumDelivery.className="sum-delivery"
+					divInfoCar.appendChild(pSumDelivery);
+					
+					let p1= document.createElement('p');
+					p1.innerText="Giao xe tận nơi"
+					if(ketqua[i].manualTransmissionCar==true){
+						p.innerText="Số tự động"
+					}else{
+						p.innerText="Số sàn"
+					}
+					divCharacteristic.appendChild(p)
+					divCharacteristic.appendChild(p1)
+					divCarText.appendChild(divInfoCar)
+					
+					a.appendChild(divShowImg)
+					
+					a.appendChild(divCarText)
+					
+					let divPriceCar= document.createElement('div');
+					divPriceCar.className="price-car d-flex"
+					
+					let divPriceKm= document.createElement('div');
+					divPriceKm.className="price-km"
+					let pPriceKM= document.createElement('p');
+					pPriceKM.innerText=ketqua[i].price-ketqua[i].price*ketqua[i].promotionalPrice/100 +'K'
+					divPriceKm.appendChild(pPriceKM)
+					
+					let divPrice= document.createElement('div');
+					divPrice.className="price"
+					let pPrice= document.createElement('p');
+					pPrice.innerText=ketqua[i].price+ "K"
+					divPrice.appendChild(pPrice)
+					
+					divPriceCar.appendChild(divPriceKm)
+					divPriceCar.appendChild(divPrice)
+					divCarText.appendChild(divPriceCar)
+					
+					div.appendChild(a);
+					console.log(div);
+					divCarContent.appendChild(div);
+					
+					
+					 // create a new heading and add it to the div
+					let h2 = document.createElement('h2');
+					h2.textContent = 'Add h2 element to the div';
+					div.appendChild(h2);
+
+					// add div to the document
+					document.body.appendChild(div);
+
+					a_hert[i].setAttribute("href",'car-detail/'+ketqua[i].idCar+'/'+ketqua[i].nameCar);
+					image_car[i].src="/uploads/"+ketqua[i].avatarCar;
+					name_car[i].inneText=ketqua[i].nameCar; 
+				}
+			}
+			
+		})		
+		*/
+	}
+</script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<script th:src="@{/js/main.js}"></script>
+<script type="text/javascript">
+	
+</script>
+</html>
+
+<!-- <div class="col-md-8 contain-car" style="background-color: rgb(247, 247, 247);">
+				<div class="contain-car-title">
+					<h2> SUZUKI ERTIGA 2016</h2>
+					<p> Số chuyến 5</p>
+				</div>
+				<div class="group">
+					<span>
+						Đặc điểm
+					</span>
+					<div class="content-text">
+						<ul class="fusture">
+							<li><i class="fa-solid fa-couch"></i> <span>Số ghế : 4</span> </li>
+							<li><i class="fa-solid fa-shuffle"></i> <span>Truyền động: Số sàn</span> </li>
+							<li><i class="fa-solid fa-gas-pump"></i> <span>Nhiên liệu: Xăng</span></li>
+							<li><i class="fa-solid fa-battery-half"></i> <span>Mức tiêu thụ: 100km /9lit</span> </li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="group">
+					<span>
+						Mô tả
+					</span>
+					<div class="content-text">
+						<p>ưueitkyfjhdffkdklglkjfdlđl ffjsgs s ss setpoeit fdfkjdfkl fdldldfkđ;ld dfl;dhf;l
+							ưueitkyfjhdffkdklglkjfdlđl ffjsgs s ss setpoeit fdfkjdfkl fdldldfkđ;ld dfl;dhf;
+							ưueitkyfjhdffkdklglkjfdlđl ffjsgs s ss setpoeit fdfkjdfkl fdldldfkđ;ld dfl;dhf;</p>
+					</div>
+				</div>
+				<div class="group">
+					<span>
+						Tính năng
+					</span>
+					<div class="content-text">
+						<ul class="fusture">
+							<li><img th:src="@{/images/map.png}" alt="" srcset=""> <span>Map </span> </li>
+							<li><img th:src="@{/images/360_camera.png}" alt="" srcset=""> <span>Camera 360</span> </li>
+							<li><img th:src="@{/images/tpms.png}" alt="" srcset=""> <span>Cảm biến áp suất lốp </span>
+							</li>
+							<li><img th:src="@{/images/usb.png}" alt="" srcset=""> <span>Khe cắm USB </span> </li>
+							<li><img th:src="@{/images/dvd.png}" alt="" srcset=""> <span>Màn hình DVD </span> </li>
+							<li><img th:src="@{/images/airbags.png}" alt="" srcset=""> <span>Túi khí an toàn </span>
+							</li>
+							<li><img th:src="@{/images/bluetooth.png}" alt="" srcset=""> <span>Bluetooth </span> </li>
+							<li><img th:src="@{/images/dash_camera.png}" alt="" srcset=""> <span>Camera hành trình
+								</span> </li>
+							<li><img th:src="@{/images/impact_sensor.png}" alt="" srcset=""> <span>Cảm biến va chạm
+								</span> </li>
+							<li><img th:src="@{/images/spare_tire.png}" alt="" srcset=""> <span>Lốp dự phòng </span>
+							</li>
+							<li><img th:src="@{/images/etc.png}" alt="" srcset=""> <span>Thu phí không dừng </span>
+							</li>
+							<li><img th:src="@{/images/map.png}" alt="" srcset=""> <span>Map </span> </li>
+						</ul>
+					</div>
+				</div>
+				<div class="group">
+					<span>
+						Giấy tờ thuê xe( bản gốc)
+					</span>
+					<div class="content-text">
+						<ul class="fusture">
+							<li><img th:src="@{/images/cmnd.png}" alt="" srcset=""> <span>CNND & GPLX </span> </li>
+							<li> <span>Chọn 1 trong 2</span> </li>
+							<li><img th:src="@{/images/passport.png}" alt="" srcset=""> <span> Passport (Giữ lại)
+								</span> </li>
+							<li><img th:src="@{/images/cccd.png}" alt="" srcset=""> <span>CCCD gắn chíp (Đối chiếu)
+								</span> </li>
+						</ul>
+					</div>
+				</div>
+				<div class="group">
+					<span>
+						Tài sản thế chấp
+					</span>
+					<div class="content-text">
+						<p>
+							15 triệu (tiền mặt/chuyển khoản cho chủ xe khi nhận xe)
+							hoặc Xe máy (kèm cà vẹt gốc) giá trị 15 triệu
+						</p>
+					</div>
+				</div>
+				<div class="group">
+					<span>
+						Điều khoản
+					</span>
+					<div class="content-text">
+						<p>Quy định khác:</p>
+						<ul>
+							<li>Sử dụng xe đúng mục đích.</li>
+							<li>Không sử dụng xe thuê vào mục đích phi pháp, trái pháp luật..</li>
+							<li>Không sử dụng xe thuê để cầm cố, thế chấp.</li>
+							<li>Không hút thuốc, nhả kẹo cao su, xả rác trong xe.</li>
+							<li> Không chở hoa quả, thực phẩm nặng mùi trong xe.</li>
+							<li>Khi trả xe, nếu xe bẩn hoặc có mùi trong xe, khách hàng vui lòng vệ sinh xe sạch sẽ hoặc
+								gửi phụ thu phí vệ sinh xe.</li>
+							<li>Trân trọng cảm ơn, chúc quý khách hàng có những chuyến đi tuyệt vời !</li>
+
+						</ul>
+					</div>
+				</div>
+				<div class="group">
+					<span>
+						Chủ xe
+					</span>
+					<div class="profile-mini">
+						<div class="avatar">
+							<a href="">
+								<img th:src="@{/images/avatar1.jpg}" alt="" srcset="">
+							</a>
+						</div>
+						<div class="info">
+							<a href="">
+								<h6>Thành</h6>
+								<span>60 chuyến</span>
+								<span>Số điện thoại: 085485485</span>
+							</a>
+						</div>
+						<div class="owner-response">
+							<div class="response-desc d-flex">
+								<p> Ti lệ phản hồi</p>
+								<span class="rate"> 70% </span>
+							</div>
+							<div class="response-desc d-flex">
+								<p> Thời gian phản hồi</p>
+								<span class="rate"> 1 giờ </span>
+							</div>
+							<div class="response-desc d-flex">
+								<p> Tỉ lệ đồng ý</p>
+								<span class="rate"> 70% </span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="group">
+					<span>
+						Vị trí
+					</span>
+					<div class="profile-mini">
+						<iframe
+							src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d7559.993265039596!2d105.6990166!3d18.6641471!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1679509320078!5m2!1svi!2s"
+							width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+							referrerpolicy="no-referrer-when-downgrade"></iframe>
+						<h4 style="margin-top: 7px;"> Địa chi : itetoie</h4>
+					</div>
+				</div>
+				<div class="feedback">
+					<button> Báo xấu</button>
+					<button class="favourite">Thêm vào danh sách yêu thích</button>
+				</div>
+				<div>
+					<h2 class="title">Đánh giá</h2>
+				</div>
+				<div class="commment">
+					<div class="avatar">
+						<img th:src="@{images/avatar1.jpg}" alt="" srcset="">
+					</div>
+					<div class="name">
+						<h5>Hoàng</h5>
+						<p> Oilk</p>
+					</div>
+					<div class="time-left">
+
+						<p> 10 phút trước</p>
+					</div>
+				</div>
+				<div class="commment">
+					<div class="avatar">
+						<img th:src="@{images/avatar1.jpg}" alt="" srcset="">
+					</div>
+					<div class="name">
+						<h5>Hoàng</h5>
+						<p> Oilk</p>
+					</div>
+					<div class="time-left">
+						<p> 10 phút trước</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 contain-car ">
+				<div class="contain-car-price">
+					<form action="" method="post">
+						<div class="price-car">
+							<h4> 700k /ngày</h4>
+						</div>
+						<div class="select-date">
+							<label for="inputDateEnd">Ngày nhận</label>
+							<input type="datetime-local" class="form-control" id="inputDateEnd" name="dateStart"
+								value="2023-03-14T18:22">
+							<label for="inputDateEnd">Ngày trả</label>
+							<input type="datetime-local" class="form-control" id="inputDateEnd" name="dateEnd"
+								value="2023-03-14T18:22">
+						</div>
+						<div class="address-car">
+							<h5>Địa chỉ giao nhận xe</h5>
+							<p> Quận 1, Hồ Chí Minh</p>
+							<span>Địa chỉ cụ thể sẽ hiện sau khi đặt </span>
+						</div>
+						<div class="phiphatsinh">
+							<h5>Phụ phí</h5>
+							<div class="phuphi">
+								<h6>Quá giờ</h6>
+								<p> 70.000 vnđ/1h, Nếu quá 6h thì tính giá 1 ngày</p>
+							</div>
+							<div class="phuphi">
+								<h6>Vệ sinh xe</h6>
+								<p> Phí: 80 000đ (nếu trả xe nhiều vết bẩn, bùn cát, sình lầy.... cần phải vệ sinh lại
+									trước khi giao cho khách sau)</p>
+							</div>
+							<div class="phuphi">
+								<h6>Quá giờ</h6>
+								<p> Vệ sinh xe
+									Phí: 300 000đ (nếu hút thuốc lá trong xe, chở sầu riêng, hải sản nặng mùi .... cần
+									phải đi khử mùi trước khi giao cho khách sau)</p>
+							</div>
+							<div class="phuphi">
+								<h6>Bảo hiểm</h6>
+								<p> Chuyến đi được bảo hiểm bởi ...</p>
+							</div>
+						</div>
+						<h5>
+							Chi tiết giá
+						</h5>
+						<div class="price-detail">
+							<div class="title">Đơn giá</div>
+							<div class="price"> 700k / ngày</div>
+						</div>
+						<div class="price-detail">
+							<div class="title">Phí dịch vụ</div>
+							<div class="price"> 60k / ngày</div>
+						</div>
+						<div class="price-detail">
+							<div class="title">Phí bảo hiểm</div>
+							<div class="price"> 60k / ngày</div>
+						</div>
+						<div class="price-detail">
+							<div class="title">Tổng phí thuê xe</div>
+							<div class="price-total"> 700k / ngày</div>
+						</div>
+						<div class="total-feel">
+							<div class="total-feel-title">Tổng cộng</div>
+							<div class="price-total"> 700k / ngày</div>
+						</div>
+						<input type="submit" value="Đặt xe">
+					</form>
+				</div>
+			</div>
+			<div id="carouselCarDriver" class="carousel" data-bs-ride="carousel">
+				<div class="carousel-inner carousel-inner-driver">
+					<div class="carousel-item-driver active">
+						<div class="card">
+							<div class="card-body-car">
+								<a href="">
+									<img th:src="@{/images/0x0.jpg}" alt="...">
+									<div class="price">
+										<h6>400 K</h6>
+									</div>
+									<div class="info-car">
+										<h4> Tên xe</h4>
+										<p>SỐ chuyến</p>
+										<p> Quận 2, Hồ Chí Minh</p>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="carousel-item-driver ">
+						<div class="card">
+							<div class="card-body-car">
+								<a href="">
+									<img th:src="@{/images/0x0.jpg}" alt="...">
+									<div class="price">
+										<h6>400 K</h6>
+									</div>
+									<div class="info-car">
+										<h4> Tên xe</h4>
+										<p>SỐ chuyến</p>
+										<p> Quận 2, Hồ Chí Minh</p>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="carousel-item-driver ">
+						<div class="card">
+							<div class="card-body-car">
+								<a href="">
+									<img th:src="@{/images/0x0.jpg}" alt="...">
+									<div class="price">
+										<h6>400 K</h6>
+									</div>
+									<div class="info-car">
+										<h4> Tên xe</h4>
+										<p>SỐ chuyến</p>
+										<p> Quận 2, Hồ Chí Minh</p>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="carousel-item-driver">
+						<div class="card">
+							<div class="card-body-car">
+								<a href="">
+									<img th:src="@{/images/0x0.jpg}" alt="...">
+									<div class="price">
+										<h6>400 K</h6>
+									</div>
+									<div class="info-car">
+										<h4> Tên xe</h4>
+										<p>SỐ chuyến</p>
+										<p> Quận 2, Hồ Chí Minh</p>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					
+	
+				</div>
+				<button class="carousel-control-prev" id="carousel-control-prev-driver" type="button"
+					data-bs-target="#carouselCarDriver" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" id="carousel-control-next-driver" type="button"
+					data-bs-target="#carouselCarDriver" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div> -->

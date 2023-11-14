@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe- Xe của tôi</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluid" style="padding: 0">
+		<div th:replace="~{pages/layout/menu-account :: menu-acc}">
+		</div>
+		<div class="content-car">
+		<div class="title-page"> <h2> Danh sách xe </h2></div>
+			<div class="filter-status">
+				<h6>Trạng thái</h6>
+				<select name="status" onchange="fiterStatus()" id="status-car">
+					<option value="5"> -- Chọn trạng thái -- </option>
+					<option value="5">Tất cả</option>
+					<option value="0">Chờ duyệt</option>
+					<option value="1">Đã duyệt</option>
+					<option value="4">Ngưng hoạt động</option>
+				</select>
+			</div>
+
+			<div class="my-car">
+				<table class="table-car">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Biển số xe</th>
+							<th>Tên xe</th>
+							<th>Ảnh xe</th>
+							<th>Giá xe</th>
+							<th>Giảm giá</th>
+							<th>Trạng thái</th>
+							<th>Thao tác</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="c,index: ${listCar}">
+							<td th:text="${index.count}"></td>
+							<td th:text="${c.licensePlates}"></td>
+							<td th:text="${c.nameCar}"></td>
+							<td><img class="img-car" alt=""
+								th:src="'/uploads/'+${c.avatarCar}" /></td>
+							<td th:text="${c.price}+ 'K'"></td>
+							<td th:text="${c.promotionalPrice} + '%'"></td>
+							<th:block th:switch="${c.status}">
+								<td th:case="'0'">Chờ duyệt</td>
+								<td th:case="'1'">Đã duyệt</td>
+								<td th:case="'4'">Ngưng hoạt động</td>
+							</th:block>
+							<td>
+								<div class="div_action">
+									<a class="btn btn-success" style="margin: 5px; width: 70%"
+										th:href="@{'/car-detail/'+${c.idCar}+'/'+${c.nameCar}}"><span><i
+											class="fa-sharp fa-solid fa-eye"></i></span> Xem xe</a> <br>
+												<a class="btn btn-success" style="margin: 5px; width: 70%"
+										th:href="@{'/edit-car/'+${c.idCar}}"><span><i class="fa fa-edit"></i></span>Sửa thông tin</a> <br>
+									<th:block th:if="${c.status>0}">
+									<th:block th:if="${c.status==4}">
+									<button class="btn btn-secondary" style=" text-align:justify; margin: 5px;background: #198754;width: 70% "
+										th:onclick="activeCar([[${c.idCar}]])">
+										<span ><i class="fa-sharp fa-solid fa-circle-play"></i></span>
+										Hoạt động
+									</button>
+									</th:block>
+									<th:block th:unless="${c.status==4}">
+									<button class="btn btn-secondary" style="background: #ff6947;margin: 5px"
+										th:onclick="stopCar([[${c.idCar}]])">
+										<span ><i class="fa-sharp fa-solid fa-stop"></i></span>
+										Ngưng hoạt động
+									</button>
+									</th:block>
+									</th:block>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</body>
+<script type="text/javascript">
+ function activeCar(id){
+	 window.location.href = "/active-car/" + id;
+ }
+ function stopCar(idCar){
+	 window.location.href = "/stop-car/" + idCar;
+ }
+ 
+ function fiterStatus(){
+	var status= document.getElementById("status-car");
+	 window.location.href = "/get-car-status/" + status.value;
+ }
+ 
+</script>
+<style>
+
+</style>
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+
+<script th:src="@{/js/main.js}"></script>
+</html>

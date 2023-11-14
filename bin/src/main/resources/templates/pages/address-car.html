@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Web thuê xe- Xe theo tỉnh</title>
+<link rel="icon" th:href="@{/images/icon-logo.png}" type="images/x-icon">
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+	<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+    <div class="col-md-12" style="padding: 0px;">
+        <div th:replace="~{pages/layout/search-car ::search-car}"></div>
+    </div>
+	<div class="container" style="padding: 0px;">
+       
+		<div class="row">
+		<h4 class="title-content" th:text="'XE GIẢM GIÁ TẠI ' + ${address}"></h4>
+		<div id="carouselCarNotDriver" class="carousel" data-bs-ride="carousel">
+			<div class="carousel-inner carousel-inner-no-driver">
+				<div class="carousel-item-no-driver" th:each="c: ${carPromotinalPrice}">
+					<div class="card">
+						<div class="card-body-car">
+							<a th:href="@{'/car-detail/'+ ${c.idCar}+'/'+${c.nameCar}}">
+								<img th:src="@{'/uploads/'+${c.avatarCar}}" alt="...">
+								<div class="price">
+									<h6 th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
+								</div>
+								<div class="promotional_price">
+									<span th:text="'Giảm&nbsp;'+ ${c.promotionalPrice} +'%'"></span>
+								</div>
+								<div class="info-car">
+									<h5 th:text="${c.nameCar}"> </h5>
+									<input type="hidden" th:value="${c.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p>
+									<p th:text=${c.addressCar}></p>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button class="carousel-control-prev" id="carousel-control-prev-no-driver" type="button"
+				data-bs-target="#carouselCarNotDriver" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" id="carousel-control-next-no-driver" type="button"
+				data-bs-target="#carouselCarNotDriver" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+
+		<h4 class="title-content" th:text="'XE NỔI BẬT ' + ${address}"></h4>
+		<div id="carouselCarDriver" class="carousel" data-bs-ride="carousel">
+			<div class="carousel-inner carousel-inner-driver">
+				<div class="carousel-item-driver" th:each="c: ${listCar}">
+					<div class="card">
+						<div class="card-body-car">
+							<a th:href="@{'/car-detail/'+ ${c.idCar}+'/'+${c.nameCar}}">
+								<img th:src="@{'/uploads/'+${c.avatarCar}}" alt="...">
+								<div class="price">
+										<h6 th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
+								</div>
+								<div class="info-car">
+									<h5 th:text="${c.nameCar}"> </h5>
+									<input type="hidden" th:value="${c.idCar}" class="id-car">
+									<p class="sum-delivery">SỐ chuyến</p>
+									<p th:text=${c.addressCar}></p>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button class="carousel-control-prev" id="carousel-control-prev-driver" type="button"
+				data-bs-target="#carouselCarDriver" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" id="carousel-control-next-driver" type="button"
+				data-bs-target="#carouselCarDriver" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+        <h3 class="title-content" th:text="'Những nhận xét tại ' + ${address}"> </h3>
+        <div class="col-md-12 comments d-flex">
+            <div class="col-md-6 block-comment">
+                <div class="comment-content d-sm-flex">
+                    <div class="avatar">
+                        <img th:src="@{images/avatar1.jpg}" alt="" srcset="">
+                    </div>
+                    <div class="comment-text">
+                       <p> Oki ytyryuryryuyoio</p>
+                    </div>
+                    <div class="comment-time">
+                        <p> 10 phút trước </p>
+                     </div>
+                </div>
+
+                <div class="comment-content d-sm-flex">
+                    <div class="avatar">
+                        <img th:src="@{images/avatar1.jpg}" alt="" srcset="">
+                    </div>
+                    <div class="comment-text">
+                       <p> Oki ytyryuryryuyoio</p>
+                    </div>
+                    <div class="comment-time">
+                        <p> 10 phút trước </p>
+                     </div>
+                </div>
+            </div>
+                <div class="comment-content d-sm-flex">
+                    <div class="avatar">
+                        <img th:src="@{images/avatar1.jpg}" alt="" srcset="">
+                    </div>
+                    <div class="comment-text">
+                       <p> Oki ytyryuryryuyoio</p>
+                    </div>
+                    <div class="comment-time">
+                        <p> 10 phút trước </p>
+                     </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="title-content"> Địa điểm liên quan</h3>
+        <div class="col-md-12 address-susgest">
+           <ul style="margin-left: 10%;">
+            <li th:each ="d: ${distric}" ><a href="" th:text="${d.nameDistrict}"></a></li>
+           </ul>
+        </div>
+	</div>
+    
+    <style>
+        .address-susgest{
+            background-image: linear-gradient(rgb(116, 96, 134), rgb(208, 205, 211));
+            padding: 20px 10px 50px 10px;
+            margin-bottom: 15px;
+        }
+        .address-susgest li {
+         padding: 20px;
+          
+        }
+
+        .address-susgest a{
+            background-color: rgb(73, 71, 71);
+            text-decoration: none;
+            padding: 10px 150px;
+           
+            border-radius: 10px;
+            color: aliceblue;
+        }
+        .comments{
+            padding: 30px;
+            background-color: aquamarine;
+            margin-bottom: 10px;
+           
+        }
+        .block-comment{
+            margin: 0px 6px 0px 0px;
+           
+        }
+        .comment-content{
+            margin-top: 15px;
+            margin-left: 0px;
+            width: 100%;
+            height: 75px;
+            background-color: beige;
+            border-radius: 10px;
+            margin-right: 0px;
+        }
+        .comment-text{
+            margin: 15px;
+            width: 70%;
+        }
+      .comment-time{
+        margin: 15px;
+        margin-right: 0px;
+        float: right;
+        color: rgb(91, 109, 212);
+      }
+        .comment-content .avatar img{
+            margin: 15px;
+           border-radius: 50%;
+           width: 50px;
+           height: 50px;
+        }
+    
+    </style>
+</body>
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<script th:src="@{/js/main.js}"></script>
+<script type="text/javascript">
+</script>
+
+</html>

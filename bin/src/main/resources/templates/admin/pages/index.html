@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/layout/css :: css}">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Admin - Quản lý cửa hàng</title>
+<meta name="description" content="Admin - Bán hàng">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	th:href="@{/lib/bower_components/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css}">
+</head>
+<body>
+	<aside th:replace="~{admin/layout/nav-left :: nav-left} "></aside>
+	<div id="right-panel" class="right-panel">
+		<header th:replace="~{admin/layout/header :: header}"> </header>
+		<div class="breadcrumbs">
+			<div class="breadcrumbs-inner">
+				<div class="row m-0">
+					<div class="col-sm-4">
+						<div class="page-header float-left">
+							<div class="page-title">
+								<h1>
+									<b>TRANG CHỦ</b>
+								</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="page-header float-right">
+							<div class="page-title">
+								<ol class="breadcrumb text-right">
+									<li><a href="javascript:void(0)" class="active">Trang
+											chủ</a></li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content">
+		<div class="animated fadeIn">
+			<!-- Widgets  -->
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<div class="card text-white bg-warning">
+						<div class="card-body">
+							<div class="card-left pt-1 float-left">
+								<h3 class="mb-0 fw-r">
+									<span class="currency float-left mr-1"></span> <span
+										class="count" th:text="${countBill}"></span>
+								</h3>
+								<p class="text-light mt-1 m-0">
+									<a href="#" style="color: white">Tổng đơn hàng</a>
+								</p>
+							</div>
+							<!-- /.card-left -->
+
+							<div class="card-right float-right text-right">
+								<i class="fa fa-cart-plus icon-lg" aria-hidden="true"></i>
+							</div>
+							<!-- /.card-right -->
+
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6">
+					<div class="card text-white bg-flat-color-3">
+						<div class="card-body">
+							<div class="card-left pt-1 float-left">
+								<h3 class="mb-0 fw-r">
+									<span class="currency float-left mr-1"></span> <span
+										class="count"  th:text="${countUser}"></span>
+								</h3>
+								<p class="text-light mt-1 m-0">Tổng user</p>
+							</div>
+							<!-- /.card-left -->
+
+							<div class="card-right float-right text-right">
+								<i class="fa fa fa-user icon-lg" aria-hidden="true"></i>
+							</div>
+							<!-- /.card-right -->
+
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6">
+					<div class="card text-white bg-flat-color-6">
+						<div class="card-body">
+							<div class="card-left pt-1 float-left">
+								<h3 class="mb-0 fw-r">
+									<span class="count"  th:text="${countCar}"></span>
+								</h3>
+								<p class="text-light mt-1 m-0">Tổng xe </p>
+							</div>
+							<!-- /.card-left -->
+
+							<div class="card-right float-right text-right">
+								<i class="fa fa-car icon-lg" aria-hidden="true"></i>
+							</div>
+							<!-- /.card-right -->
+
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6">
+					<div class="card text-white bg-flat-color-2">
+						<div class="card-body">
+							<div class="card-left pt-1 float-left">
+								<h3 class="mb-0 fw-r">
+									<span class="count"  th:text="${countBlog}"></span>
+								</h3>
+								<p class="text-light mt-1 m-0">Tổng bài viết</p>
+							</div>
+							<!-- /.card-left -->
+
+							<div class="card-right float-right text-right">
+								<i class="fa fa-dribbble icon-lg" aria-hidden="true"></i>
+							</div>
+							<!-- /.card-right -->
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- /Widgets -->
+
+			<!-- Thanh toan -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="box-title"></h4>
+							<div class="row">
+								<div class="col-md-1"></div>
+								<div class="col-md-10">
+									<canvas id="myChart"></canvas>
+								</div>
+								<div class="col-md-1"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<form>
+					<input type="hidden" th:value="${valueDate}" id="valueNgay">
+					<input type="hidden"
+						th:value="${totalMoney}" id="valueTongTien">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<footer th:replace="~{admin/layout/footer :: footer}"></footer>
+</body>
+<script type="text/javascript">
+		 $(document).ready(function($) {
+			var valueNgay = $('#valueNgay').val();	
+			valueNgay = JSON.parse(valueNgay);
+			var valueTongTien = $('#valueTongTien').val();
+			valueTongTien = JSON.parse(valueTongTien);
+			console.log(valueTongTien)
+			var canvas = document.getElementById('myChart');
+			canvas.height = 110;
+			var data = {
+				labels : valueNgay,
+				datasets : [ {
+					label : "Tổng tiền",
+					backgroundColor : "rgba(255,99,132,0.2)",
+					borderColor : "rgba(255,99,132,1)",
+					borderWidth : 2,
+					hoverBackgroundColor : "rgba(255,99,132,0.4)",
+					hoverBorderColor : "rgba(255,99,132,1)",
+					data : valueTongTien
+				} ]
+			};
+			var option = {
+				scales : {
+					yAxes : [ {
+						stacked : true,
+						gridLines : {
+							display : true,
+							color : "rgba(255,99,132,0.2)"
+						}
+					} ],
+					xAxes : [ {
+						gridLines : {
+							display : false
+						}
+					} ]
+				}
+			};
+
+			var myBarChart = new Chart(canvas, {
+				type : 'bar',
+				data : data,
+				options : option
+			});
+		}); 
+	</script>
+</html>

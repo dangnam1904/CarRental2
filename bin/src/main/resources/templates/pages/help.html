@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{pages/layout/header-css-js :: header-css-js}">
+<!-- th:replace="~{pages/layout/header-css-js :: header-css-js}" -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" th:href="@{/images/logo.png}" type="images/x-icon">
+
+<title>Web thuê xe</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<nav th:replace="~{pages/layout/header :: header}"></nav>
+	<div class="container-fluit">
+		<div style="height: 150px; background: #69af61">
+			<h5
+				style="text-align: center; padding-top: 20px; text-transform: uppercase; color: white; font-weight: bolder;">Hướng
+				dẫn</h5>
+			<div class="menu-help d-flex"
+				style="justify-content: center; align-items: center; margin-top: 50px">
+				<ul>
+					<li><a th:href="@{/help}">Khách thuê</a></li>
+					<li><a th:href="@{/help-Ower-Car}">Chủ xe</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="content-help">
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-login.png}">
+				<div style="margin-left: 20px">
+					<h4>Đăng nhập</h4>
+					<p>Đăng nhập website bằng tài khoản của bạn đã đăng ký trên hệ
+						thống</p>
+				</div>
+				<span>1</span>
+			</div>
+
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-findcar.png}">
+				<div style="margin-left: 20px">
+					<h4>Tìm xe</h4>
+					<p>Bạn có thể tìm xe ưng ý nhanh chóng ở nơi bạn muốn tìm, thời
+						gian, hãng xe</p>
+				</div>
+				<span>2</span>
+			</div>
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-booking.png}">
+				<div style="margin-left: 20px">
+					<h4>Đặt xe</h4>
+					<p>Lựa chọn chiếc xe mà bạn ưng ý và gửi Yêu cầu xe đến Chủ xe.
+						Sau đó chủ xe sẽ nhanh chóng phản hồi đến bạn trong thời gian
+						nhanh nhất.</p>
+				</div>
+				<span>3</span>
+			</div>
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-payment.png}">
+				<div style="margin-left: 20px">
+					<h4>Đặt cọc</h4>
+					<p>Sau khi nhận được sự đồng ý từ chủ xe, khách hàng có thể đặt
+						cọc bằng 3 hình thức chuyển khoản, ví điện tử hoặc tiền mặt.</p>
+				</div>
+				<span>4</span>
+			</div>
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-get-car.png}">
+				<div style="margin-left: 20px">
+					<h4>Nhận xe</h4>
+					<p>Bạn và chủ xe liên hệ gặp nhau để nhận xe. Ở Mioto, có nhiều
+						chủ xe sẵn sàng đem xe đến tận nơi cho bạn. Kiểm tra tình trạng và
+						giấy tờ xe, xuất trình bản gốc các giấy tờ, kí xác nhận biên bản
+						giao xe, nhận chìa khóa và bắt đầu hành trình của bạn.</p>
+				</div>
+				<span>5</span>
+			</div>
+			<div class="step d-flex">
+				<img alt="" th:src="@{/uploads/step-rate.png}">
+				<div style="margin-left: 20px">
+					<h4>Trả xe</h4>
+					<p>Sau khi hết thời gian thuê, bạn hoàn trả xe giống như tình
+						trạng và thỏa thuận ban đầu. Kí xác nhận biên bản bàn giao, nhận
+						lại giấy tờ để hoàn thành chuyến đi tuyệt vời của bạn. Đừng quên
+						cho điểm rating và nhận xét của bạn đến chủ xe để nâng cao chất
+						lượng phục vụ cho những hành trình sắp tới nhé!</p>
+				</div>
+				<span>6</span>
+			</div>
+		</div>
+	</div>
+</body>
+<style>
+.step span {
+	position: absolute;
+	font-size: 60px;
+	font-weight: 700;
+	color: #00a550;
+	top: -50px;
+	right: 20px;
+}
+
+.step {
+	position: relative;
+	max-width: 800px;
+	margin: 50px auto 20px;
+	box-shadow: 5px 5px 1px #00a550;
+	border: 1px solid rgba(87, 221, 152, .37);
+	padding: 14px;
+}
+
+.content-help {
+	max-width: 1000px;
+	margin: 10px auto;
+}
+
+.menu-help a {
+	color: white;
+	font-size: 21px;
+	font-weight: bolder;
+	text-decoration: none;
+}
+</style>
+<footer th:replace="~{pages/layout/footer :: footer}"></footer>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<script th:src="@{/js/main.js}"></script>
+
+</html>

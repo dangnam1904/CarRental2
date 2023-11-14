@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<footer th:fragment="footer">
+    <div class="contenter-fuild">
+        <div class="row">
+            <div class="col-md-12 d-md-flex"
+                style="background:white; color:black; overflow: hidden; border-top: 1px solid green;
+    border-top-left-radius:10px;border-top-right-radius:10px;">
+                <div class="col-md-3 footer">
+                    <div> <img th:src="@{/uploads/logo1.png}" alt="" srcset=""></div>
+                    <div class="d-sm-flex icon">
+                        <a href=""> <i class="fa-brands fa-facebook"></i></a>
+                        <a href=""><i class="fa-brands fa-twitter"></i></a>
+                        <a href=""><i class="fa-brands fa-youtube"></i></a>
+                        <a href=""><i class="fa-brands fa-tiktok"></i></a>
+                        <a href=""><i class="fa-brands fa-linkedin"></i></a>
+                       
+                       
+                    </div>
+                </div>
+                <div class="col-md-3 footers">
+                    <h6>Chính sách</h6>
+                    <a href="">Giới thiệu</a>
+                    <a href="">Chính sách và Quy định</a>
+                    <a href="">Giải quyết tranh chấp</a>
+                </div>
+                <div class="col-md-3 footers">
+                    <h6> Tìm hiểu thêm</h6>
+                    <a href="">Hướng dẫn chung</a>
+                    <a th:href="@{/help}">Hướng dẫn đặt xe</a>
+                    <a href="">Hỏi và trả lời</a>
+                </div>
+                <div class="col-md-3 footers">
+                    <h6> Đối tác</h6>
+                    <a href="">Đăng kí chủ xe</a>
+                    <a href="">Đối tác bảo hiểm</a>
+
+
+                </div>
+            </div>
+            <div class="col-md-12 d-md-flex" 
+             style="background:white; color: black; overflow: hidden;">
+                <div class="col-md-3 contact">
+                    <h6> MIOTO HÂN HẠNH CÙNG ĐỒNG HÀNG</h6>
+                </div>
+                <div class="col-md-9 contact contact-info">
+                    <h6> Địa Chỉ: TP Vinh - Nghệ An</h6>
+                    <h6> Email: dangnam1904yk@gmail.com</h6>
+                    <h6> Điện thoại; 0394 625 XXX</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .contact{
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+        .contact-info{
+             text-align: center;
+        }
+        .footers a {
+            text-decoration: none;
+            font-size: 14px;
+            color: black;
+            display: block;
+            margin: 5px 0px;
+        }
+
+        .footer,
+        .footers {
+            margin-top: 20px;
+            padding-bottom: 20px;
+            margin-left: 20px;
+        }
+
+        .footer a {
+            margin: 0px 10px 0px 0px;
+        }
+
+        .footer img {
+            width: 50%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .icon {
+            font-size: 24px;
+        }
+    </style>
+</footer>
+
+</html>

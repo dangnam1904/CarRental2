@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="nav-left" id="left-panel" class="left-panel">
+	<nav class="navbar navbar-expand-sm navbar-default">
+
+		<div id="main-menu" class="main-menu collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li><a th:href="@{/admin}"><i class="menu-icon fa fa-car"></i>TRANG
+						CHỦ</a></li>
+				<li class="menu-title">MENU</li>
+				<!-- /.menu-title -->
+				<th:block th:switch="${session.sessionRole}">
+					<th:block th:case="1">
+						<li><a th:href="@{/admin/role}"> <i
+								class="menu-icon fa fa-users"></i>Nhóm quyền
+						</a></li>
+						<li><a th:href="@{/admin/user}"> <i
+								class="menu-icon fa fa-user"></i>Người dùng
+						</a></li>
+						<li><a th:href="@{/admin/brand-car}"> <i
+								class="menu-icon fa fa-building"></i>Hãng xe
+						</a></li>
+
+						<li><a th:href="@{/admin/car}"> <i
+								class="menu-icon fa fa-car"></i>Xe
+						</a></li>
+						<li><a th:href="@{/admin/booking}"> <i
+								class="menu-icon fa fa-shopping-cart"></i>Đơn hàng
+						</a></li>
+						<li><a th:href="@{/admin/blog}"> <i
+								class="menu-icon fa fa-user"></i>Bài viết
+						</a></li>
+						<li><a th:href="@{/admin/provinces}"> <i
+								class="menu-icon fa fa-map-marker"></i>Tỉnh /Thành phố
+						</a></li>
+						<li><a th:href="@{/admin/district}"> <i
+								class="menu-icon fa fa-location-arrow"></i>Quận / Huyện
+						</a></li>
+						<li><a th:href="@{/admin/ward}"> <i
+								class="menu-icon fa fa-location-arrow"></i>Xã / Phường
+						</a></li>
+						<li><a th:href="@{/admin/insurance}"> <i
+								class="menu-icon fa fa-handshake-o"></i>Bảo hiểm
+						</a></li>
+						<li><a th:href="@{/admin/contract}"> <i
+								class="menu-icon fa fa-handshake-o"></i>Hợp đồng
+						</a></li>
+						<li><a th:href="@{/admin/request-withdraw}"> <i
+								class="menu-icon fa fa-money"></i>Yêu cầu rút tiền
+						</a></li>
+						<li><a th:href="@{/admin/payment}"> <i
+								class="menu-icon fa fa-money"></i>Lịch sử thanh toán
+						</a></li>
+						<li><a th:href="@{/admin/event}"> <i
+								class="menu-icon fa fa-money"></i>Sự kiện
+						</a></li>
+						<li><a th:href="@{/admin/analysist}"> <i
+								class="menu-icon fa fa-bar-chart"></i>Thống kê
+						</a></li>
+						<li class="menu-item-has-children">
+					</th:block>
+
+					<th:block th:case="3">
+
+						<li><a th:href="@{/admin/car}"> <i
+								class="menu-icon fa fa-car"></i>Xe
+						</a></li>
+						<li><a th:href="@{/admin/booking}"> <i
+								class="menu-icon fa fa-shopping-cart"></i>Đơn hàng
+						</a></li>
+
+						<li><a th:href="@{/admin/request-withdraw}"> <i
+								class="menu-icon fa fa-money"></i>Yêu cầu rút tiền
+						</a></li>
+						<li><a th:href="@{/admin/payment}"> <i
+								class="menu-icon fa fa-money"></i>Lịch sử thanh toán
+						</a></li>
+						<li class="menu-item-has-children">
+					</th:block>
+
+
+					<th:block th:case="4">
+
+						<li><a th:href="@{/admin/blog}"> <i
+								class="menu-icon fa fa-user"></i>Bài viết
+						</a></li>
+
+						<li class="menu-item-has-children">
+					</th:block>
+
+					<th:block th:case="5">
+
+						<li><a th:href="@{/admin/booking}"> <i
+								class="menu-icon fa fa-shopping-cart"></i>Đơn hàng
+						</a></li>
+						<li><a th:href="@{/admin/request-withdraw}"> <i
+								class="menu-icon fa fa-money"></i>Yêu cầu rút tiền
+						</a></li>
+						<li><a th:href="@{/admin/payment}"> <i
+								class="menu-icon fa fa-money"></i>Lịch sử thanh toán
+						</a></li>
+
+						<li><a th:href="@{/admin/analysist}"> <i
+								class="menu-icon fa fa-bar-chart"></i>Thống kê
+						</a></li>
+						<li class="menu-item-has-children">
+					</th:block>
+				</th:block>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+	</nav>
+</aside>
+<!-- /#left-panel -->
+
+
+</html>

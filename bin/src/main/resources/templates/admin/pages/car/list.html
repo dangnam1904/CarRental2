@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/layout/css :: css}">
+<meta charset="utf-8">
+<title>Admin - Xe</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+	<aside th:replace="~{admin/layout/nav-left :: nav-left} "></aside>
+
+	<!-- Right Panel -->
+
+	<div id="right-panel" class="right-panel">
+
+		<header th:replace="~{admin/layout/header :: header}"> </header>
+
+		<div class="breadcrumbs">
+			<div class="breadcrumbs-inner">
+				<div class="row m-0">
+					<div class="col-sm-4">
+						<div class="page-header float-left">
+							<div class="page-title">
+								<h1>
+									<b>Xe</b>
+								</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="page-header float-right">
+							<div class="page-title">
+								<ol class="breadcrumb text-right">
+									<li><a href="javascript:void(0)">Trang chủ</a></li>
+									<li><a href="javascript:void(0)">Xe</a></li>
+									<li class="active">Danh sách</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="content">
+			<div class="animated fadeIn">
+				<div class="row">
+
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<strong class="card-title">Danh sách</strong> <br>
+								<hr>
+								<div class="col-md-12 d-flex">
+									<div class="col-md-3">
+										<a class="btn btn-primary float-left"
+											th:href="@{/admin/car/add}"><span><i
+												class="fa fa-plus-square"></i></span> Thêm</a>
+
+									</div>
+									<div class="col-md-8">
+										<div class="form-group">
+											<form method="get" action="" class="d-flex">
+												<input type="text" placeholder="Nhập xe cần tìm" style="margin-left: 400px"
+													class="form-control" id="input_seacrh" name="search">
+												<input type="submit" value="Tìm kiếm" id="input_submit">
+											</form>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="card-body">
+								<table id="bootstrap-data-table"
+									class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th style="display: none;">Id Xe</th>
+											<th>Tên Xe</th>
+											<th>Biển số xe</th>
+											<th>Mô tả</th>
+											<th>Ảnh</th>
+											<th>Địa chỉ</th>
+											<th>Chủ xe</th>
+											<th>Ngày tạo</th>
+											<th>Ngày sửa</th>
+											<th>Trạng thái</th>
+											<th>Thao tác</th>
+										</tr>
+									</thead>
+									<tbody>
+
+										<tr th:each="c,index : ${listcar}">
+											<td th:text="${index.count}"></td>
+											<td th:text="${c.idCar}" style="display: none;"></td>
+											<td th:text="${c.nameCar}"></td>
+											<td th:text="${c.licensePlates}"></td>
+											<td th:text="${c.overviewCar}"></td>
+											<td style="min-width: 200px"><img alt=""
+												th:src="@{${'/uploads/'+c.avatarCar}}"></td>
+											<td th:text="${c.addressCar}"></td>
+											<td th:text="${c.getUser().getUsername()}"></td>
+											<td th:text="${c.createDate}"></td>
+											<td th:text="${c.updateDate}"></td>
+											<th:block th:if="${c.status==0}">
+												<td>Chờ duyệt</td>
+											</th:block>
+											<th:block th:if="${c.status==1}">
+												<td>Đã duyệt</td>
+											</th:block>
+
+											<td>
+												<div class="div_action">
+													<a class="btn btn-success"
+														th:href="@{'/admin/car/edit/'+${c.idCar}}"><span><i
+															class="fa fa-edit"></i></span> Sửa</a>
+													<button class="btn btn-secondary"
+														th:onclick="Delete([[${c.idCar}]])">
+														<span><i class="fa fa-trash-o"></i></span> Xóa
+													</button>
+													<th:block th:if="${c.status==0}">
+														<button class="btn btn-secondary"
+															th:onclick="changeStatusApproved([[${c.idCar}]])">
+															<span><i class="fa fa-edit"></i></span> Duyệt
+														</button>
+													</th:block>
+													<th:block th:if="${c.status==1}">
+														<button class="btn btn-secondary"
+															th:onclick="changeStatusPending([[${c.idCar}]])">
+															<span><i class="fa fa-edit"></i></span> Hủy Duyệt
+														</button>
+													</th:block>
+
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- .animated -->
+		</div>
+		<!-- .content -->
+		<div class="clearfix"></div>
+	</div>
+	<script
+		th:src="@{/lib/bower_components/sweetalert2/dist/sweetalert2.js}"></script>
+	<th:block th:if="${mes_success}">
+		<script>
+		swal('Thành công');
+	</script>
+	</th:block>
+
+	<style>
+.div_action {
+	margin: 0px 1px;
+	display: inline-block;
+}
+
+.div_action a, button {
+	margin: 5px;
+	width: 100%;
+}
+
+#input_seacrh {
+	margin-right: 20px;
+	margin-left: 150px;
+}
+
+#input_submit {
+	border: 1px solid #ced4da;
+	padding: 2px 7px;
+	margin-right: -60px;
+	background-color: #28a745;
+	border-radius: 5px;
+}
+</style>
+
+
+	<script>
+    function Delete(id) {
+    	swal({
+  		  title: "Bạn có chắc chắn muốn xóa dữ liệu?",
+  		  text: "Sau khi xóa, bạn sẽ không thể phục hồi dữ liệu này!",
+  		  type: 'warning',
+  		  showCancelButton: true,
+  		  confirmButtonColor: '#3085d6',
+  		  cancelButtonColor: '#d33',
+  		  confirmButtonText: 'Yes'
+  		}).then((result) => {
+  		  if (result.value) {
+  			  window.location.href = "/admin/district/delete/" + id;
+  		  } else {
+  			  swal("Dữ liệu của bạn không thay đổi!");
+  		  }
+  		});
+    }
+  </script>
+  	<script>
+    function changeStatusApproved(id) {
+    	swal({
+  		  title: "Bạn có muốn duyệt xe này",
+  		  text: "Bạn có muốn duyệt xe này!",
+  		  type: 'warning',
+  		  showCancelButton: true,
+  		  confirmButtonColor: '#3085d6',
+  		  cancelButtonColor: '#d33',
+  		  confirmButtonText: 'Yes'
+  		}).then((result) => {
+  		  if (result.value) {
+  			  window.location.href = "/admin/car/status-approved/" + id;
+  		  } else {
+  			  swal("Dữ liệu của bạn không thay đổi!");
+  		  }
+  		});
+    }
+
+    function changeStatusPending(id) {
+    	swal({
+  		  title: "Bạn có muốn  hủy duyệt xe này",
+  		  text: "Bạn có muốn hủy duyệt xe này!",
+  		  type: 'warning',
+  		  showCancelButton: true,
+  		  confirmButtonColor: '#3085d6',
+  		  cancelButtonColor: '#d33',
+  		  confirmButtonText: 'Yes'
+  		}).then((result) => {
+  		  if (result.value) {
+  			  window.location.href = "/admin/car/status-pending/" + id;
+  		  } else {
+  			  swal("Dữ liệu của bạn không thay đổi!");
+  		  }
+  		});
+    }
+  </script>
+	<footer th:replace="~{admin/layout/footer :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header id="header" class="header" th:fragment="header" style="background-image: linear-gradient(#484848, #878787);">
+ <div class="top-left"  >
+                <div class="navbar-header" style="background-image: linear-gradient(#484848, #878787);">
+                    <a class="navbar-brand" href=""><img th:src="@{/uploads/logo1.png}" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href=""><img th:src="@{/uploads/logo1.png}" alt="Logo"></a>
+                    <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+            <div class="top-right">
+                <div class="header-menu">
+                    <div class="header-left">
+                        <div class="dropdown for-notification">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-bell"></i>
+                                <span class="count bg-danger">3</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="notification">
+                                <p class="red">Bạn có 1 thông báo</p>
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-check"></i>
+                                    <p>Thông báo 1</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="dropdown for-message">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-envelope"></i>
+                                <span class="count bg-primary">4</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="message">
+                                <p class="red">Bạn có 4 thư mới</p>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" th:src="@{/lib/images/avatar/1.jpg}"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Tên</span>
+                                        <span class="time float-right">Thời gian</span>
+                                        <p>Nội dung rút gọn</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-area dropdown float-right">
+                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<img class="user-avatar rounded-circle" src="https://placehold.it/270x270">
+                        </a>
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href=""><i class="fa fa-user"></i>Trang cá nhân</a>
+                            <a class="nav-link" th:href="@{/logout}"><i class="fa fa-power-off"></i>Đăng xuất</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+</html>

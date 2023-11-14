@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/layout/css :: css}">
+<meta charset="utf-8">
+<title>Admin - Xe</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+	<aside th:replace="~{admin/layout/nav-left :: nav-left} "></aside>
+
+	<!-- Right Panel -->
+
+	<div id="right-panel" class="right-panel">
+
+		<header th:replace="~{admin/layout/header :: header}"> </header>
+
+		<div class="breadcrumbs">
+			<div class="breadcrumbs-inner">
+				<div class="row m-0">
+					<div class="col-sm-4">
+						<div class="page-header float-left">
+							<div class="page-title">
+								<h1>
+									<b>Thống kê</b>
+								</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="page-header float-right">
+							<div class="page-title">
+								<ol class="breadcrumb text-right">
+									<li><a href="javascript:void(0)">Trang chủ</a></li>
+									<li><a href="javascript:void(0)">Thống kê</a></li>
+									<li class="active">Danh sách</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="content">
+			<div class="animated fadeIn">
+				<div class="row">
+
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<strong class="card-title">Danh sách</strong> <br>
+								<hr>
+								<div>
+									<h6>Thống kê</h6>
+									<form action="/admin/analysist" method="post">
+										<div style="margin: 0px 100px">
+											<div class="row">
+												<div class="col-md-4 col-sm-4">
+													<div class="form-group">
+														<label class="form-control-label">Ngày bắt đầu</label> <input
+															type="date" name="dateStart" class="form-control">
+														<small></small>
+													</div>
+												</div>
+												<div class="col-md-4 col-sm-4">
+													<div class="form-group">
+														<label class="form-control-label">Ngày kết thúc</label> <input
+															type="date" name="dateEnd" class="form-control">
+														<small></small>
+													</div>
+												</div>
+												<div class="col-md-2 col-sm-2">
+													<div class="form-group">
+														<button>Thống kê</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<hr>
+							</div>
+<style>
+.form-group button {
+	margin-top: 2rem;
+	border: none;
+	border-radius: 7px;
+	padding: 7px 15px;
+	background: #1ddb1a;
+	color: black;
+}
+</style>
+							<div class="card-body">
+								<table id="bootstrap-data-table"
+									class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th style="display: none">ID</th>
+											<th>Biển số xe</th>
+											<th>Tên xe</th>
+											<th>Ảnh xe</th>
+											<th>Giá xe</th>
+											<th>Người đặt</th>
+											<th>Số điện thoại</th>
+											<th>Địa chỉ</th>
+											<th>Ngày bắt đầu</th>
+											<th>Ngày kết thúc</th>
+											<th>Tự lái</th>
+											<th>Tổng tiền</th>
+											<th>Trạng thái</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="b, index: ${listBooking}">
+											<td th:text="${index.count}"></td>
+											<td style="display: none" th:text="${b.idBooking}"></td>
+											<td style="min-width: 100px"
+												th:text="${b.getCar().getLicensePlates()}"></td>
+											<td th:text="${b.getCar().getNameCar()}"></td>
+											<td><img class="img-car" alt=""
+												th:src="'/uploads/'+${b.getCar().getAvatarCar()}" /></td>
+											<td style="min-width: 75px"
+												th:text="${b.getCar().price}-${b.getCar().price}*${b.getCar().promotionalPrice}/100 +' K'"></td>
+											<td th:text="${b.getUser().nameDisplay}"></td>
+											<td th:text="${b.getUser().phone}"></td>
+											<td th:text="${b.getUser().address}"></td>
+											<td th:text="${b.dateStart}"></td>
+											<td th:text="${b.dateEnd}"></td>
+											<td th:text="${b.getCar().driver} ? 'Có tài xế': 'Tự lái'"></td>
+											<td th:text="${b.billTotal}+ 'đ'"></td>
+											<th:block th:switch="${b.statusBill}">
+												<td th:case="'0'">Chờ duyệt</td>
+												<td th:case="'1'">Đã duyệt</td>
+												<td th:case="'2'">Đã thanh toán</td>
+												<td th:case="'3'">Đã hủy</td>
+											</th:block>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- .animated -->
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="box-title">Thu nhập</h4>
+						<div class="row">
+							<div class="col-md-1"></div>
+							<div class="col-md-10">
+								<canvas id="myChart"></canvas>
+							</div>
+							<div class="col-md-1"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<input type="hidden" th:value="${valueDate}" id="valueNgay">
+			<input type="hidden" th:value="${totalMoney}" id="valueTongTien">
+		</div>
+		<!-- .content -->
+
+		<div class="clearfix"></div>
+	</div>
+	<script
+		th:src="@{/lib/bower_components/sweetalert2/dist/sweetalert2.js}"></script>
+	<footer th:replace="~{admin/layout/footer :: footer}"></footer>
+</body>
+<script type="text/javascript">
+	$(document).ready(function($) {
+		var valueNgay = $('#valueNgay').val();
+		valueNgay = JSON.parse(valueNgay);
+		var valueTongTien = $('#valueTongTien').val();
+		valueTongTien = JSON.parse(valueTongTien);
+		console.log(valueTongTien)
+		var canvas = document.getElementById('myChart');
+		canvas.height = 110;
+		var data = {
+			labels : valueNgay,
+			datasets : [ {
+				label : "Tổng tiền",
+				backgroundColor : "rgba(255,99,132,0.2)",
+				borderColor : "rgba(255,99,132,1)",
+				borderWidth : 2,
+				hoverBackgroundColor : "rgba(255,99,132,0.4)",
+				hoverBorderColor : "rgba(255,99,132,1)",
+				data : valueTongTien
+			} ]
+		};
+		var option = {
+			scales : {
+				yAxes : [ {
+					stacked : true,
+					gridLines : {
+						display : true,
+						color : "rgba(255,99,132,0.2)"
+					}
+				} ],
+				xAxes : [ {
+					gridLines : {
+						display : false
+					}
+				} ]
+			}
+		};
+
+		var myBarChart = new Chart(canvas, {
+			type : 'bar',
+			data : data,
+			options : option
+		});
+	});
+</script>
+</html>
