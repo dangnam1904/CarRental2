@@ -32,7 +32,7 @@ li {
 }
 
 .header {
-	backgound-color: #ffff;
+	background-color: #ffff;
 	width: 100%;
 	border: bottom 3px green;
 	/* position: fixed;
@@ -227,7 +227,7 @@ li {
 	.carousel-item-no-driver {
 		display: block;
 		margin-right: 0;
-		flex: 0 0 calc(100%/ 3);
+		flex: 0 0 calc(100%/ 4);
 	}
 }
 
@@ -263,7 +263,7 @@ li {
 	.carousel-item-driver {
 		display: block;
 		margin-right: 0;
-		flex: 0 0 calc(100%/ 3);
+		flex: 0 0 calc(100%/ 4);
 	}
 }
 

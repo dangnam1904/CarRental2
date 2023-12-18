@@ -58,7 +58,7 @@ function carouselImgCar() {
 }
 function carouselTinhNang() {
 	const multipleItemCarousel = document.querySelector("#carouselTinhNang");
-	 console.log(multipleItemCarousel);
+	
 	if (window.matchMedia("(min-width:576px)").matches) {
 		const carousel = new bootstrap.Carousel(multipleItemCarousel, {
 			interval: false
@@ -66,18 +66,16 @@ function carouselTinhNang() {
 		var carouselWidth = $(".carousel-inner-tt")[0].scrollWidth;
 		var cardWidth = $(".carousel-item-tt").width();
 		var scrollPosition = 0;
-		console.log(cardWidth, carouselWidth)
 
 		$("#carousel-control-next-tt").on("click", function() {
 			if (scrollPosition < carouselWidth - cardWidth * 4) {
-				console.log("next-tt");
 				scrollPosition = scrollPosition + cardWidth;
 				$(".carousel-inner-tt").animate({ scrollLeft: scrollPosition }, 600);
 			}
 		});
 		$("#carousel-control-prev-tt").on("click", function() {
 			if (scrollPosition > 0) {
-				console.log("prev-tt");
+				
 				scrollPosition = scrollPosition - cardWidth;
 				$(".carousel-inner-tt").animate({ scrollLeft: scrollPosition }, 600);
 			}
@@ -103,16 +101,16 @@ function carouselAddressDriver() {
 		var scrollPosition = 0;
 
 		$("#carousel-control-next-address-driver").on("click", function() {
-			console.log(" next -driver")
+			
 			if (scrollPosition < carouselWidth - cardWidth * 4) {
-				console.log("next có tài");
+				
 				scrollPosition = scrollPosition + cardWidth;
 				$(".carousel-inner-address-driver").animate({ scrollLeft: scrollPosition }, 600);
 			}
 		});
 		$("#carousel-control-prev-address-driver").on("click", function() {
 			if (scrollPosition > 0) {
-				console.log("prev có tài");
+				
 				scrollPosition = scrollPosition - cardWidth;
 				$(".carousel-inner-address-driver").animate({ scrollLeft: scrollPosition }, 600);
 			}
@@ -136,14 +134,12 @@ function carouselAddressNotDriver() {
 
 		$("#carousel-control-next-address-no-driver").on("click", function() {
 			if (scrollPosition < carouselWidth - cardWidth * 4) {
-				console.log("next ko tài");
 				scrollPosition = scrollPosition + cardWidth;
 				$(".carousel-inner-address-no-driver").animate({ scrollLeft: scrollPosition }, 600);
 			}
 		});
 		$("#carousel-control-prev-address-no-driver").on("click", function() {
 			if (scrollPosition > 0) {
-				console.log("prev ko tài");
 				scrollPosition = scrollPosition - cardWidth;
 				$(".carousel-inner-address-no-driver").animate({ scrollLeft: scrollPosition }, 600);
 			}
@@ -166,15 +162,15 @@ function carouselNotDriver() {
 		var scrollPosition = 0;
 
 		$("#carousel-control-next-no-driver").on("click", function() {
-			if (scrollPosition < carouselWidth - cardWidth * 4) {
-				console.log("next ko tài");
+			if (scrollPosition < carouselWidth - cardWidth * 5) {
+			
 				scrollPosition = scrollPosition + cardWidth;
 				$(".carousel-inner-no-driver").animate({ scrollLeft: scrollPosition }, 600);
 			}
 		});
 		$("#carousel-control-prev-no-driver").on("click", function() {
 			if (scrollPosition > 0) {
-				console.log("prev ko tài");
+				
 				scrollPosition = scrollPosition - cardWidth;
 				$(".carousel-inner-no-driver").animate({ scrollLeft: scrollPosition }, 600);
 			}
@@ -198,14 +194,14 @@ function carouselDriver() {
 
 		$("#carousel-control-next-driver").on("click", function() {
 			if (scrollPosition < carouselWidth - cardWidth * 4) {
-				console.log("next ko tài");
+			
 				scrollPosition = scrollPosition + cardWidth;
 				$(".carousel-inner-driver").animate({ scrollLeft: scrollPosition }, 600);
 			}
 		});
 		$("#carousel-control-prev-driver").on("click", function() {
 			if (scrollPosition > 0) {
-				console.log("prev ko tài");
+			
 				scrollPosition = scrollPosition - cardWidth;
 				$(".carousel-inner-driver").animate({ scrollLeft: scrollPosition }, 600);
 			}
@@ -218,9 +214,7 @@ function carouselDriver() {
 
 // Get sum car has driver in address
 $(document).ready(function() {
-
 	var a = document.getElementsByClassName("name-car")
-	console.log(a);
 	var sumcar = document.getElementsByClassName("sum-car")
 	for (let i = 0; i < a.length; i++) {
 
@@ -362,7 +356,7 @@ function checkBillonTime(idCar, dateStart, dateEnd){
 		type: "GET",
 		responseType: "application/json"
 	}).done(function(ketqua) {
-		console.log(ketqua);
+		
 		if(ketqua==true){
 			document.getElementById('noti-error').innerText= "Xe bận trong thời gian này";
 			document.getElementById('btn-booking').classList.add("disabled")
@@ -398,7 +392,7 @@ function GetDistrict(id) {
 		type: "GET",
 		responseType: "application/json"
 	}).done(function(ketqua) {
-		console.log(ketqua);
+		
 		district.length = 1;
 		for (let d of ketqua) {
 			districts.options[districts.options.length] = new Option(d.nameDistrict, d.idDistrict);
@@ -418,7 +412,7 @@ function getWard(id) {
 		type: "GET",
 		responseType: "application/json"
 	}).done(function(ketqua) {
-		console.log(ketqua);
+		
 		wards.length = 1;
 		for (let d of ketqua) {
 			wards.options[wards.options.length] = new Option(d.nameWard, d.idWard);
@@ -445,7 +439,7 @@ function readingAllNotification(){
 
 function readingNoti(){
 	var idNoti= document.querySelector(".id_noti")
-	console.log(idNoti.value);
+	
 	/*$.ajax({
 		url: "/reading-notification/",
 		data: {

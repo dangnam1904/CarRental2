@@ -51,6 +51,7 @@ public class AjaxController implements FiledName {
 		List<District> d = districtService.getAllDistrictByIdProvince(a);
 		List<District> newlist = new ArrayList<>();
 
+	
 		for (District district : d) {
 			District newDistrict = new District(district.getIdDistrict(), district.getNameDistrict());
 			newlist.add(newDistrict);

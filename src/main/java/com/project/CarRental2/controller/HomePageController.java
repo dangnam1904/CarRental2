@@ -113,7 +113,7 @@ public class HomePageController implements FiledName {
 		List<Car> listCarNoDiver = carService.getAllCarByDriverAndStatusCarOderByName(NO_DRIVERS, STATUS_APPROVED);
 		List<Car> listCarNoDriverNewAddress = HomePageController.setListNewAddress(listCarNoDiver);
 		List<Insurance> listInsurances = insuranceService.getAllInsurance();
-		model.addAttribute("contentInsurances", listInsurances.get(0).getContentInsurance());
+		//model.addAttribute("contentInsurances", listInsurances.get(0).getContentInsurance());
 		model.addAttribute("listInsurances", listInsurances);
 		model.addAttribute("carHasDriver", listCarHasDriverNewAddress);
 		model.addAttribute("carNoDriver", listCarNoDriverNewAddress);
