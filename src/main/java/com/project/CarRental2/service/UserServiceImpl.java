@@ -1,9 +1,7 @@
 package com.project.CarRental2.service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +20,7 @@ import com.project.CarRental2.model.User;
 import com.project.CarRental2.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService /*, UserDetailsService */ {
 
 	@Autowired
 	private UserRepository repo;
@@ -83,7 +81,4 @@ public class UserServiceImpl implements UserService {
 	public User getUserByIdCar(int idCar) {
 		return repo.getUserByIdCar(idCar);
 	}
-
-	
-
 }

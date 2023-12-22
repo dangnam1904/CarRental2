@@ -31,4 +31,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 			+ "u.image, u.img_driving_license, u.name_display, u.password, u.phone, u.sex,u.total_money, u.update_date, u.username\n"
 			+ "from car c join users u on u.id_user= c.id_user where c.id_car=:idCar", nativeQuery = true)
 	User getUserByIdCar(@Param("idCar") int idCar);
+	
 }
