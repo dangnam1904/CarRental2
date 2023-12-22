@@ -291,7 +291,7 @@
 					<div class="card">
 						<div class="card-body-car">
 							<a th:href="@{'/car-detail/'+${c.idCar}+'/'+${c.nameCar}}"> <img
-								th:src="@{'/uploads/' +${c.avatarCar}}" alt="...">
+								th:src="@{'/uploads/images' +${c.avatarCar}}" alt="...">
 								<div class="price">
 									<h6
 										th:text="${c.price}-${c.price}*${c.promotionalPrice}/100 +' K'"></h6>
