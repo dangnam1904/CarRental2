@@ -50,9 +50,15 @@ public class CarController implements FiledName {
 
 	@GetMapping(path = { "/register-car" })
 	public String registerFormCar(Model model, HttpServletRequest request, RedirectAttributes ra) {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 
-		if (session.getAttribute("sesionUser") == null) {
+		if (sessionUser == null) {
 			ra.addFlashAttribute("mes_login", "Cần phải đăng nhập");
 			return "redirect:/";
 		}
@@ -66,9 +72,15 @@ public class CarController implements FiledName {
 	@GetMapping(path = { "/edit-car/{idCar}" })
 	public String getFormEditCar(Model model, HttpServletRequest request, RedirectAttributes ra,
 			@PathVariable(name = "idCar", required = false) String idCar) {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 
-		if (session.getAttribute("sesionUser") == null) {
+		if (sessionUser  == null) {
 			ra.addFlashAttribute("mes_login", "Cần phải đăng nhập");
 			return "redirect:/";
 		}
@@ -88,8 +100,13 @@ public class CarController implements FiledName {
 			@RequestParam("ward") Ward ward, @RequestParam(name = "img-main", required = false) MultipartFile avatarCar,
 			@RequestParam(name = "img-sub", required = false) MultipartFile[] imgSub, HttpServletRequest request,
 			RedirectAttributes ra) {
-		HttpSession session = request.getSession();
-		User use = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (car.getIdCar() == 0) {
 			List<Car> listCar = carService.getAllCarOrderByNameCarAsc();
 			for (Car c : listCar) {
@@ -107,7 +124,7 @@ public class CarController implements FiledName {
 			car.setAvatarCar(uploadFile.uploadSingleFile(avatarCar));
 			car.setStatus(STATUS_PENDING);
 			car.setImageCar(uploadFile.uploadMultiFile(imgSub));
-			car.setUser(use);
+			car.setUser(sessionUser);
 			System.out.println(car.toString());
 			carService.saveCar(car);
 			ra.addFlashAttribute("mes_registerCar", "Đăng kí xe thành công");
@@ -135,7 +152,7 @@ public class CarController implements FiledName {
 					uploadFile.removeFile(arrayImg[i]);
 				}
 			}
-			car.setUser(use);
+			car.setUser(sessionUser);
 			System.out.println(car.toString());
 			carService.saveCar(car);
 			ra.addFlashAttribute("mes_registerCar", "Sửa thành công");
@@ -147,8 +164,13 @@ public class CarController implements FiledName {
 	@GetMapping("/admin/car{search}")
 	public String getListCar(Model model, @RequestParam(name = "search", required = false) String nameCar, 
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ){
@@ -172,8 +194,13 @@ public class CarController implements FiledName {
 
 	@GetMapping("/admin/car/status-pending/{id}")
 	public String changStatusPending(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
@@ -196,8 +223,13 @@ public class CarController implements FiledName {
 	@GetMapping("/admin/car/status-approved/{id}")
 	public String changStatusApproved(@PathVariable(name = "id") int id, 
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
@@ -221,8 +253,13 @@ public class CarController implements FiledName {
 	@GetMapping("/admin/car/add")
 	public String getForm(Model model, RedirectAttributes ra,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
@@ -249,8 +286,13 @@ public class CarController implements FiledName {
 			@RequestParam(name = "img-main", required = false) MultipartFile avatarCar,
 			@RequestParam(name = "img-sub", required = false) MultipartFile[] imgSub,
 			RedirectAttributes ra,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
@@ -286,8 +328,13 @@ public class CarController implements FiledName {
 
 	@GetMapping("/admin/car/edit/{id}")
 	public String editCar(Model model, @PathVariable(name = "id") int id_car, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ){
@@ -316,8 +363,13 @@ public class CarController implements FiledName {
 			@RequestParam(name = "img-main", required = false) MultipartFile avatarCar,
 			@RequestParam(name = "img-sub", required = false) MultipartFile[] imgSub, 
 			RedirectAttributes ra, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
@@ -361,9 +413,14 @@ public class CarController implements FiledName {
 
 	@GetMapping("/stop-car/{id}")
 	public String stopCar(Model model, HttpServletRequest request, @PathVariable(name = "id") int idCar) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
-		if (user == null) {
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		if (sessionUser == null) {
 			return "redirect:/login";
 		} else {
 			carService.changeStatusCar(STATUS_STOP, idCar);
@@ -373,9 +430,14 @@ public class CarController implements FiledName {
 
 	@GetMapping("/active-car/{id}")
 	public String activeCar(Model model, HttpServletRequest request, @PathVariable(name = "id") int idCar) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
-		if (user == null) {
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		if (sessionUser == null) {
 			return "redirect:/login";
 		} else {
 			carService.changeStatusCar(STATUS_APPROVED, idCar);
@@ -386,8 +448,13 @@ public class CarController implements FiledName {
 	@GetMapping("/get-car-status/{status-car}")
 	public String getCarByStatus(Model model, HttpServletRequest request,
 			@PathVariable(name = "status-car") int statusCar) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (user == null) {
 			return "redirect:/login";
 		} else {

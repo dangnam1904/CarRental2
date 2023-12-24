@@ -31,8 +31,13 @@ public class DistrictController {
 	private ProvinceService provinceService;
 	@GetMapping("/district")
 	public String getHome(Model model,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("listDistrict", districtService.getAllDistricWithProvenice());
@@ -47,8 +52,13 @@ public class DistrictController {
 	}
 	@GetMapping("/district/add")
 	public String formAdd(Model model,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 
@@ -67,8 +77,13 @@ public class DistrictController {
 	@PostMapping("/district/add")
 	public String AddDistrict(@ModelAttribute("district") District district, RedirectAttributes rAttributes,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				district.setCreateDate(new Date());
@@ -99,8 +114,13 @@ public class DistrictController {
 	@GetMapping("/district/edit/{id}")
 	public String GetForm(Model model, @PathVariable(name = "id") int id,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("district", districtService.getDistrict(id));
@@ -118,8 +138,13 @@ public class DistrictController {
 	@PostMapping("/district/edit")
 	public String EditDistrict(@ModelAttribute("district") District district, RedirectAttributes rAttributes,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				String url="redirect:/admin/district";
@@ -155,8 +180,13 @@ public class DistrictController {
 	
 	@GetMapping("/district/delete/{id}")
 	public String deleteDistrict(@PathVariable(name="id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				districtService.deleteDistrict(id);

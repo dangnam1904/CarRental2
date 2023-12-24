@@ -88,20 +88,31 @@ public class HomePageController implements FiledName {
 
 	@GetMapping("/reading-notification")
 	public String readNotification(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User useSession = (User) session.getAttribute("sesionUser");
-
-		if (useSession == null) {
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			 user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
+		if (user == null) {
 			return "redirect:/login";
 		}
-		detailNotificationService.updateStatusAllByIDUserNotification(READING, useSession.getIdUser());
+		detailNotificationService.updateStatusAllByIDUserNotification(READING, user.getIdUser());
 		return "redirect:/";
 	}
 
 	@GetMapping("/")
 	public String HomePage(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			 user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		List<DetailNotification> listDetailNotification = new ArrayList<DetailNotification>();
 		if (user != null) {
 			listDetailNotification = detailNotificationService.getListDetailNotification(user.getIdUser());
@@ -175,16 +186,21 @@ public class HomePageController implements FiledName {
 			@RequestParam(name = "ward") Ward ward, @RequestParam(name = "address-detail") String addressDetail,
 			HttpServletRequest request, RedirectAttributes ra) {
 		System.err.println("Ngay " + dateStart);
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
 		
-		User sessionUser= (User) session.getAttribute("sesionUser");
-		System.err.println(sessionUser);
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			 user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (user == null) {
 			ra.addFlashAttribute("messege_error", "Chưa đăng nhập");
 			return "redirect:/login";
 		}
-		if(sessionUser.getImgDrivingLicense()==null || sessionUser.getDrivingLicense()==null || sessionUser.getPhone()==null ) {
+		if(user.getImgDrivingLicense()==null || user.getDrivingLicense()==null || 
+				user.getPhone()==null ) {
 			ra.addFlashAttribute("messege_error", "Bạn chưa cập nhật bằng lái xe");
 			return "redirect:/edit-profile";
 		}
@@ -292,15 +308,17 @@ public class HomePageController implements FiledName {
 	public String checkLogin(@ModelAttribute("user") User user, HttpServletRequest request,
 			RedirectAttributes rAttributes) {
 		String url = "";
-		HttpSession sessionUser = request.getSession();
-		HttpSession sessionRole = request.getSession();
 		user.setPassword(EncryptionPassword.encryption(user.getPassword()));
 		List<User> list = userService.getAllUserOrderByUsername();
 		for (User user2 : list) {
 			if (user.getUsername().equals(user2.getUsername()) && user.getPassword().equals(user2.getPassword())) {
-				sessionUser.setAttribute("sesionUser", user2);
-				sessionRole.setAttribute("sessionRole", user2.getRole().getIdRole());
-				System.out.println(sessionUser.getAttribute("sesionUser"));
+			
+					HttpSession sessionUser = request.getSession(true);
+					HttpSession sessionRole = request.getSession(true);
+					sessionUser.setAttribute("sesionUser", user2);
+					sessionRole.setAttribute("sessionRole", user2.getRole().getIdRole());
+					System.out.println(sessionUser.getAttribute("sesionUser"));
+					
 				if (user2.getRole().getIdRole() == ROLE_USER) {
 					return "redirect:/";
 				} else if (user2.getRole().getIdRole() != ROLE_USER) {
@@ -362,20 +380,32 @@ public class HomePageController implements FiledName {
 
 	@GetMapping("/edit-profile")
 	public String editProfile(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User useSession = (User) session.getAttribute("sesionUser");
-		if (useSession == null) {
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			 user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
+		if (user == null) {
 			return "redirect:/login";
 		}
-		model.addAttribute("user", useSession);
+		model.addAttribute("user", user);
 		model.addAttribute("province", provinceService.getAllProvinceOrderByName());
 		return "pages/edit-profile";
 	}
 
 	@GetMapping("/my-car")
 	public String myCar(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User useSession = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User useSession = null;
+		try {
+			useSession = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (useSession == null) {
 			return "redirect:/login";
 		}
@@ -386,8 +416,14 @@ public class HomePageController implements FiledName {
 
 	@GetMapping("/my-bill")
 	public String myBill(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User useSession = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User useSession = null;
+		try {
+			useSession = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (useSession == null) {
 			return "redirect:/login";
 		}
@@ -398,8 +434,14 @@ public class HomePageController implements FiledName {
 
 	@GetMapping("/my-trip")
 	public String myTrip(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User useSession = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User useSession = null;
+		try {
+			useSession = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (useSession == null) {
 			return "redirect:/login";
 		}
@@ -417,8 +459,14 @@ public class HomePageController implements FiledName {
 
 	@GetMapping("/approved-bill/{id}")
 	public String changStatusApprovedBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User useSession = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User useSession = null;
+		try {
+			useSession = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (useSession == null) {
 			return "redirect:/login";
 		}
@@ -434,7 +482,7 @@ public class HomePageController implements FiledName {
 			;
 			bookingService.changeStatusBill(STATUS_APPROVED, id);
 		} catch (JpaSystemException e) {
-			System.err.println("ex");
+			System.err.println(e.getMessage());
 		}
 
 		return "redirect:/my-bill";
@@ -442,8 +490,14 @@ public class HomePageController implements FiledName {
 
 	@GetMapping("/cancel-bill/{id}")
 	public String changStatusCancelBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User useSession = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User useSession = null;
+		try {
+			useSession = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (useSession == null) {
 			return "redirect:/login";
 		}
@@ -465,8 +519,14 @@ public class HomePageController implements FiledName {
 
 	@GetMapping("/cancel-bill-trip/{id}")
 	public String changStatusCancelBillUser(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User useSession = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User useSession = null;
+		try {
+			useSession = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (useSession == null) {
 			return "redirect:/login";
 		}
@@ -481,8 +541,14 @@ public class HomePageController implements FiledName {
 
 	@GetMapping("/restore-bill/{id}")
 	public String changStatusRestoreBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User useSession = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User useSession = null;
+		try {
+			useSession = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (useSession == null) {
 			return "redirect:/login";
 		}
@@ -497,8 +563,14 @@ public class HomePageController implements FiledName {
 
 	@GetMapping("/payment-bill/{id}")
 	public String changStatusPaymentBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User useSession = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User useSession = null;
+		try {
+			useSession = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (useSession == null) {
 			return "redirect:/login";
 		}
@@ -542,16 +614,22 @@ public class HomePageController implements FiledName {
 
 	@GetMapping("/my-contract")
 	public String getContract(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
-		if (user == null) {
+		HttpSession session = request.getSession(false);
+		User useSession = null;
+		try {
+			useSession = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
+		if (useSession == null) {
 			return "redirect:/login";
 		}
-		model.addAttribute("user", user);
-		model.addAttribute("sessionUser", user);
+		model.addAttribute("user", useSession);
+		model.addAttribute("sessionUser", useSession);
 		model.addAttribute("listContract", contractService.getAllContract());
 		List<RequestWithdrawal> listRequestWithdrawals=
-				requestWithdrawalService.getAllRequestWithdrawByIdUserOrderByCreateDate(user.getIdUser());
+				requestWithdrawalService.getAllRequestWithdrawByIdUserOrderByCreateDate(useSession.getIdUser());
 		model.addAttribute("listRequestWithdraw", listRequestWithdrawals);
 		return "pages/my-contract";
 	}
@@ -562,8 +640,14 @@ public class HomePageController implements FiledName {
 			@RequestParam(name="dateEnd", required = false) String dateEnd) {
 		System.err.println(dateStart);
 		
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (user == null) {
 			return "redirect:/login";
 		}
@@ -603,8 +687,14 @@ public class HomePageController implements FiledName {
 	@GetMapping({ "/withdraw" })
 	public String requestWithdrawMoney(Model model, HttpServletRequest request,
 			@ModelAttribute("requestWithdrawal") RequestWithdrawal requestWithdrawal) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (user == null) {
 			return "redirect:/login";
 		}

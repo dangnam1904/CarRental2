@@ -21,8 +21,13 @@ public class PaymentBillController implements FiledName {
 	@GetMapping("/admin/payment")
 	public String CancelPayment(Model model, HttpServletRequest request
 			) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE ||  
 					sessionUser.getRole().getIdRole() == ROLE_ACCOUNTANT

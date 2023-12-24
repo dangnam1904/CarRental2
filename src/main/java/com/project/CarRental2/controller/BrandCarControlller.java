@@ -27,8 +27,14 @@ public class BrandCarControlller {
 
 	@GetMapping (path = { "/admin/brand-car", "brand-car"})
 	public String getAllBrandCar(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("brandcar", brandCarService.getAllBrandCarOderByNameAsc());
@@ -46,8 +52,14 @@ public class BrandCarControlller {
 	@GetMapping("admin/brand-car/add")
 	public String getForm(Model model, RedirectAttributes ra,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("brandcar", new BrandCar());
@@ -66,8 +78,14 @@ public class BrandCarControlller {
 	@GetMapping("admin/brand-car/edit/{id}")
 	public String editBrandCar(Model model, RedirectAttributes ra, @PathVariable(name="id") int id,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("brandcar", brandCarService.getBrandCarById(id));
@@ -86,8 +104,14 @@ public class BrandCarControlller {
 	@GetMapping("admin/brand-car/delete/{id}")
 	public String deleteBrandCar( @PathVariable(name="id") int id,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				brandCarService.deleteBrandCar(id);
@@ -105,8 +129,13 @@ public class BrandCarControlller {
 	@PostMapping("admin/brand-car/save")
 	public String saveBrandCar(@ModelAttribute("brandcar") BrandCar brandCar, RedirectAttributes ra,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				System.out.println(brandCar.toString());

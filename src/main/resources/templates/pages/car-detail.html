@@ -239,7 +239,7 @@
 				</div>
 				<div class="commment">
 					<div class="avatar">
-						<img th:src="@{images/avatar1.jpg}" alt="" srcset="">
+						<img th:src="@{../../images/avatar1.jpg}" alt="" srcset="">
 					</div>
 					<div class="name">
 						<h5>Hoàng</h5>
@@ -252,7 +252,7 @@
 				</div>
 				<div class="commment">
 					<div class="avatar">
-						<img th:src="@{images/avatar1.jpg}" alt="" srcset="">
+						<img th:src="@{../../images/avatar1.jpg}" alt="" srcset="">
 					</div>
 					<div class="name">
 						<h5>Hoàng</h5>
@@ -399,10 +399,10 @@
 										<span th:text="'Giảm'+ ${c.promotionalPrice} +'%'"></span>
 									</div>
 									<div class="info-car">
-										<h4 th:text="${c.nameCar}"></h4>
+										<h6 th:text="${c.nameCar}"></h6>
 										<input type="hidden" th:value="${c.idCar}" class="id-car">
-										<p class="sum-delivery">Số chuyến</p>
-										<p th:text=${c.addressCar}></p>
+										<p class="sum-delivery" style="font-size: 14px; font-weight: 400;">Số chuyến</p>
+										<p th:text=${c.addressCar} style="font-size: 14px; font-weight: 400;"></p>
 									</div>
 								</a>
 							</div>

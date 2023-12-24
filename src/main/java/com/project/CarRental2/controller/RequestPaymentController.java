@@ -34,8 +34,13 @@ public class RequestPaymentController implements FiledName {
 	
 	@GetMapping("/admin/request-withdraw")
 	public String getAllPayment(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE ||  
 					sessionUser.getRole().getIdRole() == ROLE_ACCOUNTANT
@@ -55,8 +60,13 @@ public class RequestPaymentController implements FiledName {
 	@GetMapping("/admin/request-withdraw/status-approve/{idRequest}")
 	public String ApprovePayment(Model model, HttpServletRequest request,
 			@PathVariable("idRequest") int idRequest) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE ||  
 					sessionUser.getRole().getIdRole() == ROLE_ACCOUNTANT
@@ -83,8 +93,13 @@ public class RequestPaymentController implements FiledName {
 	@GetMapping("/admin/request-withdraw/status-cancel/{idRequest}")
 	public String CancelPayment(Model model, HttpServletRequest request,
 			@PathVariable("idRequest") int idRequest) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE ||  
 					sessionUser.getRole().getIdRole() == ROLE_ACCOUNTANT

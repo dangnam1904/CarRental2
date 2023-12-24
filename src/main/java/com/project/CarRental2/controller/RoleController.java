@@ -24,8 +24,13 @@ public class RoleController {
 	
 	@GetMapping("/admin/role")
 	public String getAllRole(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("listRole", roleService.getAllRole());
@@ -41,8 +46,13 @@ public class RoleController {
 	
 	@GetMapping("/admin/role/add")
 	public String getFormRole(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("role", new Role());
@@ -59,8 +69,13 @@ public class RoleController {
 	@GetMapping("/admin/role/save")
 	public String saveRole(Model model, @ModelAttribute("role") Role role,
 			HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				if(role.getIdRole()!=0) {
@@ -87,8 +102,13 @@ public class RoleController {
 	@GetMapping("/admin/role/edit/{idRole}")
 	public String editRole(Model model, @PathVariable("idRole") int idRole,
 			HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("role", roleService.getRoleById(idRole));
@@ -106,8 +126,13 @@ public class RoleController {
 	@GetMapping("/admin/role/delete/{idRole}")
 	public String deleteRole(Model model, @PathVariable("idRole") int idRole,
 			HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				roleService.deteleRole(idRole);

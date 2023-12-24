@@ -62,8 +62,13 @@ public class PaymentVnPayController implements FiledName {
 			@PathVariable(name = "id") int id)
 			throws UnsupportedEncodingException {
 		
-		HttpSession session = req.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = req.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser==null) {
 			return "redirect:/login";
 		}else {
@@ -144,8 +149,13 @@ public class PaymentVnPayController implements FiledName {
 			@RequestParam("vnp_BankCode") String bankCode, @RequestParam("vnp_ResponseCode") String vnp_ResponseCode,
 			@RequestParam("vnp_BankTranNo") String vnp_BankTranNo, HttpServletRequest request, Model model) {
 		
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		int idBooking = (int) session.getAttribute("idBooking");
 		PaymentBill paymentBill = new PaymentBill(0, bankCode, vnp_BankTranNo, vnp_ResponseCode, totalBill,
 				sessionUser);

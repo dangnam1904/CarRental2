@@ -28,8 +28,13 @@ public class BookingController implements FiledName {
 
 	@GetMapping("/admin/booking")
 	public String getAllBooking(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE
 					|| sessionUser.getRole().getIdRole() == ROLE_ACCOUNTANT
@@ -46,8 +51,13 @@ public class BookingController implements FiledName {
 
 	@GetMapping("/admin/booking/approved-bill/{id}")
 	public String changStatusApprovedBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN) {
@@ -68,8 +78,14 @@ public class BookingController implements FiledName {
 
 	@GetMapping("/admin/booking/cancel-bill/{id}")
 	public String changStatusCancelBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN) {
@@ -91,8 +107,14 @@ public class BookingController implements FiledName {
 
 	@GetMapping("/admin/booking/cancel-bill-trip/{id}")
 	public String changStatusCancelBillUser(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN) {
@@ -114,8 +136,13 @@ public class BookingController implements FiledName {
 
 	@GetMapping("/admin/booking/restore-bill/{id}")
 	public String changStatusRestoreBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN) {
@@ -137,8 +164,13 @@ public class BookingController implements FiledName {
 
 	@GetMapping("/admin/booking/payment-bill/{id}")
 	public String changStatusPaymentBill(@PathVariable(name = "id") int id, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN) {
@@ -171,8 +203,13 @@ public class BookingController implements FiledName {
 	@GetMapping("/admin/booking/statusbill/{statusBill}")
 	public String getBillByStatusBill(Model model, @PathVariable(name = "statusBill") int statusBill,
 			HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN) {
@@ -190,8 +227,13 @@ public class BookingController implements FiledName {
 	@GetMapping("/get-bill-status/{status-bill}")
 	public String filterBillByStatus(Model model, HttpServletRequest request,
 			@PathVariable(name = "status-bill") int statusBill) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (user == null) {
 			return "redirect:/";
 		} else {
@@ -209,8 +251,13 @@ public class BookingController implements FiledName {
 	@GetMapping("/admin/booking/get-bill-status/{status-bill}")
 	public String filterBillByStatusAdmin(Model model, @PathVariable(name = "status-bill") int statusBill,
 			HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_CUSTOMMER_CARE
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN) {
@@ -232,8 +279,14 @@ public class BookingController implements FiledName {
 	@GetMapping("/filter-bill/{status-bill}")
 	public String filterBillByStatusAndLessee(Model model, HttpServletRequest request,
 			@PathVariable(name = "status-bill") int statusBill) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+				user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (user == null) {
 			return "redirect:/";
 		} else {

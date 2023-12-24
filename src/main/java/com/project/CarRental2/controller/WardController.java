@@ -31,8 +31,13 @@ public class WardController {
 	
 	@GetMapping("/admin/ward")
 	public String getHomeWard( Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("listward", wardService.getAllWardWithDistrictWithProvinces());		
@@ -48,8 +53,13 @@ public class WardController {
 	
 	@GetMapping("/admin/ward/add")
 	public String getFormAdd(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("province",provinceService.getAllProvinceOrderByName());
@@ -68,8 +78,13 @@ public class WardController {
 	@GetMapping("/admin/ward/edit/{id}")
 	public String getFormAdd(Model model,@PathVariable(name="id") int id,
 			HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("province",provinceService.getAllProvinceOrderByName());
@@ -94,8 +109,13 @@ public class WardController {
 	@PostMapping("/admin/ward/edit")
 	public String editWard(@ModelAttribute("ward") Ward w, Model model, 
 			HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				Ward old_ward= wardService.getAWard(w.getIdWard());
@@ -114,8 +134,13 @@ public class WardController {
 	
 	@PostMapping("/admin/ward/add")
 	public String addWard(@ModelAttribute("ward") Ward w, Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				System.err.println(w.toString());

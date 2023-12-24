@@ -31,8 +31,13 @@ public class UserController {
 
 	@GetMapping("/admin/user")
 	public String getAllUsuer(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (sessionUser !=null && sessionUser.getRole().getNameRole().equals("Admin")) {
 			model.addAttribute("listUser", userService.getAllUser());
 			return "admin/pages/user/list";
@@ -45,8 +50,13 @@ public class UserController {
 	@PostMapping("/upload-avatar")
 	public String uploadAvatar(HttpServletRequest request,
 			@RequestParam(name = "avatar-user", required = false) MultipartFile image) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(user!= null) {
 			uploadFile.removeFile(user.getImage());
 			user.setImage(uploadFile.uploadSingleFile(image));
@@ -63,8 +73,13 @@ public class UserController {
 			@RequestParam(name = "dateOfBrith") String dateOfBrith, @RequestParam(name = "sex") int sex,
 			@RequestParam("province") Province province, @RequestParam("district") District district,
 			@RequestParam("ward") Ward ward, @RequestParam("address-detail") String address) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(user !=null) {
 			user.setNameDisplay(nameDisplay);
 			user.setDateOfBrith(dateOfBrith);
@@ -84,8 +99,13 @@ public class UserController {
 
 	@PostMapping("/updatePhone")
 	public String updatePhone(HttpServletRequest request, @RequestParam("phone") String phone) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(user != null) {
 			user.setPhone(phone);
 			userService.saveUser(user);
@@ -98,8 +118,13 @@ public class UserController {
 	@PostMapping("/upload-gplx")
 	public String updateDrivingLicense(HttpServletRequest request, @RequestParam("gplx") String drivingLicense,
 			@RequestParam(name = "image-gplx", required = false) MultipartFile image) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(user != null) {
 			user.setDrivingLicense(drivingLicense);
 			if (image.getOriginalFilename() != "") {
@@ -116,8 +141,13 @@ public class UserController {
 
 	@PostMapping("/updateEmail")
 	public String updateEmail(HttpServletRequest request, @RequestParam("email") String email) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User user = null;
+		try {
+			user = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(user != null) {
 			user.setEmail(email);
 			userService.saveUser(user);
@@ -130,8 +160,13 @@ public class UserController {
 	@GetMapping("/admin/user/resetPass/{idUser}")
 	public String resetPassword(Model model, @PathVariable("idUser") int idUser, HttpServletRequest request,
 			RedirectAttributes ra) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				User user = userService.getAUser(idUser);
@@ -151,8 +186,13 @@ public class UserController {
 
 	@GetMapping("admin/user/delete/{idUser}")
 	public String deleteUser(Model model, @PathVariable("idUser") int idUser, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				userService.deleteUser(idUser);

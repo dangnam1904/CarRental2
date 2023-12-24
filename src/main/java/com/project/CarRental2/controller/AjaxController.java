@@ -129,10 +129,14 @@ public class AjaxController implements FiledName {
 
 	@GetMapping("/reading-notification/{idNoti}")
 	public String readNotification(HttpServletRequest request, @PathVariable(name = "idNoti") int idNoti) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("sesionUser");
-		System.err.println(user);
-		detailNotificationService.updateStatusNotificationByIDNotiAndIDUser(READING, user.getIdUser(), idNoti);
+		HttpSession session = request.getSession(false);
+		User useSession = null;
+		try {
+			useSession = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		detailNotificationService.updateStatusNotificationByIDNotiAndIDUser(READING, useSession.getIdUser(), idNoti);
 		return "redirect:/";
 	}
 }

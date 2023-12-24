@@ -34,8 +34,13 @@ public class ProvinceController {
 
 	@GetMapping("/provinces")
 	public String getAllProvinceOrderByName(Model model,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 
@@ -54,8 +59,13 @@ public class ProvinceController {
 
 	@GetMapping("/provinces/add")
 	public String getForm(Model model,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("province", new Province());
@@ -74,8 +84,13 @@ public class ProvinceController {
 	public String AddProvince(@ModelAttribute("province") Province province,
 			@RequestParam(name="image", required = false) MultipartFile img,
 			RedirectAttributes redirectAttributes, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				province.setCreateDate(new Date());
@@ -112,8 +127,13 @@ public class ProvinceController {
 	@GetMapping("/provinces/edit/{id}")
 	public String Edit(Model model, @PathVariable(name = "id") int id,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("province", provinceService.getProvince(id));
@@ -132,8 +152,13 @@ public class ProvinceController {
 	public String EditProvince(@ModelAttribute("province") Province province,
 			@RequestParam(name="image", required = false) MultipartFile img,
 			RedirectAttributes redirectAttributes, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				Province oldProvince = provinceService.getProvince(province.getIdProvince());
@@ -173,8 +198,13 @@ public class ProvinceController {
 	@GetMapping("/provinces/delete/{id}")
 	public String deleteProvinces(@PathVariable(name = "id") int id,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				provinceService.deleteProvince(id);

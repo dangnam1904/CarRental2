@@ -48,8 +48,13 @@ public class EventController implements FiledName {
 
 	@GetMapping("/admin/event")
 	public String getAllEvent(Model model,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("listEvent", eventService.getAllEvent());
@@ -65,8 +70,13 @@ public class EventController implements FiledName {
 
 	@GetMapping("/admin/event/add")
 	public String getFormAddEvent(Model model,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("event", new Event());
@@ -84,8 +94,13 @@ public class EventController implements FiledName {
 	@PostMapping("/admin/event/save")
 	public String getFormAddEvent(Model model, @ModelAttribute("event") Event event,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				if (event.getIdEvent() == 0) {
@@ -113,8 +128,13 @@ public class EventController implements FiledName {
 	@GetMapping("/admin/event/edit/{idEvent}")
 	public String getFormEditEvent(Model model, @PathVariable(name = "idEvent") int idEvent,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("event", eventService.getEventByIdEvent(idEvent));

@@ -31,8 +31,13 @@ public class InsuranceController {
 	
 	@GetMapping("/admin/insurance/add")
 	public String getFormAdd(Model model,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("insurance", new Insurance());
@@ -50,8 +55,13 @@ public class InsuranceController {
 	@GetMapping("/admin/insurance/edit/{id}")
 	public String getFormEdit(Model model, @PathVariable("id") int id, 
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("insurance", insuranceService.getInsuranceById(id));
@@ -70,8 +80,13 @@ public class InsuranceController {
 	public String saveInsuranceEdit(Model model, @ModelAttribute("insurance") Insurance insurance,
 			@RequestParam(name ="image", required = false) MultipartFile img,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				Insurance oldInsurance= insuranceService.getInsuranceById(insurance.getIdInsurance());
@@ -98,8 +113,13 @@ public class InsuranceController {
 	public String saveInsurance(Model model, @ModelAttribute("insurance") Insurance insurance,
 			@RequestParam(name ="image", required = false) MultipartFile img,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				insurance.setCreateDate(new Date());
@@ -119,8 +139,13 @@ public class InsuranceController {
 	
 	@GetMapping("/admin/insurance")
 	public String showAll(Model model,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("list", insuranceService.getAllInsurance());

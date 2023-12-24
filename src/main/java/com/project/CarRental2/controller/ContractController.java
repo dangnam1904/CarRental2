@@ -31,8 +31,13 @@ public class ContractController {
 	
 	@GetMapping("/admin/contract")
 	public String getAllContract(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("listContract", contractService.getAllContract());
@@ -48,8 +53,13 @@ public class ContractController {
 	}
 	@GetMapping("/admin/contract/add")
 	public String getFormContract(Model model,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("contract", new Contract());
@@ -66,8 +76,13 @@ public class ContractController {
 	@PostMapping("/admin/contract/add")
 	public String saveContract(Model model, @ModelAttribute("contract") Contract contract,
 			@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				contract.setCreateDate(new Date());
@@ -87,8 +102,13 @@ public class ContractController {
 	@GetMapping("/admin/contract/edit/{idContract}")
 	public String getFormEditContract(Model model, @PathVariable("idContract") int idContract,
 			 HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				model.addAttribute("contract", contractService.getContractById(idContract));
@@ -106,8 +126,13 @@ public class ContractController {
 	@PostMapping("/admin/contract/edit")
 	public String saveEditContract(Model model, @ModelAttribute("contract") Contract contract,
 			@RequestParam("file") MultipartFile file,  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if(sessionUser!=null) {
 			if (sessionUser.getRole().getNameRole().equals("Admin")) {
 				Contract oldContract= contractService.getContractById(contract.getIdContract());

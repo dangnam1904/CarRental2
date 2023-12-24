@@ -31,8 +31,14 @@ public class BlogController implements FiledName {
 
 	@GetMapping("/blog/add")
 	public String getForm(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
@@ -49,8 +55,13 @@ public class BlogController implements FiledName {
 
 	@GetMapping("/blog")
 	public String getAll(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
@@ -68,8 +79,14 @@ public class BlogController implements FiledName {
 	@PostMapping("/blog/add")
 	public String saveBlogs(@ModelAttribute("blog") Blog blog,
 			@RequestParam(name = "image", required = false) MultipartFile img, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
@@ -90,8 +107,14 @@ public class BlogController implements FiledName {
 
 	@GetMapping("/blog/edit/{id}")
 	public String editBlog(Model model, @PathVariable(name = "id") int idBlog, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
+		
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
@@ -107,8 +130,13 @@ public class BlogController implements FiledName {
 
 	@GetMapping("/blog/delete/{id}")
 	public String deleteBlog(Model model, @PathVariable(name = "id") int idBlog, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ) {
@@ -126,8 +154,13 @@ public class BlogController implements FiledName {
 	@PostMapping("/blog/edit")
 	public String saveEditBlogs(@ModelAttribute("blog") Blog blog,
 			@RequestParam(name = "image", required = false) MultipartFile img, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User sessionUser = (User) session.getAttribute("sesionUser");
+		HttpSession session = request.getSession(false);
+		User sessionUser = null;
+		try {
+			sessionUser = (User) session.getAttribute("sesionUser");
+		}catch (NullPointerException e) {
+				System.out.println("No session");
+		}
 		if (sessionUser != null) {
 			if (sessionUser.getRole().getIdRole() == ROLE_WRITE_CONTENT 
 					|| sessionUser.getRole().getIdRole() == ROLE_ADMIN ){
