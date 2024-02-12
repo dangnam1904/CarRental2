@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -161,8 +162,15 @@ public class EventController implements FiledName {
 		List<User> listUser = userService.getAllUserOrderByUsername();
 		Notification notification = null;
 		for (Event event : listEvent) {
+			
+
+			int a =event.getDateStartEvent().compareTo("05-04");
+			System.out.println("start: "+ a);
+			int ab=event.getDateEndEvent().compareTo(dateConvert);
+			System.out.println("end: "+ ab);
+			
 			if (event.getDateStartEvent().compareTo(dateConvert) == 0
-					|| event.getDateEndEvent().compareTo(dateConvert) > 0) {
+					&& event.getDateEndEvent().compareTo(dateConvert) > 0) {
 				carService.updatePromotionalPriceCar(event.getDiscount());
 				notification = new Notification(0, "logo1.png", event.getTitleEvent(), event.getContentEvent(), now,
 						now);

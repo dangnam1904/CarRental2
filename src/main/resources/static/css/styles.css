@@ -207,6 +207,19 @@ li {
 		flex: 0 0 calc(100%/ 5);
 	}
 }
+
+@media only screen and (max-device-width: 480px){
+	.carousel-inner-address-driver {
+		display: flex;
+	}
+	.carousel-item-address-driver {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 4);
+	}
+	
+}
+
 /* address không người lái*/
 @media screen and (min-width: 576px) {
 	.carousel-inner-address-no-driver {
@@ -219,6 +232,18 @@ li {
 	}
 }
 
+@media only screen and (max-device-width: 480px){
+	.carousel-inner-address-no-driver {
+		display: flex;
+	}
+	.carousel-item-address-no-driver {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 4);
+	}
+}
+
+
 /* xe tự lái*/
 @media screen and (min-width: 576px) {
 	.carousel-inner-no-driver {
@@ -228,6 +253,17 @@ li {
 		display: block;
 		margin-right: 0;
 		flex: 0 0 calc(100%/ 4);
+	}
+}
+
+@media only screen and (max-device-width: 480px){
+	.carousel-inner-no-driver {
+		display: flex;
+	}
+	.carousel-item-no-driver {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 3);
 	}
 }
 
@@ -243,6 +279,17 @@ li {
 	}
 }
 
+@media only screen and (max-device-width: 480px)
+{
+	.carousel-inner-ImgCar {
+		display: flex;
+	}
+	.carousel-item-ImgCar {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 4);
+	}
+}
 .card-body-car-img {
 	position: relative;
 	height: 300px;
@@ -256,7 +303,7 @@ li {
 }
 
 /* xe tự có tài*/
-@media screen and (min-width: 576px) {
+@media only screen and (min-width: 576px) {
 	.carousel-inner-driver {
 		display: flex;
 	}
@@ -264,6 +311,18 @@ li {
 		display: block;
 		margin-right: 0;
 		flex: 0 0 calc(100%/ 4);
+	}
+}
+
+/* xe tự có tài*/
+@media only screen and (max-device-width: 480px) {
+	.carousel-inner-driver {
+		display: flex;
+	}
+	.carousel-item-driver {
+		display: block;
+		margin-right: 0;
+		flex: 0 0 calc(100%/ 3);
 	}
 }
 
